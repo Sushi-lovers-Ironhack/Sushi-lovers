@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a project developed by XXX and YYY as the project for the second module at Ironhack. The purpose of the application is...
+This is a project developed by Alberto Valenzuela and Gerard Guasch as the project for the second module at Ironhack. The purpose of the application is to make an application to connect japanese restaurants from your city with users. This app can be used by both end users or restaurants.
 
 ---
 
@@ -44,12 +44,37 @@ What can the user do with the app?
 - User can sign up and create and account
 - User can login
 - User can log out
-- User can create ...
+- User can delete own account
+- User can edit own account
+- User can see all restaurants
+- User has access to a search field
+- User can see all products in a restaurant
+- User can add products to a cart
+
+What can the restaurant do with the app?
+- Restaurant can sign up and create and account
+- Restaurant can login
+- Restaurant can log out
+- Restaurant can delete own account
+- Restaurant can edit own account
+- Restaurant can create products
+- Restaurant can edit products
+- Restaurant can delete products
 
 ## User stories (Backlog)
 
-- User can upload a profile picture
-- User can ...
+- User can confirm the contents of the order (add/remove products)
+- User can order the products on the cart
+- User can see the update the status of the order
+- User can confirm the product has been received
+- User can see previous orders
+- User can reorder from past orders
+
+- Restaurant can open/close of the users to be seen
+- Restaurant can receive orders from the users
+- Restaurant can see the details of the order
+- Restaurant can accept/deny the order
+- Restaurant can set an accepted order as sent
 
 ---
 
@@ -90,7 +115,7 @@ const userSchema = new Schema(
 
 | Name  | Method | Endpoint    | Protected | Req.body            | Redirects |
 |-------|--------|-------------|------|---------------------|-----------|
-| Home  | GET   | /           | No   |                     |           |
+| Home  | GET    | /           | No   |                     |           |
 | Login | GET    | /auth/login | No |                      |           |
 | Login | POST | /auth/login   | No | { email, password }  | /         |
 | Signup | GET    | /auth/signup | No |                      |           |
