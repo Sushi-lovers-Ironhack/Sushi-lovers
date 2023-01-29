@@ -126,9 +126,12 @@ const userSchema = new Schema(
 
 | Name      | Method | Endpoint     | Protected | Req.body                      | Redirects        |
 | --------- | ------ | ------------ | --------- | ----------------------------- | ---------------- |
-| Home      | GET    | /            | No        |                               |                  |
+| Home      | GET    | /home        | No        |                               |                  |
+| Home      | GET    | /search      | No        |                               |                  |
+| Search    | GET    | /search      | No        |                               |                  |
+| Search    | GET    | /search      | No        |                               |                  |
 | Login     | GET    | /auth/login  | No        |                               |                  |
-| Login     | POST   | /auth/login  | No        | { email, password }           | /                |
+| Login     | POST   | /auth/login  | No        | { email, password }           | /home & /restaurant|
 | Signup    | GET    | /auth/signup | No        |                               |                  |
 | Signup    | POST   | /auth/signup | No        | { username, email, password } | /auth/login      |
 | New movie | GET    | /movies/new  | Yes       |                               |                  |
