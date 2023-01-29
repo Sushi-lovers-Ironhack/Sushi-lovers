@@ -101,22 +101,32 @@ router.post('/signup', async (req, res, next) => {
 // @access  Public
 router.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
-  // ⚠️ Add validations!
+  if (!email || !password) {
+    res.render("./users/login", {error: 'Must fill all fields'});
+    return;
+  };
   try {
     const user = await User.findOne({ email: email });
-    if (!user) {
-      res.render('auth/login', { error: "User not found" });
-      return;
-    } else {
+    if (user) {
       const match = await bcrypt.compare(password, user.hashedPassword);
       if (match) {
-        // Remember to assign user to session cookie:
         req.session.currentUser = user;
-        res.redirect('/');
+        res.redirect('/home');
       } else {
         res.render('auth/login', { error: "Unable to authenticate user" });
       }
     }
+    const restaurant = await Restaurant.findOne({ email: email});
+    if (restaurant) {
+      const match = await bcrypt.compare(password, restaurant.hashedPassword);
+      if (match) {
+        req.session.currentUser = restaurant;
+        res.redirect('/restaurant');
+      } else {
+        res.render('auth/login', { error: "Unable to authenticate user" });
+      }
+    };
+    res.render('auth/login', { error: "Unable to authenticate user"});
   } catch (error) {
     next(error);
   }
