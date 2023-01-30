@@ -1,0 +1,36 @@
+<h1>Hello user edit</h1>
+<div id="form">
+  <form action="/user/profile/edit" method="POST">
+
+    <label>User name</label>
+    <input type="text" name="username" value="{{username}}" required />
+
+    <label>Surname</label>
+    <input type="text" name="surname" value="{{surname}}" required />
+
+    <label>Direction</label>
+    <input type="text" name="direction" value="{{direction}}" required />
+
+    <label>Email</label>
+    <input type="email" name="email" value="{{email}}" required />
+
+    <label>Phone number</label>
+    <input type="number" name="phoneNumber" value="{{phoneNumber}}" required />
+
+    <label>Payment Card</label>
+    <input type="number" name="paymentCard" value="{{paymentCard}}" required />
+
+    <label>Password</label>
+    <input type="password" name="password1" placeholder="********" required />
+
+    <label>Confirm password</label>
+    <input type="password" name="password2" placeholder="********" required />
+
+    {{#if error}}
+      <p style="color: red;">{{error}}</p>
+    {{/if}}
+
+    <button type="submit">Done</button>
+
+  </form>
+</div>
