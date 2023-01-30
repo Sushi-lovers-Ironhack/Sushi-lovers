@@ -26,12 +26,12 @@ router.get("/restaurant/signup", (req, res, next) => {
 router.post("/restaurant/signup", async (req, res, next) => {
   const { name, email, password1, password2, direction, phoneNumber, description } = req.body;
   if (!name || !email || !password1 || !password2 || !direction || !phoneNumber || !description) {
-      res.render(".//auth/restaurantSignup", {error: 'Must fill all fields'});
+      res.render("./auth/restaurantSignup", {error: 'Must fill all fields'});
       return;
   };
   const regexEmail = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/
   if (!regexEmail.test(email)) {
-      res.render(".//auth/restaurantSignup", {error: 'Must provide a valid email'});
+      res.render("./auth/restaurantSignup", {error: 'Must provide a valid email'});
       return;
   };
   const regexPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;

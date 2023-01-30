@@ -1,0 +1,35 @@
+<div id="form">
+  <form action="/restaurant/profile/edit" method="POST">
+ 
+    <label>Name</label>
+      <input type="text" name="name" value="{{name}}" required/>
+ 
+    <label>Email</label>
+      <input type="email" name="email" value="{{email}}" required/>
+    
+    <label>Direction</label>
+      <input type="text" name="direction" value="{{direction}}" required/>
+
+    <label>Phone number</label>
+      <input type="text" name="phoneNumber" value="{{phoneNumber}}" required/>
+
+    <label>Restaurant information</label>
+      <input type="text" name="description" value="{{description}}" required/>
+
+    <label>Restaurant image</label>
+      <input type="text" name="imageUrl" value="{{imageUrl}}">
+
+    <label>Password</label>
+      <input type="password" name="password1" placeholder="********" required/>
+
+    <label>Confirm password</label>
+      <input type="password" name="password2" placeholder="********" required/>
+
+      {{#if error}}
+      <p style="color: red;">{{error}}</p>
+      {{/if}}
+ 
+    <button type="submit">Done</button>
+ 
+  </form>
+</div>
