@@ -12,6 +12,7 @@ const MongoStore = require("connect-mongo");
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const restaurantRouter = require("./routes/restaurant");
+const userRouter = require("./routes/user");
 
 const app = express();
 
@@ -50,6 +51,7 @@ app.set("view engine", "hbs");
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/restaurant", restaurantRouter);
+app.use("/user", userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

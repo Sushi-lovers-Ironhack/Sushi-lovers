@@ -1,36 +1,45 @@
-const Restaurant = require("../models/Restaurant");
+const User = require("../models/User");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-// @desc    Sends restaurant profile info
-// @route   GET /restaurant/profile
-// @access  Restaurants
+// @desc    Sends User profile info
+// @route   GET /user/profile
+// @access  User
+// Middleware needed
 router.get("/profile", (req, res, next) => {
-  const restaurant = req.session.currentUser;
-  res.render("./restaurant/profile", restaurant);
+  const user = req.session.currentUser;
+  res.render("./user/profile", user);
 });
 
-// @desc    Deletes restaurant and items from it from the database
-// @route   GET /restaurant/profile/delete
-// @access  Restaurants
+// @desc    Deletes user and items from it from the database
+// @route   GET /user/profile/delete
+// @access  User
+// Middleware needed
 router.get("/profile/delete", async (req, res, next) => {
-  const restaurantId = req.session.currentUser._id;
-  // To do: search all menu items from this restaurant and delete them
+  const userId = req.session.currentUser._id;
+  // To do: search in all user the objectIds (Orders f.e.) and delete them
   try {
-    await Restaurant.findByIdAndDelete(restaurantId);
-    res.redirect("/auth/login");
+    await User.findByIdAndDelete(userId); //implement on Restaurant Delete
+    req.session.destroy((err) => {
+      if (err) {
+        next(err);
+      } else {
+        res.redirect("/auth/login");
+      }
+    });
   } catch (error) {
     next(error);
   }
 });
 
-// @desc    Sends restaurant form with previous values for editing
-// @route   GET /restaurant/edit
-// @access  Restaurants
+// @desc    Sends user form with previous values for editing
+// @route   GET /user/edit
+// @access  user
+// Middleware needed
 router.get("/profile/edit", (req, res, next) => {
-  const restaurant = req.session.currentUser;
-  res.render("./restaurant/profileEdit", restaurant);
+  const user = req.session.currentUser;
+  res.render("./user/profileEdit", user);
 });
 
 // @desc    Sends restaurant form with previous values for editing
@@ -38,30 +47,31 @@ router.get("/profile/edit", (req, res, next) => {
 // @access  Restaurants
 router.post("/profile/edit", async (req, res, next) => {
   const {
-    name,
+    username,
+    surname,
+    direction,
     email,
     password1,
     password2,
-    direction,
     phoneNumber,
-    description,
-    imageUrl,
+    paymentCard,
   } = req.body;
   if (
-    !name ||
+    !username ||
+    !surname ||
+    !direction ||
     !email ||
     !password1 ||
     !password2 ||
-    !direction ||
     !phoneNumber ||
-    !description
+    !paymentCard
   ) {
-    res.render("./restaurant/profileEdit", { error: "Must fill all fields" });
+    res.render("./user/profileEdit", { error: "Must fill all fields" });
     return;
   }
   const regexEmail = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   if (!regexEmail.test(email)) {
-    res.render("./restaurant/profileEdit", {
+    res.render("./user/profileEdit", {
       error: "Must provide a valid email",
     });
     return;
@@ -69,50 +79,50 @@ router.post("/profile/edit", async (req, res, next) => {
   const regexPassword =
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
   if (!regexPassword.test(password1)) {
-    res.render("./restaurant/profileEdit", {
+    res.render("./user/profileEdit", {
       error:
         "Password must have at least 8 characters and contain one uppercase and lowercase letter, a special character and a number",
     });
     return;
   }
   if (!regexPassword.test(password2)) {
-    res.render("./restaurant/profileEdit", {
+    res.render("./user/profileEdit", {
       error: "Doublecheck the password on both fields",
     });
     return;
   }
   const regexPhone = /^\+?(6\d{2}|7[1-9]\d{1})\d{6}$/;
   if (!regexPhone.test(phoneNumber)) {
-    res.render("./restaurant/profileEdit", {
+    res.render("./user/profileEdit", {
       error: "Correct phone number is required",
     });
     return;
   }
   if (!password1 === password2) {
-    res.render("./restaurant/profileEdit", {
+    res.render("./user/profileEdit", {
       error: "Doublecheck the password on both fields",
     });
     return;
   }
-  const restaurantId = req.session.currentUser._id;
+  const userId = req.session.currentUser._id;
   try {
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password1, salt);
-    const restaurant = await Restaurant.findByIdAndUpdate(
-      { _id: restaurantId },
+    const user = await User.findByIdAndUpdate(
+      { _id: userId },
       {
-        name,
-        email,
-        hashedPassword,
+        username,
+        surname,
         direction,
+        email,
         phoneNumber,
-        description,
-        imageUrl,
+        hashedPassword,
+        paymentCard,
       },
       { new: true }
     );
-    req.session.currentUser = restaurant;
-    res.redirect("/restaurant/profile");
+    req.session.currentUser = user;
+    res.redirect("/user/profile");
   } catch (error) {
     next(error);
   }
