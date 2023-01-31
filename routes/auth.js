@@ -147,7 +147,7 @@ router.post("/login", async (req, res, next) => {
       const match = await bcrypt.compare(password, user.hashedPassword);
       if (match) {
         req.session.currentUser = user;
-        // To do: res.redirect('/home');
+        res.redirect('/user/profile');
       } else {
         res.render("auth/login", { error: "Unable to authenticate user" });
       }
@@ -157,7 +157,7 @@ router.post("/login", async (req, res, next) => {
       const match = await bcrypt.compare(password, restaurant.hashedPassword);
       if (match) {
         req.session.currentUser = restaurant;
-        // To do: res.redirect('/restaurant');
+        res.redirect('/restaurant/profile');
       } else {
         res.render("auth/login", { error: "Unable to authenticate user" });
       }
@@ -169,9 +169,9 @@ router.post("/login", async (req, res, next) => {
 });
 
 // @desc    Destroy user session and log out
-// @route   POST /auth/logout
+// @route   GET /auth/logout
 // @access  Private
-router.post("/logout", (req, res, next) => {
+router.get("/logout", (req, res, next) => {
   req.session.destroy((err) => {
     if (err) {
       next(err);
