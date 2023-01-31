@@ -9,7 +9,7 @@ const saltRounds = 10;
 // Middleware needed
 router.get("/profile", (req, res, next) => {
   const user = req.session.currentUser;
-  res.render("./user/profile", user);
+  res.render("user/profile", user);
 });
 
 // @desc    Deletes user and items from it from the database
@@ -39,7 +39,7 @@ router.get("/profile/delete", async (req, res, next) => {
 // Middleware needed
 router.get("/profile/edit", (req, res, next) => {
   const user = req.session.currentUser;
-  res.render("./user/profileEdit", user);
+  res.render("user/profileEdit", user);
 });
 
 // @desc    Sends restaurant form with previous values for editing
@@ -66,12 +66,12 @@ router.post("/profile/edit", async (req, res, next) => {
     !phoneNumber ||
     !paymentCard
   ) {
-    res.render("./user/profileEdit", { error: "Must fill all fields" });
+    res.render("user/profileEdit", { error: "Must fill all fields" });
     return;
   }
   const regexEmail = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   if (!regexEmail.test(email)) {
-    res.render("./user/profileEdit", {
+    res.render("user/profileEdit", {
       error: "Must provide a valid email",
     });
     return;
@@ -86,20 +86,20 @@ router.post("/profile/edit", async (req, res, next) => {
     return;
   }
   if (!regexPassword.test(password2)) {
-    res.render("./user/profileEdit", {
+    res.render("user/profileEdit", {
       error: "Doublecheck the password on both fields",
     });
     return;
   }
   const regexPhone = /^\+?(6\d{2}|7[1-9]\d{1})\d{6}$/;
   if (!regexPhone.test(phoneNumber)) {
-    res.render("./user/profileEdit", {
+    res.render("user/profileEdit", {
       error: "Correct phone number is required",
     });
     return;
   }
   if (!password1 === password2) {
-    res.render("./user/profileEdit", {
+    res.render("user/profileEdit", {
       error: "Doublecheck the password on both fields",
     });
     return;
