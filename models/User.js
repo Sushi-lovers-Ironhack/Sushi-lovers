@@ -12,7 +12,7 @@ const userSchema = new Schema(
     surname: {
       type: String,
       trim: true,
-      //required: [true, "Surname is required."],
+      required: [true, "Surname is required."],
       unique: true,
     },
     direction: {
@@ -31,7 +31,7 @@ const userSchema = new Schema(
     phoneNumber: {
       type: String,
       trim: true,
-      //required: [true, "Phone number is required."],
+      required: [true, "Phone number is required."],
       unique: true,
     },
     hashedPassword: {
@@ -40,7 +40,7 @@ const userSchema = new Schema(
     },
     paymentCard: {
       type: Number,
-      //required: [true, "Payment card is required."],
+      required: [true, "Payment card is required."],
     },
   },
   {
