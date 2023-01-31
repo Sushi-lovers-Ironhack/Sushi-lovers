@@ -120,12 +120,18 @@ router.get("/signup", async (req, res, next) => {
 // @route   POST /auth/signup
 // @access  Public
 router.post("/signup", async (req, res, next) => {
-  const { email, password, username } = req.body;
+  const { email, password, username, direction } = req.body;
   // ⚠️ Add validations!
   try {
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const user = await User.create({ username, email, hashedPassword });
+    const user = await User.create({
+      username,
+      direction,
+      email,
+      hashedPassword,
+    });
+    req.session.currentUser = user;
     res.redirect("/user/profile");
   } catch (error) {
     next(error);

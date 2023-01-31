@@ -10,14 +10,12 @@ const userSchema = new Schema(
       unique: true,
     },
     surname: {
-      //Alberto: ésto podríamos no requerirlo y que luego el user lo añada?
       type: String,
       trim: true,
-      required: [true, "Surname is required."],
+      //required: [true, "Surname is required."],
       unique: true,
     },
     direction: {
-      //Alberto: ésto podríamos no requerirlo y que luego el user lo añada?
       type: String,
       trim: true,
       required: [true, "Direction is required."],
@@ -31,10 +29,9 @@ const userSchema = new Schema(
       trim: true,
     },
     phoneNumber: {
-      //Alberto: ésto podríamos no requerirlo y que luego el user lo añada?
-      type: Number,
+      type: String,
       trim: true,
-      required: [true, "Phone number is required."],
+      //required: [true, "Phone number is required."],
       unique: true,
     },
     hashedPassword: {
@@ -42,9 +39,8 @@ const userSchema = new Schema(
       required: [true, "Password is required."],
     },
     paymentCard: {
-      //Alberto: ésto podríamos no requerirlo y que luego el user lo añada?
       type: Number,
-      required: [true, "Payment card is required."],
+      //required: [true, "Payment card is required."],
     },
   },
   {
