@@ -4,16 +4,43 @@
   <form action="/auth/signup" method="POST">
 
     <label>Username</label>
-    <input type="text" name="username" placeholder="JohnDoe88" />
+    <input type="text" name="username" placeholder="Bojack" required />
 
-    <label>Email</label>
-    <input type="email" name="email" placeholder="john@doe.com" />
+    <label>Surname</label>
+    <input type="text" name="surname" placeholder="Horseman" required />
 
     <label>Direction</label>
-    <input type="text" name="direction" placeholder="P.Sherman Walabe St." />
+    <input
+      type="text"
+      name="direction"
+      placeholder="P.Sherman Walabe St."
+      required
+    />
+
+    <label>Email</label>
+    <input type="email" name="email" placeholder="your email" required />
+
+    <label>Phone number</label>
+    <input
+      type="text"
+      name="phoneNumber"
+      placeholder="your phone number"
+      required
+    />
 
     <label>Password</label>
-    <input type="password" name="password" placeholder="********" />
+    <input type="password" name="password1" placeholder="********" required />
+
+    <label>Confirm your password</label>
+    <input type="password" name="password2" placeholder="********" required />
+
+    <label>Payment Card</label>
+    <input
+      type="number"
+      name="paymentCard"
+      placeholder="your payment card"
+      required
+    />
 
     {{#if error}}
       <p style="color: red;">{{error}}</p>
