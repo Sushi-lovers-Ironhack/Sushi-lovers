@@ -127,15 +127,22 @@ const userSchema = new Schema(
 | Name      | Method | Endpoint     | Protected | Req.body                      | Redirects        |
 | --------- | ------ | ------------ | --------- | ----------------------------- | ---------------- |
 | Home      | GET    | /home        | No        |                               |                  |
-| Home      | GET    | /search      | No        |                               |                  |
-| Search    | GET    | /search      | No        |                               |                  |
-| Search    | GET    | /search      | No        |                               |                  |
 | Login     | GET    | /auth/login  | No        |                               |                  |
 | Login     | POST   | /auth/login  | No        | { email, password }           | /home & /restaurant|
+| Logout     | GET    | /auth/logout  | Yes, user or restaurant        |                               | /auth/login                |
 | Signup    | GET    | /auth/signup | No        |                               |                  |
-| Signup    | POST   | /auth/signup | No        | { username, email, password } | /auth/login      |
-| New movie | GET    | /movies/new  | Yes       |                               |                  |
-| New movie | POST   | /movies/new  | Yes       | { title, cast, genre }        | /movies/:movieId |
+| Signup    | POST   | /auth/signup | No        | { username, username, direction, phoneNumber, paymentCard, email, password1, password2 } | /user/profile      |
+| User profile    | GET    | /user/profile | Yes, user        |                               |                  |
+| Edit User profile    | GET    | /user/profile/edit | Yes, user         |                               |                  |
+| Edit User profile    | POST    | /user/profile/edit | No        | { username, username, direction, phoneNumber, paymentCard, email, password1, password2 }  | /user/profile   |
+| Delete User profile    | GET    | /user/profile/delete | Yes, user         |                               | /auth/login          |
+| Signup restaurant      | GET    | /auth/restaurant/signup  | No        |               |                  |
+| Signup restaurant      | POST    | /auth/restaurant/signup  | No        | { name, direction, phoneNumber, email, password1, password2, description }              | /restaurant/profile        |
+| Restaurant profile     | GET    | /restaurant/profile  | Yes, restaurant       |               |                  |
+| Edit Restaurant profile     | GET    | /restaurant/profile/edit  | Yes, restaurant       |               |                  |
+| Edit Restaurant profile     | POST    | /restaurant/profile/edit  |       |  { name, direction, phoneNumber, email, password1, password2, description, imgUrl }             | /restaurant/profile       |
+| Delete Restaurant profile     | GET    | /restaurant/profile/delete  | Yes, restaurant       |               | /auth/login              |
+
 
 ---
 
