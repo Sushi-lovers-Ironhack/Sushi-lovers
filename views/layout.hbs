@@ -8,10 +8,27 @@
   <title>Project module 2</title>
 </head>
 <nav>
-  <a href="/auth/restaurant/signup">Restaurant Sign Up</a>
-  <a href="/auth/login">Log in</a>
-  <a href="/restaurant/profile">Restaurant profile</a>
-  <a href="/auth/logout">Log out</a>
+  
+{{#if name}}
+    <a href="/restaurant">Home</a>
+    <a href="/restaurant/profile">Account</a>
+    <a href="/auth/logout">Log out</a>
+    <a href="">Support</a>
+{{else}}
+  {{#if username}}
+    <a href="/">Home</a>
+    <a href="/user/profile">Account</a>
+    <a href="/auth/logout">Logout</a>
+    <a href="">Support</a>
+  {{else}}
+    <a href="/">Home</a>
+    <a href="/auth/signup">Sign up User</a>
+    <a href="/auth/restaurant/signup">Sign up Restaurant</a>
+    <a href="/auth/login">Log In</a>
+    <a href="">Contact us</a>
+  {{/if}}
+{{/if}}
+
 </nav>
 <body>
     {{{ body }}}
