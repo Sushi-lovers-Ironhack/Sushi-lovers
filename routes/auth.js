@@ -16,7 +16,7 @@ router.get('/signup', async (req, res, next) => {
 // @route   GET /restaurant/signup
 // @access  Public
 router.get("/restaurant/signup", (req, res, next) => {
-  res.render("./auth/restaurantSignup");
+  res.render("auth/restaurantSignup");
 });
 
 
@@ -26,48 +26,48 @@ router.get("/restaurant/signup", (req, res, next) => {
 router.post("/restaurant/signup", async (req, res, next) => {
   const { name, email, password1, password2, direction, phoneNumber, description } = req.body;
   if (!name || !email || !password1 || !password2 || !direction || !phoneNumber || !description) {
-      res.render("./auth/restaurantSignup", {error: 'Must fill all fields'});
+      res.render("auth/restaurantSignup", {error: 'Must fill all fields'});
       return;
   };
   const regexEmail = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/
   if (!regexEmail.test(email)) {
-      res.render("./auth/restaurantSignup", {error: 'Must provide a valid email'});
+      res.render("auth/restaurantSignup", {error: 'Must provide a valid email'});
       return;
   };
   const regexPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
   if (!regexPassword.test(password1)) {
-      res.render("./auth/restaurantSignup", {error: 'Password must have at least 8 characters and contain one uppercase and lowercase letter, a special character and a number'});
+      res.render("auth/restaurantSignup", {error: 'Password must have at least 8 characters and contain one uppercase and lowercase letter, a special character and a number'});
       return;
   };
   if (!regexPassword.test(password2)) {
-    res.render("./auth/restaurantSignup", {error: 'Doublecheck the password on both fields'});
+    res.render("auth/restaurantSignup", {error: 'Doublecheck the password on both fields'});
     return;
   };
   const regexPhone = /^\+?(6\d{2}|7[1-9]\d{1})\d{6}$/
   if (!regexPhone.test(phoneNumber)) {
-    res.render("./auth/restaurantSignup", {error: 'Correct phone number is required'});
+    res.render("auth/restaurantSignup", {error: 'Correct phone number is required'});
     return;
   };
   if (!password1 === password2) {
-    res.render("./auth/restaurantSignup", {error: 'Doublecheck the password on both fields'});
+    res.render("auth/restaurantSignup", {error: 'Doublecheck the password on both fields'});
     return;
   };
   try {
       const foundUser = await Restaurant.findOne({ name });
       if (foundUser) {
-          res.render("./auth/restaurantSignup", {error: 'Restaurant name alreday in use'});
+          res.render("auth/restaurantSignup", {error: 'Restaurant name alreday in use'});
           return;
       };
       const foundEmailRestaurant = await Restaurant.findOne({ email })
       const foundEmailUser = await User.findOne({ email });
       if (foundEmailUser || foundEmailRestaurant) {
-          res.render("./auth/restaurantSignup", {error: 'Email already in use'});
+          res.render("auth/restaurantSignup", {error: 'Email already in use'});
           return;
       }
       const salt = await bcrypt.genSalt(saltRounds);
       const hashedPassword = await bcrypt.hash(password1, salt);
       await Restaurant.create({ name, email, hashedPassword, direction, phoneNumber, description });
-      res.redirect('/login');
+      res.redirect('/restaurant/profile');
   } catch (error) {
       next(error);
   }
@@ -90,7 +90,7 @@ router.post('/signup', async (req, res, next) => {
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password, salt);
     const user = await User.create({ username, email, hashedPassword });
-    res.render('auth/profile', user)
+    res.redirect('/user/profile')
   } catch (error) {
     next(error)
   }
@@ -102,7 +102,7 @@ router.post('/signup', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    res.render("./users/login", {error: 'Must fill all fields'});
+    res.render("users/login", {error: 'Must fill all fields'});
     return;
   };
   try {
@@ -111,7 +111,7 @@ router.post('/login', async (req, res, next) => {
       const match = await bcrypt.compare(password, user.hashedPassword);
       if (match) {
         req.session.currentUser = user;
-        res.redirect('/home');
+        // To do: res.redirect('/home');
       } else {
         res.render('auth/login', { error: "Unable to authenticate user" });
       }
@@ -121,7 +121,7 @@ router.post('/login', async (req, res, next) => {
       const match = await bcrypt.compare(password, restaurant.hashedPassword);
       if (match) {
         req.session.currentUser = restaurant;
-        res.redirect('/restaurant');
+        // To do: res.redirect('/restaurant');
       } else {
         res.render('auth/login', { error: "Unable to authenticate user" });
       }

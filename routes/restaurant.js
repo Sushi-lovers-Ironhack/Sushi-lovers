@@ -8,7 +8,7 @@ const saltRounds = 10;
 // @access  Restaurants
 router.get("/profile", (req, res, next) => {
   const restaurant = req.session.currentUser;
-  res.render("./restaurant/profile", restaurant);
+  res.render("restaurant/profile", restaurant);
 });
 
 // @desc    Deletes restaurant and items from it from the database
@@ -19,7 +19,13 @@ router.get("/profile/delete", async (req, res, next) => {
   // To do: search all menu items from this restaurant and delete them
   try {
     await Restaurant.findByIdAndDelete(restaurantId);
-    res.redirect("/auth/login");
+    req.session.destroy((err) => {
+      if (err) {
+        next(err);
+      } else {
+        res.redirect("/auth/login");
+      }
+    });
   } catch (error) {
     next(error);
   }
@@ -30,7 +36,7 @@ router.get("/profile/delete", async (req, res, next) => {
 // @access  Restaurants
 router.get("/profile/edit", (req, res, next) => {
   const restaurant = req.session.currentUser;
-  res.render("./restaurant/profileEdit", restaurant);
+  res.render("restaurant/profileEdit", restaurant);
 });
 
 // @desc    Sends restaurant form with previous values for editing
@@ -56,12 +62,12 @@ router.post("/profile/edit", async (req, res, next) => {
     !phoneNumber ||
     !description
   ) {
-    res.render("./restaurant/profileEdit", { error: "Must fill all fields" });
+    res.render("restaurant/profileEdit", { error: "Must fill all fields" });
     return;
   }
   const regexEmail = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   if (!regexEmail.test(email)) {
-    res.render("./restaurant/profileEdit", {
+    res.render("restaurant/profileEdit", {
       error: "Must provide a valid email",
     });
     return;
@@ -69,27 +75,27 @@ router.post("/profile/edit", async (req, res, next) => {
   const regexPassword =
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
   if (!regexPassword.test(password1)) {
-    res.render("./restaurant/profileEdit", {
+    res.render("restaurant/profileEdit", {
       error:
         "Password must have at least 8 characters and contain one uppercase and lowercase letter, a special character and a number",
     });
     return;
   }
   if (!regexPassword.test(password2)) {
-    res.render("./restaurant/profileEdit", {
+    res.render("restaurant/profileEdit", {
       error: "Doublecheck the password on both fields",
     });
     return;
   }
   const regexPhone = /^\+?(6\d{2}|7[1-9]\d{1})\d{6}$/;
   if (!regexPhone.test(phoneNumber)) {
-    res.render("./restaurant/profileEdit", {
+    res.render("restaurant/profileEdit", {
       error: "Correct phone number is required",
     });
     return;
   }
   if (!password1 === password2) {
-    res.render("./restaurant/profileEdit", {
+    res.render("restaurant/profileEdit", {
       error: "Doublecheck the password on both fields",
     });
     return;
