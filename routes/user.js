@@ -21,13 +21,7 @@ router.get("/profile/delete", async (req, res, next) => {
   // To do: search in all user the objectIds (Orders f.e.) and delete them
   try {
     await User.findByIdAndDelete(userId); //implement on Restaurant Delete
-    req.session.destroy((err) => {
-      if (err) {
-        next(err);
-      } else {
-        res.redirect("/auth/login");
-      }
-    });
+    res.redirect("/auth/logout");
   } catch (error) {
     next(error);
   }

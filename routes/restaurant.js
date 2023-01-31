@@ -19,13 +19,7 @@ router.get("/profile/delete", async (req, res, next) => {
   // To do: search all menu items from this restaurant and delete them
   try {
     await Restaurant.findByIdAndDelete(restaurantId);
-    req.session.destroy((err) => {
-      if (err) {
-        next(err);
-      } else {
-        res.redirect("/auth/login");
-      }
-    });
+    res.redirect("/auth/logout");
   } catch (error) {
     next(error);
   }
