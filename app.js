@@ -13,6 +13,7 @@ const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const restaurantRouter = require("./routes/restaurant");
 const userRouter = require("./routes/user");
+const menuRouter = require("./routes/menu")
 
 const app = express();
 
@@ -46,12 +47,15 @@ app.use(
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
+const hbs = require('hbs');
+hbs.registerPartials(__dirname + "/views/partials");
 
 // routes intro
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/restaurant", restaurantRouter);
 app.use("/user", userRouter);
+app.use("/menu", menuRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
