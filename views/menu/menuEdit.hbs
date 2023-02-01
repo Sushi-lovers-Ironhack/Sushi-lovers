@@ -1,0 +1,26 @@
+<div id="form">
+    <form action="/menu/{{productDB._id}}" method="post">
+        <label>Name:</label>
+        <input type="text" name="name" value="{{productDB.name}}" required>
+
+        <label>Category:</label>
+        <select name="category" size="4" required>
+            <option value="Drinks">Drinks</option>
+            <option value="Starters">Starters</option>
+            <option value="Dishes">Dishes</option>
+            <option value="Desserts">Desserts</option>
+        </select>
+
+        <label>Description:</label>
+        <input type="text" name="description" value="{{productDB.description}}">
+
+        <label>Image direction:</label>
+        <input type="text" name="imageUrl" value="{{productDB.imageUrl}}">
+
+        <label>Price:</label>
+        <input type="number" name="price" step="any" value="{{productDB.price}}" min="0"> 
+
+        <button type="submit">Done</button>
+        <a href="/menu/{{productDB._id}}/delete">Delete product</a>
+    </form>
+</div>

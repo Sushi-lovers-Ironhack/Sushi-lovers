@@ -8,22 +8,22 @@ router.get('/', async (req, res, next) => {
     const { name, _id } =req.session.currentUser;
     try {
       const products = await Product.find({ restaurantId: _id });
-      let Drinks = [], Starters = [], Dishes = [], Desserts = [];
+      let drinks = [], starters = [], dishes = [], desserts = [];
       for (let product of products) {
         if(product.category == "Drinks") {
-          Drinks.push(product);
+          drinks.push(product);
         };
         if(product.category == "Starters") { ç
-          Starters.push(product);
+          starters.push(product);
         };
         if(product.category == "Dishes") {
-          Dishes.push(product);
+          dishes.push(product);
         };
         if(product.category == "Desserts") {
-          Desserts.push(product);
+          desserts.push(product);
         };
       };
-      res.render('menu/menu', {name, Drinks, Starters, Dishes, Desserts});
+      res.render('menu/menu', {name, drinks, starters, dishes, desserts});
     } catch (error) {
       next(error);
     }

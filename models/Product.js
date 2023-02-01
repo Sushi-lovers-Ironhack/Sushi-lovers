@@ -20,7 +20,7 @@ const productSchema = new Schema(
     },
     price: {
       type: Number,
-      required: [true, "Category is required"]
+      required: [true, "Price is required"]
     },
     restaurantId: {
       type: Schema.Types.ObjectId, ref: 'Restaurant'
