@@ -225,6 +225,7 @@ router.post("/login", async (req, res, next) => {
       const match = await bcrypt.compare(password, user.hashedPassword);
       if (match) {
         req.session.currentUser = user;
+        req.session.role = "user";
         res.redirect("/user/profile");
       } else {
         res.render("auth/login", { error: "Unable to authenticate user" });
@@ -235,6 +236,7 @@ router.post("/login", async (req, res, next) => {
       const match = await bcrypt.compare(password, restaurant.hashedPassword);
       if (match) {
         req.session.currentUser = restaurant;
+        req.session.role = "restaurant";
         res.redirect("/restaurant/profile");
       } else {
         res.render("auth/login", { error: "Unable to authenticate user" });

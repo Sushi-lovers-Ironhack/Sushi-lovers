@@ -2,12 +2,13 @@ const User = require("../models/User");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const { isUser, isLoggedIn } = require("../middlewares");
 
 // @desc    Sends User profile info
 // @route   GET /user/profile
 // @access  User
-// Middleware needed
-router.get("/profile", (req, res, next) => {
+
+router.get("/profile", isLoggedIn, isUser, (req, res, next) => {
   const user = req.session.currentUser;
   res.render("user/profile", user);
 });
@@ -15,10 +16,10 @@ router.get("/profile", (req, res, next) => {
 // @desc    Deletes user and items from it from the database
 // @route   GET /user/profile/delete
 // @access  User
-// Middleware needed
-router.get("/profile/delete", async (req, res, next) => {
+
+router.get("/profile/delete", isLoggedIn, isUser, async (req, res, next) => {
   const userId = req.session.currentUser._id;
-  // To do: search in all user the objectIds (Orders f.e.) and delete them
+  // Backlog to do: search in all user the objectIds (Orders f.e.) and delete them
   try {
     await User.findByIdAndDelete(userId); //implement on Restaurant Delete
     res.redirect("/auth/logout");
@@ -28,18 +29,19 @@ router.get("/profile/delete", async (req, res, next) => {
 });
 
 // @desc    Sends user form with previous values for editing
-// @route   GET /user/edit
-// @access  user
-// Middleware needed
-router.get("/profile/edit", (req, res, next) => {
+// @route   GET /user/profile/edit
+// @access  User
+
+router.get("/profile/edit", isLoggedIn, isUser, (req, res, next) => {
   const user = req.session.currentUser;
   res.render("user/profileEdit", user);
 });
 
-// @desc    Sends restaurant form with previous values for editing
-// @route   POST /restaurant/edit
-// @access  Restaurants
-router.post("/profile/edit", async (req, res, next) => {
+// @desc    Sends User form with previous values for editing
+// @route   POST /user/profile/edit
+// @access  User
+
+router.post("/profile/edit", isLoggedIn, isUser, async (req, res, next) => {
   const {
     username,
     surname,
