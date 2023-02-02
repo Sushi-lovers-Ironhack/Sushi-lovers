@@ -88,7 +88,7 @@ router.post("/restaurant/signup", async (req, res, next) => {
     }
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password1, salt);
-    await Restaurant.create({
+    const restaurant = await Restaurant.create({
       name,
       email,
       hashedPassword,
@@ -96,6 +96,8 @@ router.post("/restaurant/signup", async (req, res, next) => {
       phoneNumber,
       description,
     });
+    req.session.currentUser = restaurant;
+    req.session.role = "restaurant";
     res.redirect("/restaurant/profile");
   } catch (error) {
     next(error);
@@ -182,7 +184,7 @@ router.post("/signup", async (req, res, next) => {
     const foundUser = await User.findOne({ username });
     if (foundUser) {
       res.render("auth/signup", {
-        error: "Restaurant name alreday in use",
+        error: "User name alreday in use",
       });
       return;
     }
@@ -204,6 +206,7 @@ router.post("/signup", async (req, res, next) => {
       paymentCard,
     });
     req.session.currentUser = user;
+    req.session.role = "user";
     res.redirect("/user/profile");
   } catch (error) {
     next(error);

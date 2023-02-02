@@ -32,7 +32,6 @@ const userSchema = new Schema(
       type: String,
       trim: true,
       required: [true, "Phone number is required."],
-      unique: true,
     },
     hashedPassword: {
       type: String,
