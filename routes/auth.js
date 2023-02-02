@@ -76,7 +76,7 @@ router.post("/restaurant/signup", async (req, res, next) => {
     const foundUser = await Restaurant.findOne({ name });
     if (foundUser) {
       res.render("auth/restaurantSignup", {
-        error: "Restaurant name alreday in use",
+        error: "Restaurant name already in use",
       });
       return;
     }

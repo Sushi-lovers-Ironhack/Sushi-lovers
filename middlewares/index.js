@@ -1,4 +1,4 @@
-//This middleware cheacks if any seasson is created
+//This middleware checks if any seasson is created
 const isLoggedIn = (req, res, next) => {
   if (req.session.currentUser) {
     next();
