@@ -1,0 +1,10 @@
+<h1>Holi</h1>
+
+{{#if _id}}
+  {{#each productsId}}
+    <p>{{this.name}}</p>
+  {{/each}}
+{{else}}
+  <h1>Your cart is empty</h1>
+{{/if}}
+<button onclick="history.back()">Go Back</button>

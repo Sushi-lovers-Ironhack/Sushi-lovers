@@ -3,6 +3,26 @@ const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const Restaurant = require("../models/Restaurant");
 
+router.get("/view/:restaurantId", async (req, res, next) => {
+  const { restaurantId } = req.params;
+  const userId = req.session.currentUser._id;
+  try {
+    const foundCart = await Cart.findOne({
+      userId: userId,
+      restaurantId: restaurantId,
+      isFinished: false,
+    }).populate("productsId");
+    console.log(foundCart);
+    if (!foundCart) {
+      res.render("cart/userCart");
+    } else {
+      res.render("cart/userCart", foundCart);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:restaurantId", async (req, res, next) => {
   const { restaurantId } = req.params;
   try {
@@ -47,6 +67,7 @@ router.get("/add/:productId", async (req, res, next) => {
     const foundCart = await Cart.findOne({
       userId: userId,
       restaurantId: product.restaurantId,
+      isFinished: false,
     });
     if (!foundCart) {
       const newCart = await Cart.create({
