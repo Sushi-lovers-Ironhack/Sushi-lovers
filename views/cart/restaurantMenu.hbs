@@ -1,0 +1,26 @@
+<h1>hello there</h1>
+
+<h2>{{restaurant.name}}</h1>
+<h3>Drinks</h3>
+<ul></ul>
+{{#each drinks}}
+    {{> cartPartial}}
+    <a href="/cart/add/{{_id}}">Add product!</a>
+{{/each}}
+<h3>Starters</h3>
+<ul></ul>
+{{#each starters}}
+    {{> cartPartial}}
+{{/each}}
+<h3>Dishes</h3>
+<ul></ul>
+{{#each dishes}}
+    {{> cartPartial}}
+{{/each}}
+<h3>Desserts</h3>
+<ul></ul>
+{{#each desserts}}
+    {{> cartPartial}}
+{{/each}}
+
+  <button onclick="history.back()">Go Back</button>

@@ -9,7 +9,7 @@ const cartSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Restaurant",
   },
-  productId: {
+  productsId: {
     type: [Schema.Types.ObjectId],
     ref: "Product",
   },
