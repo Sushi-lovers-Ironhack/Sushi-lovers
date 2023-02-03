@@ -11,16 +11,19 @@
 <ul></ul>
 {{#each starters}}
     {{> cartPartial}}
+     <a href="/cart/add/{{_id}}">Add product!</a>
 {{/each}}
 <h3>Dishes</h3>
 <ul></ul>
 {{#each dishes}}
     {{> cartPartial}}
+     <a href="/cart/add/{{_id}}">Add product!</a>
 {{/each}}
 <h3>Desserts</h3>
 <ul></ul>
 {{#each desserts}}
     {{> cartPartial}}
+     <a href="/cart/add/{{_id}}">Add product!</a>
 {{/each}}
 
   <button onclick="history.back()">Go Back</button>

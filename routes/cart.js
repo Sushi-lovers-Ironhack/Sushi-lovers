@@ -54,10 +54,12 @@ router.get("/add/:productId", async (req, res, next) => {
         restaurantId: product.restaurantId,
         productsId: [productId],
       });
-      res.redirect(`/cart/${product.restaurantId}`);
     } else {
-      console.log("encontrado");
+      await Cart.findByIdAndUpdate(foundCart._id, {
+        $push: { productsId: productId },
+      });
     }
+    res.redirect(`/cart/${product.restaurantId}`);
   } catch (error) {
     next(error);
   }
