@@ -3,6 +3,9 @@ const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const Restaurant = require("../models/Restaurant");
 
+// @desc    Shows the user what, if anything, is in their cart
+// @route   GET /cart/view/:restaurantId
+// @access  User
 router.get("/view/:restaurantId", async (req, res, next) => {
   const { restaurantId } = req.params;
   const userId = req.session.currentUser._id;
@@ -12,7 +15,6 @@ router.get("/view/:restaurantId", async (req, res, next) => {
       restaurantId: restaurantId,
       isFinished: false,
     }).populate("productsId");
-    console.log(foundCart);
     if (!foundCart) {
       res.render("cart/userCart");
     } else {
@@ -23,6 +25,9 @@ router.get("/view/:restaurantId", async (req, res, next) => {
   }
 });
 
+// @desc    Shows the user the menu of a restaurant and allow to add items to a cart
+// @route   GET /cart/:restaurantId
+// @access  User
 router.get("/:restaurantId", async (req, res, next) => {
   const { restaurantId } = req.params;
   try {
@@ -59,6 +64,9 @@ router.get("/:restaurantId", async (req, res, next) => {
   }
 });
 
+// @desc    Adds a product to the cart for that user and restaurant
+// @route   GET /cart/add/:productId
+// @access  User
 router.get("/add/:productId", async (req, res, next) => {
   const { productId } = req.params;
   const userId = req.session.currentUser._id;
