@@ -3,22 +3,22 @@
   <form action="/user/profile/edit" method="POST">
 
     <label>User name</label>
-    <input type="text" name="username" value="{{username}}" required />
+    <input type="text" name="username" value="{{user.username}}" required />
 
     <label>Surname</label>
-    <input type="text" name="surname" value="{{surname}}" required />
+    <input type="text" name="surname" value="{{user.surname}}" required />
 
     <label>Direction</label>
-    <input type="text" name="direction" value="{{direction}}" required />
+    <input type="text" name="direction" value="{{user.direction}}" required />
 
     <label>Email</label>
-    <input type="email" name="email" value="{{email}}" required />
+    <input type="email" name="email" value="{{user.email}}" required />
 
     <label>Phone number</label>
-    <input type="number" name="phoneNumber" value="{{phoneNumber}}" required />
+    <input type="number" name="phoneNumber" value="{{user.phoneNumber}}" required />
 
     <label>Payment Card</label>
-    <input type="number" name="paymentCard" value="{{paymentCard}}" required />
+    <input type="number" name="paymentCard" value="{{user.paymentCard}}" required />
 
     <label>Password</label>
     <input type="password" name="password1" placeholder="********" required />
