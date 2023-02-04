@@ -5,7 +5,7 @@ const router = require("express").Router();
 // @access  Public
 router.get("/", (req, res, next) => {
   const user = req.session.currentUser;
-  res.render("index", user);
+  res.render("home/home", user);
 });
 
 module.exports = router;

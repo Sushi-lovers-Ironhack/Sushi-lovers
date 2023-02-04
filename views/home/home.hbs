@@ -1,0 +1,12 @@
+<h1>Sushilovers</h1>
+
+<form action="/search" method="post">
+    <input type="text" name="search" placeholder="Search by dish">
+    <button type="submit">placeholderImg</button>
+</form>
+
+{{#each restaurant}}
+    {{> restaurantPartial}}
+{{/each}}
+
+<a href="/search">View all</a>
