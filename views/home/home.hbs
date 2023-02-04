@@ -5,8 +5,11 @@
     <button type="submit">placeholderImg</button>
 </form>
 
-{{#each restaurant}}
-    {{> restaurantPartial}}
+<h2>Featured</h2>
+{{#each restaurantsDB}}
+    <div>
+        {{> restaurantPartial}}
+    </div>
 {{/each}}
 
 <a href="/search">View all</a>

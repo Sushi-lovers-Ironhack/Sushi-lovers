@@ -1,0 +1,12 @@
+<form action="/search" method="post">
+    <input type="text" name="search" placeholder="Search by dish">
+    <button type="submit">placeholderImg</button>
+</form>
+
+<h2>Search results</h2>
+
+{{#each restaurantsDB}}
+    <div>
+        {{> restaurantPartial}}
+    </div>
+{{/each}}
