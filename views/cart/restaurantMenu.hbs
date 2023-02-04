@@ -1,31 +1,43 @@
-<h1>hello there</h1>
+<div id="container">
+    <div id="restaurant-title">
+        <h2>{{restaurant.name}}</h2>
+        <h2>{{restaurant.description}}</h2>
+    </div>
 
-<h2>{{restaurant.name}}</h1>
-<h3>Drinks</h3>
-<ul></ul>
-{{#each drinks}}
-    {{> cartPartial}}
-    <a href="/cart/add/{{_id}}">Add product!</a>
-{{/each}}
-<h3>Starters</h3>
-<ul></ul>
-{{#each starters}}
-    {{> cartPartial}}
-     <a href="/cart/add/{{_id}}">Add product!</a>
-{{/each}}
-<h3>Dishes</h3>
-<ul></ul>
-{{#each dishes}}
-    {{> cartPartial}}
-     <a href="/cart/add/{{_id}}">Add product!</a>
-{{/each}}
-<h3>Desserts</h3>
-<ul></ul>
-{{#each desserts}}
-    {{> cartPartial}}
-     <a href="/cart/add/{{_id}}">Add product!</a>
-{{/each}}
+    <div id="bloque">
+        <h3>Drinks</h3>
+        {{#each drinks}}
+         {{> cartPartial}}
+          <a href="/cart/add/{{_id}}">Add product!</a>
+        {{/each}}
+    </div>
 
-<a href="/cart/view/{{restaurant._id}}">See your cart!</a>
+    <div id="bloque">
+     <h3>Dishes</h3>
+     {{#each starters}}
+        {{> cartPartial}}
+        <a href="/cart/add/{{_id}}">Add product!</a>
+     {{/each}}
+    </div>
 
-  <button onclick="history.back()">Go Back</button>
+    <div id="bloque">
+     <h3>Starters</h3>
+     {{#each dishes}}
+        {{> cartPartial}}
+        <a href="/cart/add/{{_id}}">Add product!</a>
+      {{/each}}
+    </div>
+
+    <div id="bloque">
+     <h3>Desserts</h3>
+     {{#each desserts}}
+        {{> cartPartial}}
+        <a href="/cart/add/{{_id}}">Add product!</a>
+     {{/each}}
+    </div>
+
+    <div id="cart">
+      <a href="/cart/view/{{restaurant._id}}">See your cart!</a>
+    </div>
+</div>
+
