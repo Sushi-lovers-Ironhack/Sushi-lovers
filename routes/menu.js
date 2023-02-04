@@ -18,7 +18,6 @@ router.get("/", isLoggedIn, isRestaurant, async (req, res, next) => {
         drinks.push(product);
       }
       if (product.category == "Starters") {
-        ç;
         starters.push(product);
       }
       if (product.category == "Dishes") {
