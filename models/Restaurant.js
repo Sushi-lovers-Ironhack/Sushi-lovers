@@ -34,7 +34,7 @@ const restaurantSchema = new Schema(
     },
     imageUrl: {
       type: String
-    }
+    },
   },
   {
     timestamps: true

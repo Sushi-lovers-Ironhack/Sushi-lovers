@@ -88,6 +88,7 @@ router.post("/restaurant/signup", async (req, res, next) => {
     }
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password1, salt);
+    const imageUrl = "https://media.istockphoto.com/id/847043282/photo/japanese-dining-healthy-food.jpg?s=612x612&w=0&k=20&c=VdK1FFqaJQik2CdMxI30ilk4581XHpEeaOQEUMAbujc="
     const restaurant = await Restaurant.create({
       name,
       email,
@@ -95,6 +96,7 @@ router.post("/restaurant/signup", async (req, res, next) => {
       direction,
       phoneNumber,
       description,
+      imageUrl
     });
     req.session.currentUser = restaurant;
     req.session.role = "restaurant";
