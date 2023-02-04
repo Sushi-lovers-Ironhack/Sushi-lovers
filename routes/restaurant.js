@@ -36,7 +36,7 @@ router.get(
 // @access  Restaurants
 router.get("/profile/edit", isLoggedIn, isRestaurant, (req, res, next) => {
   const restaurant = req.session.currentUser;
-  res.render("restaurant/profileEdit", restaurant);
+  res.render("restaurant/profileEdit", {restaurant, name: restaurant });
 });
 
 // @desc    Sends restaurant form with previous values for editing
@@ -47,6 +47,7 @@ router.post(
   isLoggedIn,
   isRestaurant,
   async (req, res, next) => {
+    const restaurant = req.session.currentUser;
     const {
       name,
       email,
@@ -66,7 +67,7 @@ router.post(
       !phoneNumber ||
       !description
     ) {
-      res.render("restaurant/profileEdit", { error: "Must fill all fields" });
+      res.render("restaurant/profileEdit", { error: "Must fill all fields" , restaurant , name: restaurant });
       return;
     }
     const regexEmail = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
@@ -81,26 +82,26 @@ router.post(
     if (!regexPassword.test(password1)) {
       res.render("restaurant/profileEdit", {
         error:
-          "Password must have at least 8 characters and contain one uppercase and lowercase letter, a special character and a number",
+          "Password must have at least 8 characters and contain one uppercase and lowercase letter, a special character and a number", restaurant , name: restaurant
       });
       return;
     }
     if (!regexPassword.test(password2)) {
       res.render("restaurant/profileEdit", {
-        error: "Doublecheck the password on both fields",
+        error: "Doublecheck the password on both fields", restaurant , name: restaurant
       });
       return;
     }
     const regexPhone = /^\+?(6\d{2}|7[1-9]\d{1})\d{6}$/;
     if (!regexPhone.test(phoneNumber)) {
       res.render("restaurant/profileEdit", {
-        error: "Correct phone number is required",
+        error: "Correct phone number is required", restaurant , name: restaurant
       });
       return;
     }
     if (!password1 === password2) {
       res.render("restaurant/profileEdit", {
-        error: "Doublecheck the password on both fields",
+        error: "Doublecheck the password on both fields", restaurant , name: restaurant
       });
       return;
     }

@@ -2,22 +2,22 @@
   <form action="/restaurant/profile/edit" method="POST">
  
     <label>Name</label>
-      <input type="text" name="name" value="{{name}}" required/>
+      <input type="text" name="name" value="{{restaurant.name}}" required/>
  
     <label>Email</label>
-      <input type="email" name="email" value="{{email}}" required/>
+      <input type="email" name="email" value="{{restaurant.email}}" required/>
     
     <label>Direction</label>
-      <input type="text" name="direction" value="{{direction}}" required/>
+      <input type="text" name="direction" value="{{restaurant.direction}}" required/>
 
     <label>Phone number</label>
-      <input type="text" name="phoneNumber" value="{{phoneNumber}}" required/>
+      <input type="text" name="phoneNumber" value="{{restaurant.phoneNumber}}" required/>
 
     <label>Restaurant information</label>
-      <input type="text" name="description" value="{{description}}" required/>
+      <input type="text" name="description" value="{{restaurant.description}}" required/>
 
     <label>Restaurant image</label>
-      <input type="text" name="imageUrl" value="{{imageUrl}}">
+      <input type="text" name="imageUrl" value="{{restaurant.imageUrl}}">
 
     <label>Password</label>
       <input type="password" name="password1" placeholder="********" required/>
