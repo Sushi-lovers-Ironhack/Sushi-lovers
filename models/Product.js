@@ -16,7 +16,8 @@ const productSchema = new Schema(
       type: String,
     },
     imageUrl: {
-      type: String
+      type: String,
+      default: "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftheplanetd.com%2Ftraditional-japanese-food%2F&psig=AOvVaw3HWesUj4aEiQYs96KfiRhd&ust=1675601817276000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCJC3var1-_wCFQAAAAAdAAAAABAE",
     },
     price: {
       type: Number,
