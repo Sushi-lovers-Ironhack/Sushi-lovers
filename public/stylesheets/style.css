@@ -4,26 +4,40 @@
 2. Cards Products
 
 */
+* {
+  box-sizing: border-box;
+}
+html {
+  width: 100vw;
+}
 
 body {
   padding: 0;
   margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  box-sizing: border-box;
   background-color: rgb(227, 227, 227);
+  width: 100%;
 }
-#restaurant-title,
-#bloque,
-#cart {
-  width: 90%;
+
+a {
+  text-decoration: none;
+  color: black;
 }
+
 #container {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
+}
+
+#nav-bar,
+#restaurant-title,
+#bloque,
+#cart {
+  width: 90%;
 }
 
 /* ----------------------- Restaurant presentation Card -------*/
@@ -70,10 +84,47 @@ body {
 
 /*-------------- Cards Products -------*/
 .category-and-products {
-  background-color: rgb(0, 255, 115);
   width: 90%;
 }
+.category {
+  font-size: 20px;
+  margin-bottom: 10px;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+.cart-partial {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
+}
+.cart-partial-img {
+  width: 33%;
+}
+.cart-partial-img a,
+.cart-partial-img img {
+  width: 100%;
+}
+.cart-partial-img img {
+  border-radius: 15%;
+}
+.cart-partial-info {
+  width: 50%;
+  display: flex;
+}
+.cart-partial-sell,
+.cart-partial-add {
+  width: 50%;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.cart-partial-add img {
+  width: 25px;
+}
 
+/*---------------- Cart ---------------- */
 #cart {
   background-color: blue;
 }

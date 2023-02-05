@@ -18,34 +18,28 @@
     <div class="category-and-products">
         <h3 class="category">Drinks</h3>
         {{#each drinks}}
-        <div class="product">
          {{> cartPartial}}
-          <a href="/cart/add/{{_id}}">Add product!</a>
-        </div>
         {{/each}}
     </div>
 
     <div id="bloque">
-     <h3>Dishes</h3>
+    <h3 class="category">Dishes</h3>
      {{#each starters}}
         {{> cartPartial}}
-        <a href="/cart/add/{{_id}}">Add product!</a>
      {{/each}}
     </div>
 
     <div id="bloque">
-     <h3>Starters</h3>
+     <h3 class="category">Starters</h3>
      {{#each dishes}}
         {{> cartPartial}}
-        <a href="/cart/add/{{_id}}">Add product!</a>
       {{/each}}
     </div>
 
     <div id="bloque">
-     <h3>Desserts</h3>
+     <h3 class="category">Desserts</h3>
      {{#each desserts}}
         {{> cartPartial}}
-        <a href="/cart/add/{{_id}}">Add product!</a>
      {{/each}}
     </div>
 
