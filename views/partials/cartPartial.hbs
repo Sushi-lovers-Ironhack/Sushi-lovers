@@ -1,3 +1,19 @@
-<a href="/cart/detail/{{this._id}}"><img src="{{this.imageUrl}}" alt="{{this.name}}" /></a>
-<li>{{this.name}}</li>
-<p>Price: {{this.price}} Euros</p>
+<div class="cart-partial">
+  <div class="cart-partial-img">
+    <a href="/cart/detail/{{this._id}}">
+      <img src="{{this.imageUrl}}" alt="{{this.name}}" />
+    </a>
+  </div>
+  <div class="cart-partial-info">
+    <div class="cart-partial-sell">
+      <p class="cart-product-name">{{this.name}}</p>
+      <p>{{this.price}} €</p>
+    </div>
+    <div class="cart-partial-add">
+      <a href="/cart/add/{{this._id}}">
+        <img src="/images/cart-logo.png" alt="cart-logo" />
+      </a>
+    </div>
+  </div>
+
+</div>

@@ -1,38 +1,45 @@
 <div id="container">
     <div id="restaurant-title">
-        <h2>{{restaurant.name}}</h2>
-        <h2>{{restaurant.description}}</h2>
+      <div id="restaurant-img-container">
+        <img src="{{restaurant.imageUrl}}" alt="restaurant dish" id="restaurant-img">
+      </div>
+      <div id="restaurant-info">
+        <div id="restaurant-logo-container">
+         <img src="{{restaurant.logoUrl}}" alt="restaurant logo" id="restaurant-logo">
+        </div>
+        <div id="restaurant-description">
+           <h2 id="restaurant-name">{{restaurant.name}}</h2>
+           <h2 id="restaurant-description"> dadadadafs kjhdkjah jkhajdh hakjwhauhcjdjh uhkfhjkhjhe</h2>
+           {{!-- <h2>{{restaurant.description}}</h2>      --}}
+       </div>
+      </div>
     </div>
 
-    <div id="bloque">
-        <h3>Drinks</h3>
+    <div class="category-and-products">
+        <h3 class="category">Drinks</h3>
         {{#each drinks}}
          {{> cartPartial}}
-          <a href="/cart/add/{{_id}}">Add product!</a>
         {{/each}}
     </div>
 
     <div id="bloque">
-     <h3>Dishes</h3>
+    <h3 class="category">Dishes</h3>
      {{#each starters}}
         {{> cartPartial}}
-        <a href="/cart/add/{{_id}}">Add product!</a>
      {{/each}}
     </div>
 
     <div id="bloque">
-     <h3>Starters</h3>
+     <h3 class="category">Starters</h3>
      {{#each dishes}}
         {{> cartPartial}}
-        <a href="/cart/add/{{_id}}">Add product!</a>
       {{/each}}
     </div>
 
     <div id="bloque">
-     <h3>Desserts</h3>
+     <h3 class="category">Desserts</h3>
      {{#each desserts}}
         {{> cartPartial}}
-        <a href="/cart/add/{{_id}}">Add product!</a>
      {{/each}}
     </div>
 

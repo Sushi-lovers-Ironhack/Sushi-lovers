@@ -1,9 +1,143 @@
+/* Hello there! use this keywords to find the styles!
+
+1. Restaurant presentation Card.
+2. Cards Products
+
+*/
+* {
+  box-sizing: border-box;
+}
+html {
+  width: 100vw;
+}
+
 body {
   padding: 0;
   margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: rgb(227, 227, 227);
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }
 
 #container {
-  background-color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+#nav-bar,
+#restaurant-title,
+#bloque,
+#cart {
+  width: 90%;
+}
+
+/* ----------------------- Restaurant presentation Card -------*/
+#restaurant-title,
+#cart {
+  border: 5px solid rgb(214, 212, 212);
+  border-radius: 20px 5px 20px 5px;
+  background-color: rgb(214, 212, 212);
+  padding-bottom: 5px;
+  box-shadow: 5px 5px 5px rgb(194 193 193);
+}
+#restaurant-img-container {
+  height: 120px;
+  margin-bottom: 10px;
+}
+#restaurant-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px 5px 20px 5px;
+}
+#restaurant-info {
+  display: flex;
+  justify-content: space-evenly;
+  height: 85px;
+}
+#restaurant-logo-container {
+  height: 100%;
+  width: 25%;
+}
+#restaurant-logo {
+  /* take care with logo img from db! */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 100%;
+}
+#restaurant-description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 65%;
+  justify-content: space-evenly;
+  text-align: center;
+}
+#restaurant-name {
+  font-size: 20px;
+}
+
+/*-------------- Cards Products -------*/
+.category-and-products {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.category {
+  font-size: 20px;
+  margin-bottom: 10px;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+.cart-partial {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  box-shadow: 5px 5px 5px rgb(194 193 193);
+  border-radius: 20px 5px 20px 5px;
+  width: 95%;
+}
+.cart-partial-img {
+  width: 33%;
+}
+.cart-partial-img a,
+.cart-partial-img img {
+  width: 100%;
+}
+.cart-partial-img img {
+  border-radius: 5px;
+}
+.cart-partial-info {
+  width: 50%;
+  display: flex;
+}
+.cart-partial-sell,
+.cart-partial-add {
+  width: 50%;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.cart-partial-add img {
+  width: 25px;
+}
+
+/*---------------- Cart ---------------- */
+#cart {
+  padding-top: 5px;
+  width: 40%;
+  text-align: center;
 }
