@@ -1,32 +1,77 @@
+/* Hello there! use this keywords to find the styles!
+
+1. Restaurant presentation Card.
+2. Cards Products
+
+*/
+
 body {
   padding: 0;
   margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   box-sizing: border-box;
+  background-color: rgb(227, 227, 227);
 }
-
 #restaurant-title,
 #bloque,
 #cart {
   width: 90%;
 }
-
-#restaurant-title {
-  background-color: rgb(220, 207, 20);
-}
 #container {
-  background-color: red;
   display: flex;
   flex-direction: column;
-
   justify-content: space-evenly;
   align-items: center;
-
   height: 100vh;
   width: 100vw;
 }
-#bloque {
+
+/* ----------------------- Restaurant presentation Card -------*/
+#restaurant-title {
+  border: 5px solid rgb(194, 194, 194);
+  border-radius: 10px;
+  background-color: rgb(226, 226, 226);
+}
+#restaurant-img-container {
+  background-color: blue;
+  height: 120px;
+}
+#restaurant-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#restaurant-info {
+  display: flex;
+  height: 85px;
+}
+#restaurant-logo-container {
+  background-color: blue;
+  height: 100%;
+  width: 25%;
+}
+#restaurant-logo {
+  /* take care with logo img from db! */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#restaurant-description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75%;
+  justify-content: space-evenly;
+  text-align: center;
+}
+#restaurant-name {
+  font-size: 20px;
+}
+
+/*-------------- Cards Products -------*/
+.category-and-products {
   background-color: rgb(0, 255, 115);
+  width: 90%;
 }
 
 #cart {
