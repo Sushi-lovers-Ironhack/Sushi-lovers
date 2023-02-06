@@ -15,6 +15,7 @@ router.get("/view/:restaurantId", async (req, res, next) => {
       restaurantId: restaurantId,
       isFinished: false,
     }).populate("productsId");
+
     if (!foundCart) {
       res.render("cart/userCart");
     } else {
@@ -100,8 +101,8 @@ router.get("/detail/:productId", async (req, res, next) => {
   const { productId } = req.params;
   const username = req.session.currentUser;
   try {
-    const productDB = await Product.findById({ _id: productId})
-    res.render('cart/productDetail', { username, productDB} )
+    const productDB = await Product.findById({ _id: productId });
+    res.render("cart/productDetail", { username, productDB });
   } catch (error) {
     next(error);
   }

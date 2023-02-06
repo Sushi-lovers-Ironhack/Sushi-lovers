@@ -24,7 +24,7 @@ a {
   color: black;
 }
 
-#container {
+#restaurant-menu-container {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -35,7 +35,6 @@ a {
 
 #nav-bar,
 #restaurant-title,
-#bloque,
 #cart {
   width: 90%;
 }
@@ -140,4 +139,52 @@ a {
   padding-top: 5px;
   width: 40%;
   text-align: center;
+}
+
+/*---------------- User Cart Details ----------- */
+
+#user-cart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+.user-cart-title {
+  width: 90%;
+  font-size: 20px;
+  border-bottom: 2px solid black;
+}
+.product-details {
+  display: flex;
+  width: 90%;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}
+.img-details {
+  width: 30%;
+}
+.img-details img {
+  width: 100%;
+  border-radius: 15px;
+}
+.name-and-price,
+.remove-button {
+  width: 30%;
+}
+.name-and-price {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.trash-can-container {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.trash-can-logo {
+  width: 20%;
+  height: 25%;
 }

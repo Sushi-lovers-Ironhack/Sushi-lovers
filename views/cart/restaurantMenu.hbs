@@ -1,4 +1,4 @@
-<div id="container">
+<div id="restaurant-menu-container">
     <div id="restaurant-title">
       <div id="restaurant-img-container">
         <img src="{{restaurant.imageUrl}}" alt="restaurant dish" id="restaurant-img">
@@ -21,25 +21,25 @@
         {{/each}}
     </div>
 
-    <div id="bloque">
-    <h3 class="category">Dishes</h3>
-     {{#each starters}}
-        {{> cartPartial}}
-     {{/each}}
-    </div>
-
-    <div id="bloque">
-     <h3 class="category">Starters</h3>
-     {{#each dishes}}
-        {{> cartPartial}}
+    <div class="category-and-products">
+      <h3 class="category">Dishes</h3>
+      {{#each starters}}
+          {{> cartPartial}}
       {{/each}}
     </div>
 
-    <div id="bloque">
-     <h3 class="category">Desserts</h3>
-     {{#each desserts}}
-        {{> cartPartial}}
-     {{/each}}
+    <div class="category-and-products">
+      <h3 class="category">Starters</h3>
+      {{#each dishes}}
+          {{> cartPartial}}
+        {{/each}}
+    </div>
+
+    <div class="category-and-products">
+      <h3 class="category">Desserts</h3>
+      {{#each desserts}}
+          {{> cartPartial}}
+      {{/each}}
     </div>
 
     <div id="cart">
