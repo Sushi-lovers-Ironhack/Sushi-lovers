@@ -7,7 +7,7 @@ const Product = require("../models/Product");
 // @access  Public
 router.get("/", async (req, res, next) => {
   const username = req.session.currentUser;
-  const restaurantsDB = await Restaurant.find({}).limit(4);
+  const restaurantsDB = await Restaurant.find({ status: true }).limit(4);
   res.render("home/home", {username, restaurantsDB});
 });
 
@@ -17,7 +17,7 @@ router.get("/", async (req, res, next) => {
 router.get("/search", async (req, res, next) => {
   const username = req.session.currentUser;
   try {
-    const restaurantsDB = await Restaurant.find({}).limit(10);
+    const restaurantsDB = await Restaurant.find({ status: true }).limit(10);
     res.render("home/search", {username, restaurantsDB});
   } catch (error) {
     next(error);

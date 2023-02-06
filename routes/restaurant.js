@@ -151,6 +151,7 @@ router.post(
 // @access  Restaurants
 router.get("/", isLoggedIn, isRestaurant, async (req, res, next) => {
   const restaurant = req.session.currentUser;
+  const opened = restaurant.status
   try {
     const currentOrdersDB = await Cart.find({ $and: [{ restaurantId: restaurant._id }, { isFinished: false }, { isOrdered: true }] }).populate("userId");
     let incomingOrders = [], pendingOrders = [];
@@ -163,7 +164,26 @@ router.get("/", isLoggedIn, isRestaurant, async (req, res, next) => {
         pendingOrders.push(order);
       };
     }
-    res.render("restaurant/home", { restaurant, name: restaurant, incomingOrders, pendingOrders });
+    res.render("restaurant/home", { restaurant, name: restaurant, incomingOrders, pendingOrders, opened });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// @desc    Opens/closed the restaurant to be seen in the app for users
+// @route   GET /restaurant/status
+// @access  Restaurants
+router.get("/status", isLoggedIn, isRestaurant, async (req, res, next) => {
+  const restaurant = req.session.currentUser;
+  let opened;
+  try {
+    if (restaurant.status == true) {
+      opened = await Restaurant.findByIdAndUpdate({ _id: restaurant._id }, { status: false }, { new: true });
+    } else {
+      opened = await Restaurant.findByIdAndUpdate({ _id: restaurant._id }, { status: true }, { new: true });
+    };
+    req.session.currentUser = opened;
+    res.redirect("/restaurant");
   } catch (error) {
     next(error);
   }

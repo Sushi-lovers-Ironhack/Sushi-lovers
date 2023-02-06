@@ -1,4 +1,12 @@
 <div>
+    {{#if opened}}
+    <a href="/restaurant/status">Close restaurant</a>
+    {{else}}
+    <a href="/restaurant/status">Open restaurant</a>
+    {{/if}}
+</div>
+
+<div>
     <h3>Incoming orders:</h3>
     {{#each incomingOrders}}
         {{> orderPartial}}
