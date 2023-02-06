@@ -1,10 +1,33 @@
-<h1>Holi</h1>
-
-{{#if _id}}
-  {{#each productsId}}
-    <p>{{this.name}}</p>
-  {{/each}}
-{{else}}
-  <h1>Your cart is empty</h1>
-{{/if}}
-<button onclick="history.back()">Go Back</button>
+<div id="user-cart-container">
+  <div class="user-cart-title">
+    <h1>Your Cart</h1>
+  </div>
+  {{#if _id}}
+    {{#each productsId}}
+      <div class="product-details">
+        <div class="img-details">
+          <img src="{{this.imageUrl}}" alt="product img" />
+        </div>
+        <div class="name-and-price">
+          <p>{{this.name}}</p>
+          <p>{{this.price}} €</p>
+        </div>
+        <a href="" class="trash-can-container">
+          <img
+            src="/images/trash-can.png"
+            alt="trash can img"
+            class="trash-can-logo"
+          />
+        </a>
+      </div>
+    {{/each}}
+  {{else}}
+    <div>
+      <h1>Your cart is empty</h1>
+    </div>
+  {{/if}}
+  <div class="total-price-and-checkout">
+    <h2 class="total-price"> Total: XXX €</h2>
+    <h2 class="checkout">Finish your command</h2>
+  </div>
+</div>

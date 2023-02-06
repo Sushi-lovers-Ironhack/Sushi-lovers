@@ -10,6 +10,12 @@
 html {
   width: 100vw;
 }
+:root {
+  --shadow-style: 5px 5px 5px rgb(194 193 193);
+  --border-event: 5px solid rgb(9, 19, 66);
+  --border-radius-event: 20px 5px 20px 5px;
+  --backgroud-color-event: rgb(9 19 66);
+}
 
 body {
   padding: 0;
@@ -24,7 +30,7 @@ a {
   color: black;
 }
 
-#container {
+#restaurant-menu-container {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -35,19 +41,17 @@ a {
 
 #nav-bar,
 #restaurant-title,
-#bloque,
 #cart {
   width: 90%;
 }
 
 /* ----------------------- Restaurant presentation Card -------*/
-#restaurant-title,
-#cart {
+#restaurant-title {
   border: 5px solid rgb(214, 212, 212);
   border-radius: 20px 5px 20px 5px;
   background-color: rgb(214, 212, 212);
   padding-bottom: 5px;
-  box-shadow: 5px 5px 5px rgb(194 193 193);
+  box-shadow: var(--shadow-style);
 }
 #restaurant-img-container {
   height: 120px;
@@ -104,7 +108,7 @@ a {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
-  box-shadow: 5px 5px 5px rgb(194 193 193);
+  box-shadow: var(--shadow-style);
   border-radius: 20px 5px 20px 5px;
   width: 95%;
 }
@@ -139,5 +143,94 @@ a {
 #cart {
   padding-top: 5px;
   width: 40%;
+  height: 40px;
   text-align: center;
+  padding-bottom: 5px;
+  box-shadow: var(--shadow-style);
+  border: var(--border-event);
+  border-radius: var(--border-radius-event);
+  background-color: var(--backgroud-color-event);
+}
+#cart a {
+  color: aliceblue;
+}
+
+/*---------------- User Cart Details ----------- */
+
+#user-cart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* height: 100vh; */
+  width: 100%;
+}
+.user-cart-title {
+  width: 90%;
+  font-size: 20px;
+  border-bottom: 2px solid black;
+  margin: 10px 0px;
+}
+.product-details {
+  display: flex;
+  width: 90%;
+  justify-content: space-evenly;
+  margin: 10px 0px;
+  box-shadow: var(--shadow-style);
+  border-radius: 15px 8px 8px 15px;
+}
+.img-details {
+  width: 30%;
+}
+.img-details img {
+  width: 100%;
+  border-radius: 15px;
+}
+.name-and-price,
+.remove-button {
+  width: 30%;
+}
+.name-and-price {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.trash-can-container {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.trash-can-logo {
+  width: 20%;
+  height: 25%;
+}
+.total-price-and-checkout {
+  width: 90%;
+  height: 75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.total-price {
+  width: 80%;
+  height: 28%;
+  text-align: center;
+  border-bottom: 1px solid;
+  margin-bottom: 10px;
+}
+.checkout {
+  width: 55%;
+  height: 55%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: var(--shadow-style);
+  border: rgb(214 136 29);
+  border-radius: var(--border-radius-event);
+  background-color: rgb(214 136 29);
+  color: rgb(31, 31, 31);
 }
