@@ -17,6 +17,11 @@ const cartSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  orderStatus: {
+    type: String,
+    enum: ["pending", "accepted", "denied", "sent"],
+    default: "pending"
+  }
 });
 
 const Cart = model("Cart", cartSchema);
