@@ -13,15 +13,19 @@ const cartSchema = new Schema({
     type: [Schema.Types.ObjectId],
     ref: "Product",
   },
-  isFinished: {
+  isOrdered: {
     type: Boolean,
-    default: false,
+    default: false
   },
   orderStatus: {
     type: String,
     enum: ["pending", "accepted", "denied", "sent"],
     default: "pending"
   },
+  isFinished: {
+    type: Boolean,
+    default: false,
+  }
 },  
   {
     timestamps: true
