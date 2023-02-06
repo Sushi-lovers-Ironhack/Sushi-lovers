@@ -1,0 +1,13 @@
+<div>
+    <h3>Incoming orders:</h3>
+    {{#each incomingOrders}}
+        {{> orderPartial}}
+    {{/each}}
+</div>
+
+<div>
+    <h3>Pending orders:</h3>
+    {{#each pendingOrders}}
+        {{> orderPartial}}
+    {{/each}}
+</div>

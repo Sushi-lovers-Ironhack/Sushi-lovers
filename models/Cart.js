@@ -21,8 +21,11 @@ const cartSchema = new Schema({
     type: String,
     enum: ["pending", "accepted", "denied", "sent"],
     default: "pending"
-  }
-});
+  },
+},  
+  {
+    timestamps: true
+  });
 
 const Cart = model("Cart", cartSchema);
 

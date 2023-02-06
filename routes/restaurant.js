@@ -1,4 +1,5 @@
 const Restaurant = require("../models/Restaurant");
+const Cart = require("../models/Cart");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -144,5 +145,27 @@ router.post(
     }
   }
 );
+
+// @desc    Gets current orders and allows restaurant to manage them
+// @route   GET /restaurant
+// @access  Restaurants
+router.get("/", isLoggedIn, isRestaurant, async (req, res, next) => {
+  const restaurant = req.session.currentUser;
+  try {
+    const currentOrdersDB = await Cart.find( $and [{ restaurantId: restaurant._id }, { isFinished: false}] );
+    let incomingOrders = [], pendingOrders = [];
+    for (let order of currentOrdersDB) {
+      if (order.orderStatus == "pending") {
+        incomingOrders.push(order);
+      };
+      if (order.orderStatus == "accepted") {
+        pendingOrders.push(order);
+      };
+    }
+    res.render("restaurant/home", { restaurant, name: restaurant, incomingOrders, pendingOrders });
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
