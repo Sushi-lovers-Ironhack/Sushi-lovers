@@ -36,6 +36,10 @@ const restaurantSchema = new Schema(
       type: String,
     },
     logoUrl: String,
+    status: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true,

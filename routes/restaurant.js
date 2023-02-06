@@ -1,4 +1,5 @@
 const Restaurant = require("../models/Restaurant");
+const Cart = require("../models/Cart");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -144,5 +145,48 @@ router.post(
     }
   }
 );
+
+// @desc    Gets current orders and allows restaurant to manage them
+// @route   GET /restaurant
+// @access  Restaurants
+router.get("/", isLoggedIn, isRestaurant, async (req, res, next) => {
+  const restaurant = req.session.currentUser;
+  const opened = restaurant.status
+  try {
+    const currentOrdersDB = await Cart.find({ $and: [{ restaurantId: restaurant._id }, { isFinished: false }, { isOrdered: true }] }).populate("userId");
+    let incomingOrders = [], pendingOrders = [];
+    for (let order of currentOrdersDB) {
+      order["numberProducts"] = order.productsId.length;
+      if (order.orderStatus == "pending") {
+        incomingOrders.push(order);
+      };
+      if (order.orderStatus == "accepted") {
+        pendingOrders.push(order);
+      };
+    }
+    res.render("restaurant/home", { restaurant, name: restaurant, incomingOrders, pendingOrders, opened });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// @desc    Opens/closed the restaurant to be seen in the app for users
+// @route   GET /restaurant/status
+// @access  Restaurants
+router.get("/status", isLoggedIn, isRestaurant, async (req, res, next) => {
+  const restaurant = req.session.currentUser;
+  let opened;
+  try {
+    if (restaurant.status == true) {
+      opened = await Restaurant.findByIdAndUpdate({ _id: restaurant._id }, { status: false }, { new: true });
+    } else {
+      opened = await Restaurant.findByIdAndUpdate({ _id: restaurant._id }, { status: true }, { new: true });
+    };
+    req.session.currentUser = opened;
+    res.redirect("/restaurant");
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
