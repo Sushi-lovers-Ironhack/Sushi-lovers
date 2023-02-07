@@ -1,15 +1,29 @@
-<h1>Sushilovers</h1>
+<div id="home-view">
+    <div id="sushi-lovers-card">
+        <img src="/images/sushilovers-logo.png" alt="sushi-lovers logo">
+        <div id="text-menu-box">
+            <h1>Sushilovers</h1>
+            <h2>inserte aqui frase gancho</h2>
+        </div>
 
-<form action="/search" method="post">
-    <input type="text" name="search" placeholder="Search by dish">
-    <button type="submit">placeholderImg</button>
-</form>
-
-<h2>Featured</h2>
-{{#each restaurantsDB}}
-    <div>
-        {{> restaurantPartial}}
     </div>
-{{/each}}
-
-<a href="/search">View all</a>
+    <div id="search-bar">
+        <form action="/search" method="post">
+            <input type="text" name="search" placeholder="Search by dish">
+            <button type="submit"><img src="/images/mag-glass.png" alt="search-logo"></button>
+        </form>
+    </div>
+    <div class="top-restaurants-title">
+        <h2>Top Restaurants</h2>
+    </div>
+    <div class="top-restaurant-container">
+    {{#each restaurantsDB}}
+        <div class="top-restaurant-card">
+            {{> restaurantPartial}}
+        </div>
+    {{/each}}
+    </div>
+    <div id="view-all-btn">
+        <a href="/search">View all</a>
+    </div>
+</div>

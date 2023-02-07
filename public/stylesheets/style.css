@@ -21,7 +21,7 @@ body {
   padding: 0;
   margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: rgb(227, 227, 227);
+
   width: 100%;
 }
 
@@ -29,13 +29,12 @@ a {
   text-decoration: none;
   color: black;
 }
-
+#home-view,
 #restaurant-menu-container {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  height: 100vh;
   width: 100%;
 }
 
@@ -97,7 +96,9 @@ a {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  margin-top: 10px;
 }
+.top-restaurants-title,
 .category {
   font-size: 20px;
   margin-bottom: 10px;
@@ -140,6 +141,8 @@ a {
 }
 
 /*---------------- Cart ---------------- */
+/* This ID is for buttons like "see your cart, finish your command, etc */
+#view-all-btn,
 #cart {
   padding-top: 5px;
   width: 40%;
@@ -150,7 +153,9 @@ a {
   border: var(--border-event);
   border-radius: var(--border-radius-event);
   background-color: var(--backgroud-color-event);
+  margin-top: 10px;
 }
+#view-all-btn a,
 #cart a {
   color: aliceblue;
 }
@@ -233,4 +238,73 @@ a {
   border-radius: var(--border-radius-event);
   background-color: rgb(214 136 29);
   color: rgb(31, 31, 31);
+}
+
+/*-------- Main View - HOME VIEW ----------- */
+
+#sushi-lovers-card {
+  width: 90%;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}
+#sushi-lovers-card img {
+  width: 25%;
+  object-fit: cover;
+}
+#text-menu-box {
+  width: 50%;
+}
+#text-menu-box h1 {
+  font-size: 25px;
+}
+#text-menu-box h2 {
+  font-size: 16px;
+}
+#search-bar {
+  width: 90%;
+  margin: 10px 0px;
+}
+#search-bar form {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+}
+#search-bar input,
+#search-bar button {
+  background-color: transparent;
+  border: none;
+}
+#search-bar input {
+  width: 90%;
+}
+#search-bar img {
+  width: 30px;
+}
+.top-restaurants-title {
+  width: 90%;
+}
+.top-restaurant-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  height: 400px;
+}
+.top-restaurant-card {
+  width: 40vw;
+  height: 185px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  box-shadow: var(--shadow-style);
+  border: rgb(214, 212, 212);
+  border-radius: var(--border-radius-event);
+}
+.top-restaurant-card img {
+  width: 130px;
+  border-radius: 10px 0px 10px 0px;
 }
