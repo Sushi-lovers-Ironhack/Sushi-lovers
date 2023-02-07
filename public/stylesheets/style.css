@@ -98,7 +98,7 @@ a {
   align-items: flex-end;
   margin-top: 10px;
 }
-.top-restaurants-title,
+.search-title,
 .category {
   font-size: 20px;
   margin-bottom: 10px;
@@ -154,6 +154,7 @@ a {
   border-radius: var(--border-radius-event);
   background-color: var(--backgroud-color-event);
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 #view-all-btn a,
 #cart a {
@@ -240,7 +241,7 @@ a {
   color: rgb(31, 31, 31);
 }
 
-/*-------- Main View - HOME VIEW ----------- */
+/*-------- Main View - HOME VIEW & search view ----------- */
 
 #sushi-lovers-card {
   width: 90%;
@@ -284,16 +285,16 @@ a {
 #search-bar img {
   width: 30px;
 }
-.top-restaurants-title {
+.search-title {
   width: 90%;
 }
-.top-restaurant-container {
+.restaurant-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  height: 400px;
+  height: auto;
 }
-.top-restaurant-card {
+.restaurant-card {
   width: 40vw;
   height: 185px;
   display: flex;
@@ -303,8 +304,9 @@ a {
   box-shadow: var(--shadow-style);
   border: rgb(214, 212, 212);
   border-radius: var(--border-radius-event);
+  margin-bottom: 10px;
 }
-.top-restaurant-card img {
+.restaurant-card img {
   width: 130px;
   border-radius: 10px 0px 10px 0px;
 }
