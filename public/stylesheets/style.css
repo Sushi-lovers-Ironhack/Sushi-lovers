@@ -127,6 +127,23 @@ a {
   width: 50%;
   display: flex;
 }
+
+.edit-product {
+  display: block;
+  align-self: center;
+  color: white;
+  padding: 5px 0;
+  width: 40%;
+  height: 37px;
+  text-align: center;
+  box-shadow: var(--shadow-style);
+  border: var(--border-event);
+  border-radius: var(--border-radius-event);
+  background-color: var(--backgroud-color-event);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .cart-partial-sell,
 .cart-partial-add {
   width: 50%;

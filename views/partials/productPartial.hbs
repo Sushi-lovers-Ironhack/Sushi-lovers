@@ -1,7 +1,15 @@
-{{#if this.imageUrl}}
-<img src="{{this.imageUrl}}" alt="{{this.name}}">
-{{/if}}
-{{this.name}}
-<p>Price: {{this.price}} Euros</p>
-<p>{{this.description}}</p>
-<a href="/menu/{{_id}}">Edit</a>
+<div class="cart-partial">
+    {{#if this.imageUrl}}
+    <div class="cart-partial-img">
+        <img src="{{this.imageUrl}}" alt="{{this.name}}">    
+    </div>
+    {{/if}}
+    <div class="cart-partial-info">
+        <div class="cart-partial-sell">
+            <p class="cart-product-name">{{this.name}}</p>
+            <p>{{this.price}} €</p>
+        </div>
+        <a href="/menu/{{_id}}" class="edit-product">Edit</a>  
+    </div>
+  
+</div>

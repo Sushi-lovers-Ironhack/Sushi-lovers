@@ -1,20 +1,36 @@
-<h2>Menu</h2>
+<div id="restaurant-menu-container">
+    <h2 id="restaurant-name">Menu</h2>
 
-<h3>Drinks</h3>
-{{#each drinks}}
-    {{> productPartial}}
-{{/each}}
-<h3>Starters</h3>
-{{#each starters}}
-    {{> productPartial}}
-{{/each}}
-<h3>Dishes</h3>
-{{#each dishes}}
-    {{> productPartial}}
-{{/each}}
-<h3>Desserts</h3>
-{{#each desserts}}
-    {{> productPartial}}
-{{/each}}
+    <div class="category-and-products">
+        <h3 class="category">Drinks</h3>
+        {{#each drinks}}
+            {{> productPartial}}
+        {{/each}} 
+    </div>
+    
+    <div class="category-and-products">
+        <h3 class="category">Starters</h3>
+        {{#each starters}}
+            {{> productPartial}}
+        {{/each}}    
+    </div>
 
-<a href="/menu/add">Add product</a>
+    <div class="category-and-products">
+        <h3 class="category">Dishes</h3>
+        {{#each dishes}}
+            {{> productPartial}}
+        {{/each}}    
+    </div>
+    
+    <div class="category-and-products">
+        <h3 class="category">Desserts</h3>
+        {{#each desserts}}
+            {{> productPartial}}
+        {{/each}}    
+    </div>
+    
+    <div id="cart">
+        <a href="/menu/add">Add product</a>      
+    </div>
+</div>
+
