@@ -11,7 +11,7 @@
   <nav>
     <section id="nav-bar">
       <section id="nav-menu">
-        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="home">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="menu" class="nav-buttons">
         <ul class="dropdown">
             {{#if name}}
               <li><a href="/restaurant">Home</a></li>
@@ -34,9 +34,8 @@
             {{/if}}
         </ul>
       </section>
-      <button onclick="history.back()">Go Back</button>
+      <button onclick="history.back()"><img src="https://static-00.iconduck.com/assets.00/go-back-2-icon-256x256-0hmxbzpi.png" alt="Go back" class="nav-buttons"></button>
     </section>
-    
   </nav>
   <body>
     {{{body}}}

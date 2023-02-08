@@ -15,9 +15,16 @@ nav {
     z-index: 1000;
 }
 
-#nav-menu img {
+#nav-bar button {
+    border-style: none;
+    background-color: white;
+}
+
+.nav-buttons {
     width: 40px;
 }
+
+
 
 #nav-menu ul li {
     display: block;
