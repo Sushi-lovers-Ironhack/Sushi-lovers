@@ -5,30 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/stylesheets/reset.css" rel="stylesheet" />
     <link href="/stylesheets/style.css" rel="stylesheet" />
+    <link href="/stylesheets/navbar.css" rel="stylesheet" />
     <title>Project module 2</title>
   </head>
-  <nav id="nav-bar">
-
-    {{#if name}}
-      <a href="/restaurant">Home</a>
-      <a href="/restaurant/profile">Account</a>
-      <a href="/auth/logout">Log out</a>
-      <a href="">Support</a>
-    {{else}}
-      {{#if username}}
-        <a href="/">Home</a>
-        <a href="/user/profile">Account</a>
-        <a href="/auth/logout">Logout</a>
-        <a href="">Support</a>
-      {{else}}
-        <a href="/">Home</a>
-        <a href="/auth/signup">Sign up User</a>
-        <a href="/auth/restaurant/signup">Sign up Restaurant</a>
-        <a href="/auth/login">Log In</a>
-        <a href="">Contact us</a>
-      {{/if}}
-    {{/if}}
-    <button onclick="history.back()">Go Back</button>
+  <nav>
+    <section id="nav-bar">
+      <section id="nav-menu">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="menu" class="nav-buttons">
+        <ul class="dropdown">
+            {{#if name}}
+              <li><a href="/restaurant">Home</a></li>
+              <li><a href="/restaurant/profile">Account</a></li>
+              <li><a href="/auth/logout">Log out</a></li>
+              <li><a href="">Support</a></li>
+            {{else}}
+              {{#if username}}
+                <li><a href="/">Home</a></li>
+                <li><a href="/user/profile">Account</a></li>
+                <li><a href="/auth/logout">Logout</a></li>
+                <li><a href="">Support</a></li>
+              {{else}}
+                <li><a href="/">Home</a></li>
+                <li><a href="/auth/signup">Sign up User</a></li>
+                <li><a href="/auth/restaurant/signup">Sign up Restaurant</a></li>
+                <li><a href="/auth/login">Log In</a></li>
+                <li><a href="">Contact us</a></li>
+              {{/if}}
+            {{/if}}
+        </ul>
+      </section>
+      <button onclick="history.back()"><img src="https://static-00.iconduck.com/assets.00/go-back-2-icon-256x256-0hmxbzpi.png" alt="Go back" class="nav-buttons"></button>
+    </section>
   </nav>
   <body>
     {{{body}}}
