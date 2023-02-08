@@ -1,11 +1,38 @@
-<h1>Hello there user</h1>
-<p>Username:{{username}}</p>
-<p>Surname: {{surname}}</p>
-<p>Direction: {{direction}}</p>
-<p>Email: {{email}}</p>
-<p>Phone Number: {{phoneNumber}}</p>
-<p>Payment Card: {{paymentCard}}</p>
+<div id="user-info-container">
 
-<a href="/">Home</a>
-<a href="/user/profile/edit">Edit your info!</a>
-<a href="/user/profile/delete">Delete your account</a>
+  {{! backlog self user-img. now have a default img }}
+  <img
+    src="https://previews.123rf.com/images/yupiramos/yupiramos1903/yupiramos190320668/124245614-ilustraci%C3%B3n-de-vector-de-comida-r%C3%A1pida-de-arroz-de-sushi-kawaii.jpg"
+    alt="user-profile-img"
+    class="user-photo-profile"
+  />
+  <div class="user-info">
+    <p class="field-type">Username</p>
+    <p class="field-info">{{username}}</p>
+  </div>
+  <div class="user-info">
+    <p class="field-type">Surname</p>
+    <p class="field-info">{{surname}}</p>
+  </div>
+  <div class="user-info">
+    <p class="field-type">Direction</p>
+    <p class="field-info">{{direction}}</p>
+  </div>
+  <div class="user-info">
+    <p class="field-type">Email</p>
+    <p class="field-info">{{email}}</p>
+  </div>
+  <div class="user-info">
+    <p class="field-type">Phone Number</p>
+    <p class="field-info">{{phoneNumber}}</p>
+  </div>
+  <div class="user-info">
+    <p class="field-type"> Payment Card</p>
+    <p class="field-info">{{paymentCard}}</p>
+  </div>
+  <div class="user-interactions">
+    <a href="/user/profile/edit" class="user-edit">Edit your info!</a>
+    <a href="/user/profile/delete" class="user-delete">Delete your account</a>
+  </div>
+
+</div>
