@@ -113,16 +113,19 @@ a {
   box-shadow: var(--shadow-style);
   border-radius: 20px 5px 20px 5px;
   width: 95%;
+  height: 65px;
 }
 .cart-partial-img {
   width: 33%;
 }
-.cart-partial-img a,
-.cart-partial-img img {
+.cart-partial-img a {
   width: 100%;
 }
 .cart-partial-img img {
   border-radius: 5px;
+  height: 95%;
+  width: 95%;
+  object-fit: contain;
 }
 .cart-partial-info {
   width: 50%;
@@ -130,19 +133,23 @@ a {
 }
 
 .edit-product {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-self: center;
-  color: white;
-  padding: 5px 0;
+  color: #888686;
+  /* padding: 5px 0; */
   width: 40%;
-  height: 37px;
+  height: 24px;
   text-align: center;
-  box-shadow: var(--shadow-style);
-  border: var(--border-event);
-  border-radius: var(--border-radius-event);
-  background-color: var(--backgroud-color-event);
-  margin-top: 10px;
-  margin-bottom: 10px;
+  /* box-shadow: var(--shadow-style); */
+  /* border: var(--border-event); */
+  /* border-radius: var(--border-radius-event); */
+  /* background-color: var(--backgroud-color-event); */
+  /* margin-top: 10px; */
+  /* margin-bottom: 10px; */
+  font-size: 10px;
+  /* text-align: center; */
 }
 
 .cart-partial-sell,
@@ -438,12 +445,10 @@ a {
   margin: 13vh auto;
 }
 
-
 #login form {
   display: flex;
   flex-direction: column;
   gap: 30px;
-
 }
 
 #login section {
@@ -517,7 +522,7 @@ a {
   padding: 10px;
   text-align: center;
   margin-bottom: 10px;
-  background-color:whitesmoke;
+  background-color: whitesmoke;
   color: rgb(31, 31, 31);
 }
 
