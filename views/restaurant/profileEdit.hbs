@@ -1,53 +1,74 @@
-<div id="form">
-  <form action="/restaurant/profile/edit" method="POST">
+<div id="restaurant-signup">
+  <div id="form">
+    <form action="/restaurant/profile/edit" method="POST">
 
-    <label>Name</label>
-    <input type="text" name="name" value="{{restaurant.name}}" required />
+      <div class="user-edit-info">
+        <label class="field-type-edit">Name</label>
+        <input class="field-info-edit" type="text" name="name" value="{{restaurant.name}}" required />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Email</label>
+        <input class="field-info-edit" type="email" name="email" value="{{restaurant.email}}" required />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Direction</label>
+        <input class="field-info-edit"
+          type="text"
+          name="direction"
+          value="{{restaurant.direction}}"
+          required
+        />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Phone number</label>
+        <input class="field-info-edit"
+          type="text"
+          name="phoneNumber"
+          value="{{restaurant.phoneNumber}}"
+          required
+        />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Restaurant information</label>
+        <input class="field-info-edit"
+          type="text"
+          name="description"
+          value="{{restaurant.description}}"
+          required
+        />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Restaurant image</label>
+        <input class="field-info-edit" type="text" name="imageUrl" value="{{restaurant.imageUrl}}" />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Restaurant logo</label>
+        <input class="field-info-edit" type="text" name="logoUrl" value="{{restaurant.logoUrl}}" />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Password</label>
+        <input class="field-info-edit" type="password" name="password1" placeholder="********" required />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Confirm password</label>
+        <input class="field-info-edit" type="password" name="password2" placeholder="********" required />  
+      </div>
+      
 
-    <label>Email</label>
-    <input type="email" name="email" value="{{restaurant.email}}" required />
+      {{#if error}}
+        <p style="color: red;">{{error}}</p>
+      {{/if}}
 
-    <label>Direction</label>
-    <input
-      type="text"
-      name="direction"
-      value="{{restaurant.direction}}"
-      required
-    />
+      <button type="submit" class="user-interactions-accept user-accept">Done</button>
 
-    <label>Phone number</label>
-    <input
-      type="text"
-      name="phoneNumber"
-      value="{{restaurant.phoneNumber}}"
-      required
-    />
-
-    <label>Restaurant information</label>
-    <input
-      type="text"
-      name="description"
-      value="{{restaurant.description}}"
-      required
-    />
-
-    <label>Restaurant image</label>
-    <input type="text" name="imageUrl" value="{{restaurant.imageUrl}}" />
-
-    <label>Restaurant logo</label>
-    <input type="text" name="logoUrl" value="{{restaurant.logoUrl}}" />
-
-    <label>Password</label>
-    <input type="password" name="password1" placeholder="********" required />
-
-    <label>Confirm password</label>
-    <input type="password" name="password2" placeholder="********" required />
-
-    {{#if error}}
-      <p style="color: red;">{{error}}</p>
-    {{/if}}
-
-    <button type="submit">Done</button>
-
-  </form>
+    </form>
+  </div>  
 </div>
