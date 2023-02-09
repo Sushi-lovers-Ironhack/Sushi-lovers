@@ -1,52 +1,69 @@
-<h1>¡Create a new account!</h1>
+<div id="restaurant-signup">
+  <div id="form">
+    <form action="/auth/signup" method="POST">
 
-<div id="form">
-  <form action="/auth/signup" method="POST">
+      <div class="user-edit-info">
+        <label class="field-type-edit">Username</label>
+        <input class="field-info-edit" type="text" name="username" placeholder="Bojack" required />
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Surname</label>
+        <input class="field-info-edit" type="text" name="surname" placeholder="Horseman" required />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Direction</label>
+        <input class="field-info-edit"
+          type="text"
+          name="direction"
+          placeholder="P.Sherman Walabe St."
+          required
+        />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Email</label>
+        <input class="field-info-edit" type="email" name="email" placeholder="your email" required />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Phone number</label>
+        <input
+          class="field-info-edit"
+          type="text"
+          name="phoneNumber"
+          placeholder="your phone number"
+          required
+        />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Password</label>
+        <input class="field-info-edit" type="password" name="password1" placeholder="********" required />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Confirm your password</label>
+        <input class="field-info-edit" type="password" name="password2" placeholder="********" required />  
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Payment Card</label>
+        <input class="field-info-edit"
+          type="number"
+          name="paymentCard"
+          placeholder="your payment card"
+          required
+        />  
+      </div>
 
-    <label>Username</label>
-    <input type="text" name="username" placeholder="Bojack" required />
+      {{#if error}}
+        <p style="color: red;">{{error}}</p>
+      {{/if}}
 
-    <label>Surname</label>
-    <input type="text" name="surname" placeholder="Horseman" required />
+      <button type="submit" class="user-interactions-accept user-accept">Create account</button>
 
-    <label>Direction</label>
-    <input
-      type="text"
-      name="direction"
-      placeholder="P.Sherman Walabe St."
-      required
-    />
-
-    <label>Email</label>
-    <input type="email" name="email" placeholder="your email" required />
-
-    <label>Phone number</label>
-    <input
-      type="text"
-      name="phoneNumber"
-      placeholder="your phone number"
-      required
-    />
-
-    <label>Password</label>
-    <input type="password" name="password1" placeholder="********" required />
-
-    <label>Confirm your password</label>
-    <input type="password" name="password2" placeholder="********" required />
-
-    <label>Payment Card</label>
-    <input
-      type="number"
-      name="paymentCard"
-      placeholder="your payment card"
-      required
-    />
-
-    {{#if error}}
-      <p style="color: red;">{{error}}</p>
-    {{/if}}
-
-    <button type="submit">Create account</button>
-
-  </form>
+    </form>
+  </div>
 </div>
