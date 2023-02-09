@@ -8,10 +8,10 @@ const Restaurant = require("../models/Restaurant");
 // @access  User
 router.get("/view/:restaurantId", async (req, res, next) => {
   const { restaurantId } = req.params;
-  const userId = req.session.currentUser._id;
+  const username = req.session.currentUser._id;
   try {
     const foundCart = await Cart.findOne({
-      userId: userId,
+      userId: username,
       restaurantId: restaurantId,
       isFinished: false,
     }).populate("productsId");
@@ -19,8 +19,12 @@ router.get("/view/:restaurantId", async (req, res, next) => {
     if (!foundCart) {
       res.render("cart/userCart");
     } else {
-      res.render("cart/userCart", foundCart);
-    }
+      let total = 0
+      foundCart.productsId.forEach(product => {
+        total += product.price;
+      });
+      res.render("cart/userCart", {foundCart, username, total});
+    } 
   } catch (error) {
     next(error);
   }
@@ -31,6 +35,7 @@ router.get("/view/:restaurantId", async (req, res, next) => {
 // @access  User
 router.get("/:restaurantId", async (req, res, next) => {
   const { restaurantId } = req.params;
+  const username = req.session.currentUser;
   try {
     const restaurant = await Restaurant.findById(restaurantId);
     const products = await Product.find({ restaurantId });
@@ -58,6 +63,7 @@ router.get("/:restaurantId", async (req, res, next) => {
       starters,
       dishes,
       desserts,
+      username
     });
   } catch (error) {
     next(error);

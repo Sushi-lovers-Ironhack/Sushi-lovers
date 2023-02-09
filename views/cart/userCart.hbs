@@ -2,8 +2,8 @@
   <div class="user-cart-title">
     <h1>Your Cart</h1>
   </div>
-  {{#if _id}}
-    {{#each productsId}}
+  {{#if foundCart}}
+    {{#each foundCart.productsId}}
       <div class="product-details">
         <div class="img-details">
           <img src="{{this.imageUrl}}" alt="product img" />
@@ -22,7 +22,7 @@
       </div>
     {{/each}}
     <div class="total-price-and-checkout">
-      <h2 class="total-price"> Total: XXX €</h2>
+      <h2 class="total-price"> Total: {{total}} €</h2>
       <h2 class="checkout">Finish your command</h2>
     </div>
   {{else}}
