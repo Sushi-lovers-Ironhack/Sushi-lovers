@@ -590,3 +590,19 @@ a {
   align-items: center;
   justify-content: space-evenly;
 }
+
+.user-select-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
+}
+
+#restaurant-signup select {
+  border: 2px solid black;
+}
+
+#restaurant-signup .delete-product {
+  display: block;
+}

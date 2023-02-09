@@ -1,4 +1,4 @@
-<div id="form">
+{{!-- <div id="form">
     <form action="/menu/{{productDB._id}}" method="post">
         <label>Name:</label>
         <input type="text" name="name" value="{{productDB.name}}" required>
@@ -23,4 +23,49 @@
         <button type="submit">Done</button>
         <a href="/menu/{{productDB._id}}/delete">Delete product</a>
     </form>
+</div> --}}
+
+
+<div id="restaurant-signup">
+    <div id="form">
+        <form action="/menu/{{productDB._id}}" method="post">
+
+            <div class="user-edit-info">
+                <label class="field-type-edit">Name:</label>
+                <input class="field-info-edit" type="text" name="name"  value="{{productDB.name}}" required>    
+            </div>
+            
+            <div class="user-select-info">
+                <label class="field-type-edit">Category:</label>
+                <select class="field-info-edit" name="category" size="4" required>
+                    <option value="Drinks">Drinks</option>
+                    <option value="Starters">Starters</option>
+                    <option value="Dishes">Dishes</option>
+                    <option value="Desserts">Desserts</option>
+                </select>    
+            </div>
+            
+            
+            <div class="user-edit-info">
+                <label class="field-type-edit">Description:</label>
+                <input class="field-info-edit" type="text" name="description" value="{{productDB.description}}">    
+            </div>
+            
+
+            <div class="user-edit-info">
+                <label class="field-type-edit">Image direction:</label>
+                <input class="field-info-edit" type="text" name="imageUrl"  value="{{productDB.imageUrl}}">    
+            </div>
+            
+
+            <div class="user-edit-info">
+                <label class="field-type-edit">Price:</label>
+                <input class="field-info-edit" type="number" name="price" step="any" min="0"  value="{{productDB.price}}">     
+            </div>
+            
+
+            <button type="submit" class="user-interactions-accept user-accept">Done</button>
+            <a href="/menu/{{productDB._id}}/delete" class="user-interactions-accept user-accept delete-product">Delete product</a>
+        </form>
+    </div>    
 </div>

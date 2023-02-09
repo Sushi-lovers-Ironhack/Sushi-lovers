@@ -1,25 +1,42 @@
-<div id="form">
-    <form action="/menu/add" method="post">
-        <label>Name:</label>
-        <input type="text" name="name" required>
+<div id="restaurant-signup">
+    <div id="form">
+        <form action="/menu/add" method="post">
 
-        <label>Category:</label>
-        <select name="category" size="4" required>
-            <option value="Drinks">Drinks</option>
-            <option value="Starters">Starters</option>
-            <option value="Dishes">Dishes</option>
-            <option value="Desserts">Desserts</option>
-        </select>
+            <div class="user-edit-info">
+                <label class="field-type-edit">Name:</label>
+                <input class="field-info-edit" type="text" name="name" required>    
+            </div>
+            
+            <div class="user-select-info">
+                <label class="field-type-edit">Category:</label>
+                <select class="field-info-edit" name="category" size="4" required>
+                    <option value="Drinks">Drinks</option>
+                    <option value="Starters">Starters</option>
+                    <option value="Dishes">Dishes</option>
+                    <option value="Desserts">Desserts</option>
+                </select>    
+            </div>
+            
+            
+            <div class="user-edit-info">
+                <label class="field-type-edit">Description:</label>
+                <input class="field-info-edit" type="text" name="description">    
+            </div>
+            
 
-        <label>Description:</label>
-        <input type="text" name="description">
+            <div class="user-edit-info">
+                <label class="field-type-edit">Image direction:</label>
+                <input class="field-info-edit" type="text" name="imageUrl">    
+            </div>
+            
 
-        <label>Image direction:</label>
-        <input type="text" name="imageUrl">
+            <div class="user-edit-info">
+                <label class="field-type-edit">Price:</label>
+                <input class="field-info-edit" type="number" name="price" step="any" min="0">     
+            </div>
+            
 
-        <label>Price:</label>
-        <input type="number" name="price" step="any" min="0"> 
-
-        <button type="submit">Create</button>
-    </form>
+            <button type="submit" class="user-interactions-accept user-accept">Create</button>
+        </form>
+    </div>    
 </div>
