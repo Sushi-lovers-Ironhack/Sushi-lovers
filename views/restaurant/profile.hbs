@@ -1,11 +1,18 @@
-<p>Name: {{this.name}}</p>
-<p>Email: {{email}}</p>
-<p>Direction: {{direction}}</p>
-<p>Phone number: {{phoneNumber}}</p>
-<p>Description: {{description}}</p>
-<p>Image:</p>
-<img src="{{imageUrl}}" alt="{{name}}">
+<section id="restaurant-profile">
+    <p style="background-image: url({{imageUrl}});" class="rest-name">{{this.name}}</p>
+    <div class="rest-info">
+        <p><span>Email:</span>  {{email}}</p>
+        <p><span>Direction:</span>  {{direction}}</p>
+        <p><span>Phone number:</span>  {{phoneNumber}}</p>
+        <p><span>Description:</span>  {{description}}</p>
+    </div>
+    {{!-- <p>Image:</p> --}}
+    {{!-- <img src="{{imageUrl}}" alt="{{name}}"> --}}
 
-<a href="/restaurant/profile/edit">Edit profile</a>
-<a href="/menu">Edit menu</a>
-<a href="/restaurant/profile/delete">Delete profile</a>
+    <div class="rest-buttons">
+        <a href="/restaurant/profile/edit">Edit profile</a>
+        <a href="/menu">Edit menu</a>
+        <a href="/restaurant/profile/delete" class="rest-delete">Delete profile</a>     
+    </div>
+   
+</div>

@@ -474,3 +474,52 @@ a {
   background-color: rgb(31, 31, 31);
   color: whitesmoke;
 }
+
+/*--------------- Restaurant profile ------*/
+
+#restaurant-profile .rest-name {
+  color: whitesmoke;
+  font-size: 30px;
+  font-weight: bolder;
+  text-align: center;
+  padding: 50px;
+  background-position: center;
+}
+
+#restaurant-profile .rest-info {
+  width: 80%;
+  margin: 20px auto;
+  text-align: left;
+}
+
+#restaurant-profile .rest-info p {
+  margin: 10px 0;
+}
+
+#restaurant-profile span {
+  font-weight: bold;
+}
+
+#restaurant-profile .rest-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#restaurant-profile a {
+  width: 70%;
+  margin: auto;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+  background-color:whitesmoke;
+  color: rgb(31, 31, 31);
+}
+
+#restaurant-profile .rest-delete {
+  background-color: rgb(31, 31, 31);
+  color: whitesmoke;
+}
