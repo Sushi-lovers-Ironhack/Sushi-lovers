@@ -24,7 +24,9 @@ nav {
     width: 40px;
 }
 
-
+#nav-bar .go-back{
+    width: 35px;
+}
 
 #nav-menu ul li {
     display: block;
