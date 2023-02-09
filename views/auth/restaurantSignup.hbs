@@ -1,34 +1,54 @@
-<h1>Create a new restaurant account</h1>
+<div id="restaurant-signup">
+  <div id="form">
+    <form action="/auth/restaurant/signup" method="POST">
 
-<div id="form">
-  <form action="/auth/restaurant/signup" method="POST">
- 
-    <label>Name</label>
-      <input type="text" name="name" placeholder="Jon Doe's Place" required/>
- 
-    <label>Email</label>
-      <input type="email" name="email" placeholder="john@doe.com" required/>
-    
-    <label>Password</label>
-      <input type="password" name="password1" placeholder="********" required/>
+      <div class="user-edit-info">
+        <label class="field-type-edit">Name</label>
+        <input class="field-info-edit" type="text" name="name" placeholder="Jon Doe's Place" required/>
+      </div>
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Email</label>
+        <input class="field-info-edit" type="email" name="email" placeholder="john@doe.com" required/>
+      </div>
+      
+      
+      <div class="user-edit-info">
+        <label class="field-type-edit">Password</label>
+        <input class="field-info-edit" type="password" name="password1" placeholder="********" required/>
+      </div>
+      
 
-    <label>Confirm password</label>
-      <input type="password" name="password2" placeholder="********" required/>
+      <div class="user-edit-info">
+        <label class="field-type-edit">Confirm password</label>
+        <input class="field-info-edit" type="password" name="password2" placeholder="********" required/>
+      </div>
+      
 
-    <label>Direction</label>
-      <input type="text" name="direction" required/>
+      <div class="user-edit-info">
+        <label class="field-type-edit">Direction</label>
+        <input class="field-info-edit" type="text" name="direction" required/>
+      </div>
+      
 
-    <label>Phone number</label>
-      <input type="text" name="phoneNumber" placeholder="987654321" required/>
+      <div class="user-edit-info">
+        <label class="field-type-edit">Phone number</label>
+        <input class="field-info-edit" type="text" name="phoneNumber" placeholder="987654321" required/>
+      </div>
+      
 
-    <label>Restaurant information</label>
-      <input type="text" name="description" required/>
+      <div class="user-edit-info">
+        <label class="field-type-edit">Restaurant information</label>
+        <input class="field-info-edit" type="text" name="description" required/>
+      </div>
+      
 
-      {{#if error}}
-      <p style="color: red;">{{error}}</p>
-      {{/if}}
- 
-    <button type="submit">Create account</button>
- 
-  </form>
+        {{#if error}}
+        <p style="color: red;">{{error}}</p>
+        {{/if}}
+  
+      <button type="submit" class="user-interactions-accept user-accept">Create account</button>
+  
+    </form>
+  </div>  
 </div>
