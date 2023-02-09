@@ -1,21 +1,32 @@
-<div>
-    {{#if opened}}
-    <a href="/restaurant/status">Close restaurant</a>
-    {{else}}
-    <a href="/restaurant/status">Open restaurant</a>
-    {{/if}}
-</div>
+<section id="rest-home">
+    <div class="opening-button">
+        {{#if opened}}
+        <a href="/restaurant/status">Close restaurant</a>
+        {{else}}
+        <a href="/restaurant/status">Open restaurant</a>
+        {{/if}}
+    </div>
 
-<div>
+
     <h3>Incoming orders:</h3>
-    {{#each incomingOrders}}
-        {{> orderPartial}}
-    {{/each}}
-</div>
+    {{#if incomingOrders}}
+    <div class="order-section">
+        {{#each incomingOrders}}
+            {{> orderPartial}}
+        {{/each}}
+    </div>
+    {{else}}
+    <p class="no-order"><span>No incoming orders yet</span></p>
+    {{/if}}
 
-<div>
     <h3>Pending orders:</h3>
-    {{#each pendingOrders}}
-        {{> orderPartial}}
-    {{/each}}
-</div>
+    {{#if pendingOrders}}
+    <div class="order-section">
+        {{#each pendingOrders}}
+            {{> orderPartial}}
+        {{/each}}
+    </div>
+    {{else}}
+    <p class="no-order"><span>No pending orders yet</span></p>
+    {{/if}}
+</section>
