@@ -1,76 +1,76 @@
 nav {
-    min-height: 80px;
+  min-height: 80px;
 }
 
 #nav-bar {
-    width: auto;
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    background-color: white;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    padding: 15px 7%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 1000;
+  width: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
 }
 
 #nav-bar button {
-    border-style: none;
-    background-color: white;
+  border-style: none;
+  background-color: white;
 }
 
 .nav-buttons {
-    width: 40px;
+  width: 25px;
 }
 
-#nav-bar .go-back{
-    width: 35px;
+#nav-bar .go-back {
+  width: 25px;
 }
 
 #nav-menu ul li {
-    display: block;
+  display: block;
 }
 
 #nav-menu ul.dropdown {
-    width: 80%;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 999;
-    display: none;
-    background-color: wheat;
-    box-shadow: var(--shadow-style);
-    border-radius: var(--border-radius-event);
-    flex-direction: column;
-    align-items: center;
+  width: 80%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  display: none;
+  background-color: wheat;
+  box-shadow: var(--shadow-style);
+  border-radius: var(--border-radius-event);
+  flex-direction: column;
+  align-items: center;
 }
 
 #nav-menu ul.dropdown li {
-    display: block;
-    text-align: center;
-    width: 70%;
-    background-color: wheat;
-    padding: 5px 0;
-    height: 40px;
-    text-align: center;
-    padding-bottom: 5px;
-    box-shadow: var(--shadow-style);
-    border: var(--border-event);
-    border-radius: var(--border-radius-event);
-    background-color: var(--backgroud-color-event);
-    margin: 10px 0;
+  display: block;
+  text-align: center;
+  width: 70%;
+  background-color: wheat;
+  padding: 5px 0;
+  height: 40px;
+  text-align: center;
+  padding-bottom: 5px;
+  box-shadow: var(--shadow-style);
+  border: var(--border-event);
+  border-radius: var(--border-radius-event);
+  background-color: var(--backgroud-color-event);
+  margin: 10px 0;
 }
 
 #nav-menu ul li a {
-    color: white;
+  color: white;
 }
 
-
-
 #nav-menu:hover ul.dropdown,
-#nav-menu:focus ul.dropdown, 
+#nav-menu:focus ul.dropdown,
 #nav-menu:active ul.dropdown {
-    display: flex;
+  display: flex;
 }
