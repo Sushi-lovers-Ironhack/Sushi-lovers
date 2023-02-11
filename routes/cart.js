@@ -117,7 +117,7 @@ router.get("/detail/:productId", async (req, res, next) => {
 // @desc    Accepts order and redirects to restaurant home view
 // @route   GET /cart/order/:orderId/accept
 // @access  User
-router.get("/order/:orderId/accept", async (req, res, next) => {
+router.get("/order/:orderId/accept", isLoggedIn, isRestaurant, async (req, res, next) => {
   const { orderId } = req.params;
   try {
     await Cart.findByIdAndUpdate({ _id: orderId }, { isPending: false })
@@ -130,7 +130,7 @@ router.get("/order/:orderId/accept", async (req, res, next) => {
 // @desc    Deny order and redirects to restaurant home view
 // @route   GET /cart/order/:orderId/deny
 // @access  User
-router.get("/order/:orderId/deny", async (req, res, next) => {
+router.get("/order/:orderId/deny", isLoggedIn, isRestaurant, async (req, res, next) => {
   const { orderId } = req.params;
   try {
     await Cart.findByIdAndUpdate({ _id: orderId }, { isPending: false, isFinished: true })
@@ -143,7 +143,7 @@ router.get("/order/:orderId/deny", async (req, res, next) => {
 // @desc    Confirms order has been sent by the restaurant
 // @route   GET /cart/order/:orderId/sent
 // @access  User
-router.get("/order/:orderId/sent", async (req, res, next) => {
+router.get("/order/:orderId/sent", isLoggedIn, isRestaurant, async (req, res, next) => {
   const { orderId } = req.params;
   try {
     await Cart.findByIdAndUpdate({ _id: orderId }, { isPending: false, isFinished: true, isSent: true });
@@ -156,7 +156,7 @@ router.get("/order/:orderId/sent", async (req, res, next) => {
 // @desc    Shows details of an order to accept or deny it
 // @route   GET /cart/order/:orderId
 // @access  User
-router.get("/order/:orderId", async (req, res, next) => {
+router.get("/order/:orderId", isLoggedIn, isRestaurant, async (req, res, next) => {
   const { orderId } = req.params;
   const name = req.session.currentUser;
   try {
