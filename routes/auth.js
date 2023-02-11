@@ -232,11 +232,7 @@ router.post("/login", async (req, res, next) => {
       if (match) {
         req.session.currentUser = user;
         req.session.role = "user";
-<<<<<<< HEAD
         res.redirect("/");
-=======
-        res.redirect("/user/profile"); //¿como vuelve al carro?
->>>>>>> feat/detailProductUserCart
       } else {
         res.render("auth/login", { error: "Unable to authenticate user" });
       }
