@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const Restaurant = require("../models/Restaurant");
-const { isUser, isLoggedIn } = require("../middlewares");
+const { isUser, isRestaurant, isLoggedIn } = require("../middlewares");
 
 // @desc    Shows the user what, if anything, is in their cart
 // @route   GET /cart/view/:restaurantId
