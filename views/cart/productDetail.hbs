@@ -1,4 +1,9 @@
-<img src="{{productDB.imageUrl}}" alt="{{productDB.name}}" />
-<li>{{productDB.name}}</li>
-<p>Price: {{productDB.price}} Euros</p>
-<p>Description: {{productDB.description}}</p>
+<div id="product-details-container">
+  <div id="product-details-cart">
+    <img src="{{productDB.imageUrl}}" alt="{{productDB.name}}" />
+    <div class="product-details-info">
+      <p>{{productDB.name}}</p>
+      <p>{{productDB.description}}</p>
+    </div>
+  </div>
+</div>
