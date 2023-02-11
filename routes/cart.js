@@ -7,29 +7,34 @@ const { isUser, isRestaurant, isLoggedIn } = require("../middlewares");
 // @desc    Shows the user what, if anything, is in their cart
 // @route   GET /cart/view/:restaurantId
 // @access  User
-router.get("/view/:restaurantId", async (req, res, next) => {
-  const { restaurantId } = req.params;
-  const username = req.session.currentUser._id;
-  try {
-    const foundCart = await Cart.findOne({
-      userId: username,
-      restaurantId: restaurantId,
-      isFinished: false,
-    }).populate("productsId");
+router.get(
+  "/view/:restaurantId",
+  isLoggedIn,
+  isUser,
+  async (req, res, next) => {
+    const { restaurantId } = req.params;
+    const username = req.session.currentUser;
+    try {
+      const foundCart = await Cart.findOne({
+        userId: username,
+        restaurantId: restaurantId,
+        isFinished: false,
+      }).populate("productsId");
 
-    if (!foundCart) {
-      res.render("cart/userCart");
-    } else {
-      let total = 0
-      foundCart.productsId.forEach(product => {
-        total += product.price;
-      });
-      res.render("cart/userCart", {foundCart, username, total});
-    } 
-  } catch (error) {
-    next(error);
+      if (!foundCart) {
+        res.render("cart/userCart", username);
+      } else {
+        let total = 0;
+        foundCart.productsId.forEach((product) => {
+          total += product.price;
+        });
+        res.render("cart/userCart", { foundCart, username, total });
+      }
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // @desc    Shows the user the menu of a restaurant and allow to add items to a cart
 // @route   GET /cart/:restaurantId
@@ -64,7 +69,7 @@ router.get("/:restaurantId", async (req, res, next) => {
       starters,
       dishes,
       desserts,
-      username
+      username,
     });
   } catch (error) {
     next(error);
@@ -104,7 +109,7 @@ router.get("/add/:productId", async (req, res, next) => {
 // @desc    Shows details of a product
 // @route   GET /cart/detail/:productId
 // @access  User
-router.get("/detail/:productId", async (req, res, next) => {
+router.get("/detail/:productId", isLoggedIn, isUser, async (req, res, next) => {
   const { productId } = req.params;
   const username = req.session.currentUser;
   try {

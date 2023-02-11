@@ -88,7 +88,8 @@ router.post("/restaurant/signup", async (req, res, next) => {
     }
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password1, salt);
-    const imageUrl = "https://media.istockphoto.com/id/847043282/photo/japanese-dining-healthy-food.jpg?s=612x612&w=0&k=20&c=VdK1FFqaJQik2CdMxI30ilk4581XHpEeaOQEUMAbujc="
+    const imageUrl =
+      "https://media.istockphoto.com/id/847043282/photo/japanese-dining-healthy-food.jpg?s=612x612&w=0&k=20&c=VdK1FFqaJQik2CdMxI30ilk4581XHpEeaOQEUMAbujc=";
     const restaurant = await Restaurant.create({
       name,
       email,
@@ -96,7 +97,7 @@ router.post("/restaurant/signup", async (req, res, next) => {
       direction,
       phoneNumber,
       description,
-      imageUrl
+      imageUrl,
     });
     req.session.currentUser = restaurant;
     req.session.role = "restaurant";
@@ -231,7 +232,11 @@ router.post("/login", async (req, res, next) => {
       if (match) {
         req.session.currentUser = user;
         req.session.role = "user";
+<<<<<<< HEAD
         res.redirect("/");
+=======
+        res.redirect("/user/profile"); //¿como vuelve al carro?
+>>>>>>> feat/detailProductUserCart
       } else {
         res.render("auth/login", { error: "Unable to authenticate user" });
       }
