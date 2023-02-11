@@ -1,0 +1,17 @@
+<p>Client: {{orderDB.userId.name}} {{orderDB.userId.surname}}</p>
+<p>Direction: {{orderDB.userId.direction}}</p>
+<p>Contact phone: {{orderDB.userId.phoneNumber}}</p>
+
+<h3>Products:</h3>
+<ul>
+    {{#each orderDB.productsId}}
+    <li>{{this.name}}</li>
+    {{/each}}    
+</ul>
+
+{{#if orderDB.isPending}}
+    <h4>Accept order?</h4>
+    <a href="/cart/order/{{orderDB._id}}/accept">Yes</a> <a href="/cart/order/{{orderDB._id}}/deny">No</a>
+    {{else}}
+    <a href="/cart/order/{{orderDB._id}}/sent">Order sent</a>
+{{/if}}

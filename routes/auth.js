@@ -231,7 +231,7 @@ router.post("/login", async (req, res, next) => {
       if (match) {
         req.session.currentUser = user;
         req.session.role = "user";
-        res.redirect("/user/profile");
+        res.redirect("/");
       } else {
         res.render("auth/login", { error: "Unable to authenticate user" });
       }
@@ -242,7 +242,7 @@ router.post("/login", async (req, res, next) => {
       if (match) {
         req.session.currentUser = restaurant;
         req.session.role = "restaurant";
-        res.redirect("/restaurant/profile");
+        res.redirect("/restaurant");
       } else {
         res.render("auth/login", { error: "Unable to authenticate user" });
       }

@@ -157,10 +157,9 @@ router.get("/", isLoggedIn, isRestaurant, async (req, res, next) => {
     let incomingOrders = [], pendingOrders = [];
     for (let order of currentOrdersDB) {
       order["numberProducts"] = order.productsId.length;
-      if (order.orderStatus == "pending") {
+      if (order.isPending == true) {
         incomingOrders.push(order);
-      };
-      if (order.orderStatus == "accepted") {
+      } else {
         pendingOrders.push(order);
       };
     }

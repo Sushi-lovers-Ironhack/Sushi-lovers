@@ -17,12 +17,15 @@ const cartSchema = new Schema({
     type: Boolean,
     default: false
   },
-  orderStatus: {
-    type: String,
-    enum: ["pending", "accepted", "denied", "sent"],
-    default: "pending"
-  },
   isFinished: {
+    type: Boolean,
+    default: false,
+  },
+  isPending: {
+    type: Boolean,
+    default: true,
+  },
+  isSent: {
     type: Boolean,
     default: false,
   }
