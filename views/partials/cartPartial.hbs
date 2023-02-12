@@ -10,8 +10,12 @@
       <p>{{this.price}} €</p>
     </div>
     <div class="cart-partial-add">
+      {{#if this.quantity}}
+      <a href="/cart/remove/{{this._id}}">-</a>
+      <p>{{this.quantity}}</p>
+      {{/if}}
       <a href="/cart/add/{{this._id}}">
-        <img src="/images/cart-logo.png" alt="cart-logo" />
+        +
       </a>
     </div>
   </div>
