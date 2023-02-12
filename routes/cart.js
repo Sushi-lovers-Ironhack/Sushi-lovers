@@ -4,6 +4,37 @@ const Product = require("../models/Product");
 const Restaurant = require("../models/Restaurant");
 const { isUser, isRestaurant, isLoggedIn } = require("../middlewares");
 
+// @desc    Internal route. Change cart status to "is ordered: true"
+// @route   GET /cart/setcartordered/:cartId
+// @access  internal
+router.get("/setcartordered/:cartId", async (req, res, next) => {
+  const { cartId } = req.params;
+  try {
+    await Cart.findByIdAndUpdate(cartId, { isOrdered: true });
+    res.redirect("/cart/status");
+  } catch (error) {
+    next(error);
+  }
+});
+
+// @desc    Shows view of order status
+// @route   GET /cart/status
+// @access  User
+router.get("/status", async (req, res, next) => {
+  const username = req.session.currentUser;
+  try {
+    const actualCarts = await Cart.find({
+      isOrdered: true,
+      isFinished: false,
+      userId: username._id,
+    });
+
+    res.render("cart/orderStatus", { username, actualCarts });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // @desc    Shows the user what, if anything, is in their cart
 // @route   GET /cart/view/:restaurantId
 // @access  User
@@ -38,7 +69,7 @@ router.get(
 
 // @desc    Shows the user the menu of a restaurant and allow to add items to a cart
 // @route   GET /cart/:restaurantId
-// @access  User
+// @access  Public
 router.get("/:restaurantId", async (req, res, next) => {
   const { restaurantId } = req.params;
   const username = req.session.currentUser;
@@ -79,7 +110,7 @@ router.get("/:restaurantId", async (req, res, next) => {
 // @desc    Adds a product to the cart for that user and restaurant
 // @route   GET /cart/add/:productId
 // @access  User
-router.get("/add/:productId", async (req, res, next) => {
+router.get("/add/:productId", isLoggedIn, isUser, async (req, res, next) => {
   const { productId } = req.params;
   const userId = req.session.currentUser._id;
   try {
@@ -120,14 +151,14 @@ router.get("/detail/:productId", isLoggedIn, isUser, async (req, res, next) => {
   }
 });
 
-// @desc    Shows details of a product
+// @desc    Shows view of order checkout
 // @route   GET /cart/checkout/:cartId
 // @access  User
-router.get("/checkout/:cartId", async (req, res, next) => {
+router.get("/checkout/:cartId", isLoggedIn, isUser, async (req, res, next) => {
   const { cartId } = req.params; // falta añadir el coste del carro
   const { username, direction, paymentCard } = req.session.currentUser;
   try {
-    await res.render("cart/checkoutCart", { username, direction, paymentCard });
+    res.render("cart/checkoutCart", { username, direction, paymentCard });
   } catch (error) {
     next(error);
   }

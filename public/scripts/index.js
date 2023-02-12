@@ -4,7 +4,8 @@ const paymentGif = document.getElementById("payment-gif");
 function animatedAction() {
   paymentGif.style = "display: flex";
   setTimeout(() => {
-    location = "/"; // añadir la dirección de la sala de espera
+    const cartId = location.pathname.split("/")[3];
+    location = `/cart/setcartordered/${cartId}`;
   }, 2000);
 }
 
