@@ -277,6 +277,7 @@ a {
   border-radius: var(--border-radius-event);
   background-color: rgb(214 136 29);
   color: rgb(31, 31, 31);
+  font-size: 16px;
 }
 
 /*------------ Product Details -------------------*/

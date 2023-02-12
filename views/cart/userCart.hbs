@@ -23,7 +23,9 @@
     {{/each}}
     <div class="total-price-and-checkout">
       <h2 class="total-price"> Total: {{total}} €</h2>
-      <h2 class="checkout">Finish your command</h2>
+      <div class="checkout">
+        <a href="/cart/checkout/:{{foundCart._id}}">Finish your command</a>
+      </div>
     </div>
   {{else}}
     <div>
