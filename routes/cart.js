@@ -21,15 +21,21 @@ router.get(
         restaurantId: restaurantId,
         isFinished: false,
       }).populate("productsId");
-
       if (!foundCart) {
         res.render("cart/userCart", username);
       } else {
+        let filterOfProducts = [];
+        let filteredArray = [];
         let total = 0;
-        foundCart.productsId.forEach((product) => {
+        for ( let product of foundCart.productsId) {
+          if (!filterOfProducts.includes(String(product._id))) {
+            product["quantity"] = foundCart.productsId.filter(idInCart => idInCart.equals(product._id)).length;
+            filteredArray.push(product);
+            filterOfProducts.push(String(product._id));
+          };
           total += product.price;
-        });
-        res.render("cart/userCart", { foundCart, username, total });
+        };
+        res.render("cart/userCart", { filteredArray, username, total });
       }
     } catch (error) {
       next(error);
@@ -93,6 +99,36 @@ router.get("/:restaurantId", async (req, res, next) => {
   }
 });
 
+// @desc    Adds a product to the cart for that user and restaurant from the checkout view
+// @route   GET /cart/add/:productId/checkout
+// @access  User
+router.get("/add/:productId/checkout", async (req, res, next) => {
+  const { productId } = req.params;
+  const userId = req.session.currentUser._id;
+  try {
+    const product = await Product.findById(productId);
+    const foundCart = await Cart.findOne({
+      userId: userId,
+      restaurantId: product.restaurantId,
+      isFinished: false,
+    });
+    if (!foundCart) {
+      await Cart.create({
+        userId: userId,
+        restaurantId: product.restaurantId,
+        productsId: [productId],
+      });
+    } else {
+      await Cart.findByIdAndUpdate(foundCart._id, {
+        $push: { productsId: productId },
+      });
+    }
+    res.redirect(`/cart/view/${product.restaurantId}`);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // @desc    Adds a product to the cart for that user and restaurant
 // @route   GET /cart/add/:productId
 // @access  User
@@ -118,6 +154,27 @@ router.get("/add/:productId", async (req, res, next) => {
       });
     }
     res.redirect(`/cart/${product.restaurantId}`);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// @desc    Removes a product from the cart for that user and restaurant  from the checkout view
+// @route   GET /cart/remove/:productId/checkout
+// @access  User
+router.get("/remove/:productId/checkout", async (req, res, next) => {
+  const { productId } = req.params;
+  const userId = req.session.currentUser._id;
+  try {
+    const product = await Product.findById(productId);
+    const foundCart = await Cart.findOne({
+      userId: userId,
+      restaurantId: product.restaurantId,
+      isFinished: false,
+    });
+    foundCart.productsId.splice(foundCart.productsId.indexOf(productId), 1);
+    await Cart.findByIdAndUpdate(foundCart._id, { productsId: foundCart.productsId });
+    res.redirect(`/cart/view/${product.restaurantId}`);
   } catch (error) {
     next(error);
   }
