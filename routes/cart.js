@@ -4,6 +4,39 @@ const Product = require("../models/Product");
 const Restaurant = require("../models/Restaurant");
 const { isUser, isRestaurant, isLoggedIn } = require("../middlewares");
 
+// @desc    Shows view of order status
+// @route   GET /cart/status
+// @access  User
+router.get("/status", isLoggedIn, isUser, async (req, res, next) => {
+  const username = req.session.currentUser;
+  try {
+    const actualCarts = await Cart.find({
+      isOrdered: true,
+      userId: username._id,
+    }).populate("restaurantId");
+    const acceptedCarts = actualCarts.filter(
+      (cart) => !cart.isPending && !cart.isFinished && !cart.isSent
+    );
+    const rejectedCarts = actualCarts.filter(
+      (cart) => !cart.isPending && cart.isFinished && !cart.isSent
+    );
+    const sentCarts = actualCarts.filter(
+      (cart) => !cart.isPending && !cart.isFinished && cart.isSent
+    );
+    console.log(sentCarts);
+
+    res.render("cart/orderStatus", {
+      username,
+      actualCarts,
+      acceptedCarts,
+      rejectedCarts,
+      sentCarts,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // @desc    Internal route. Change cart status to "is ordered: true"
 // @route   GET /cart/setcartordered/:cartId
 // @access  internal
@@ -17,19 +50,14 @@ router.get("/setcartordered/:cartId", async (req, res, next) => {
   }
 });
 
-// @desc    Shows view of order status
-// @route   GET /cart/status
+// @desc    User confirm that recives the order
+// @route   GET /cart/finished/:cartId
 // @access  User
-router.get("/status", async (req, res, next) => {
-  const username = req.session.currentUser;
+router.get("/finished/:cartId", async (req, res, next) => {
+  const { cartId } = req.params;
   try {
-    const actualCarts = await Cart.find({
-      isOrdered: true,
-      isFinished: false,
-      userId: username._id,
-    });
-
-    res.render("cart/orderStatus", { username, actualCarts });
+    await Cart.findByIdAndUpdate(cartId, { isFinished: true });
+    res.redirect("/");
   } catch (error) {
     next(error);
   }
@@ -49,7 +77,7 @@ router.get(
       const foundCart = await Cart.findOne({
         userId: username,
         restaurantId: restaurantId,
-        isFinished: false,
+        isOrdered: false,
       }).populate("productsId");
 
       if (!foundCart) {
