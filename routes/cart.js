@@ -53,7 +53,7 @@ router.get("/setcartordered/:cartId", async (req, res, next) => {
 // @desc    User confirm that recives the order
 // @route   GET /cart/finished/:cartId
 // @access  User
-router.get("/finished/:cartId", async (req, res, next) => {
+router.get("/finished/:cartId", isLoggedIn, isUser, async (req, res, next) => {
   const { cartId } = req.params;
   try {
     await Cart.findByIdAndUpdate(cartId, { isFinished: true });
@@ -95,7 +95,12 @@ router.get(
           }
           total += product.price;
         }
-        res.render("cart/userCart", { filteredArray, username, total });
+        res.render("cart/userCart", {
+          filteredArray,
+          username,
+          total,
+          cartId: foundCart._id,
+        });
       }
     } catch (error) {
       next(error);
@@ -120,6 +125,9 @@ router.get("/:restaurantId", async (req, res, next) => {
         userId: _id,
         restaurantId: restaurantId,
         isFinished: false,
+        isSent: false,
+        isOrdered: false,
+        isPending: true,
       });
     }
     let drinks = [],
@@ -168,32 +176,41 @@ router.get("/:restaurantId", async (req, res, next) => {
 // @desc    Adds a product to the cart for that user and restaurant from the checkout view
 // @route   GET /cart/add/:productId/checkout
 // @access  User
-router.get("/add/:productId/checkout", async (req, res, next) => {
-  const { productId } = req.params;
-  const userId = req.session.currentUser._id;
-  try {
-    const product = await Product.findById(productId);
-    const foundCart = await Cart.findOne({
-      userId: userId,
-      restaurantId: product.restaurantId,
-      isFinished: false,
-    });
-    if (!foundCart) {
-      await Cart.create({
+router.get(
+  "/add/:productId/checkout",
+  isLoggedIn,
+  isUser,
+  async (req, res, next) => {
+    const { productId } = req.params;
+    const userId = req.session.currentUser._id;
+    try {
+      const product = await Product.findById(productId);
+      const foundCart = await Cart.findOne({
         userId: userId,
         restaurantId: product.restaurantId,
-        productsId: [productId],
+        isFinished: false,
+        isSent: false,
+        isOrdered: false,
+        isPending: true,
       });
-    } else {
-      await Cart.findByIdAndUpdate(foundCart._id, {
-        $push: { productsId: productId },
-      });
+      console.log(foundCart);
+      if (!foundCart) {
+        await Cart.create({
+          userId: userId,
+          restaurantId: product.restaurantId,
+          productsId: [productId],
+        });
+      } else {
+        await Cart.findByIdAndUpdate(foundCart._id, {
+          $push: { productsId: productId },
+        });
+      }
+      res.redirect(`/cart/view/${product.restaurantId}`);
+    } catch (error) {
+      next(error);
     }
-    res.redirect(`/cart/view/${product.restaurantId}`);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 // @desc    Adds a product to the cart for that user and restaurant
 // @route   GET /cart/add/:productId
@@ -207,6 +224,9 @@ router.get("/add/:productId", isLoggedIn, isUser, async (req, res, next) => {
       userId: userId,
       restaurantId: product.restaurantId,
       isFinished: false,
+      isSent: false,
+      isOrdered: false,
+      isPending: true,
     });
     if (!foundCart) {
       await Cart.create({
@@ -237,7 +257,11 @@ router.get("/remove/:productId/checkout", async (req, res, next) => {
       userId: userId,
       restaurantId: product.restaurantId,
       isFinished: false,
+      isSent: false,
+      isOrdered: false,
+      isPending: true,
     });
+    //check that foundCart exist before removing product
     foundCart.productsId.splice(foundCart.productsId.indexOf(productId), 1);
     await Cart.findByIdAndUpdate(foundCart._id, {
       productsId: foundCart.productsId,
@@ -260,7 +284,11 @@ router.get("/remove/:productId", async (req, res, next) => {
       userId: userId,
       restaurantId: product.restaurantId,
       isFinished: false,
+      isSent: false,
+      isOrdered: false,
+      isPending: true,
     });
+    //check that foundCart exist before removing product
     foundCart.productsId.splice(foundCart.productsId.indexOf(productId), 1);
     await Cart.findByIdAndUpdate(foundCart._id, {
       productsId: foundCart.productsId,
