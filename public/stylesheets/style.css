@@ -683,3 +683,61 @@ a {
 #restaurant-signup .delete-product {
   display: block;
 }
+
+/*--------------- Order detail view ------*/
+
+#orderDetail {
+  display: flex;
+  width: 80%;
+  margin: 20px auto;
+  flex-direction: column;
+}
+
+#orderDetail h3{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#orderDetail .clientInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#orderDetail .clientInfo span {
+  font-weight: bold;
+}
+
+#orderDetail .clientInfo p {
+  font-size: 16px;
+}
+
+#orderDetail .products {
+  margin: 20px 0;
+}
+
+#orderDetail .products li {
+  list-style-type: disc;
+  margin: 4px 0 4px 15px;
+  font-size: 16px;
+}
+
+#orderDetail .orderManagement {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+}
+
+#orderDetail .orderManagement .linkToButton {
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+  min-width: 120px;
+  text-align: center;
+  background-color: rgb(31, 31, 31);
+  color: whitesmoke;
+  margin: auto;
+}

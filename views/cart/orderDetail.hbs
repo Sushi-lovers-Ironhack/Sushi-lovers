@@ -1,17 +1,30 @@
-<p>Client: {{orderDB.userId.name}} {{orderDB.userId.surname}}</p>
-<p>Direction: {{orderDB.userId.direction}}</p>
-<p>Contact phone: {{orderDB.userId.phoneNumber}}</p>
+<section id="orderDetail">
+    <div class="clientInfo">
+        <p><span>Client:</span>  {{orderDB.userId.name}} {{orderDB.userId.surname}}</p>
+        <p><span>Direction:</span>  {{orderDB.userId.direction}}</p>
+        <p><span>Contact phone:</span>  {{orderDB.userId.phoneNumber}}</p>    
+    </div>
+    
+    <div class="products">
+        <h3>Products:</h3>
+        <ul>
+            {{#each filteredArray}}
+            <li>{{this.quantity}}x {{this.name}}</li>
+            {{/each}}    
+        </ul>    
+    </div>
+    
+    
+    {{#if orderDB.isPending}}
+        <h3>Accept order?</h4>
+        <div class="orderManagement">
+            <a href="/cart/order/{{orderDB._id}}/accept" class="linkToButton">Yes</a>
+            <a href="/cart/order/{{orderDB._id}}/deny" class="linkToButton">No</a>
+        </div>
+        {{else}}
+        <div class="orderManagement">
+            <a href="/cart/order/{{orderDB._id}}/sent" class="linkToButton">Order sent</a>
+        </div>        
+    {{/if}}     
+</section>
 
-<h3>Products:</h3>
-<ul>
-    {{#each orderDB.productsId}}
-    <li>{{this.name}}</li>
-    {{/each}}    
-</ul>
-
-{{#if orderDB.isPending}}
-    <h4>Accept order?</h4>
-    <a href="/cart/order/{{orderDB._id}}/accept">Yes</a> <a href="/cart/order/{{orderDB._id}}/deny">No</a>
-    {{else}}
-    <a href="/cart/order/{{orderDB._id}}/sent">Order sent</a>
-{{/if}}

@@ -400,7 +400,18 @@ router.get(
       const orderDB = await Cart.findById({ _id: orderId })
         .populate("userId")
         .populate("productsId");
-      res.render("cart/orderDetail", { name, orderDB });
+      let filterOfProducts = [];
+      let filteredArray = [];
+      for (let product of orderDB.productsId) {
+        if (!filterOfProducts.includes(String(product._id))) {
+          product["quantity"] = orderDB.productsId.filter((productDB) =>
+            productDB["_id"].equals(product._id)
+          ).length;
+          filteredArray.push(product);
+          filterOfProducts.push(String(product._id));
+        }
+      }
+      res.render("cart/orderDetail", { name, orderDB, filteredArray });
     } catch (error) {
       next(error);
     }
