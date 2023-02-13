@@ -1,5 +1,28 @@
 <h1>hello, command status</h1>
 
-{{#each actualCarts}}
-  <h1>hola</h1>
-{{/each}}
+{{#if acceptedCarts}}
+  {{#each acceptedCarts}}
+    <h1>the restaurant
+      {{this.restaurantId.name}}
+      has accepted your order and its preparing it</h1>
+  {{/each}}
+{{/if}}
+
+{{#if rejectedCarts}}
+  {{#each rejectedCarts}}
+    <h1>Sorry but the restaurant
+      {{this.restaurantId.name}}
+      has rejected your order</h1>
+  {{/each}}
+{{/if}}
+
+{{#if sentCarts}}
+  {{#each sentCarts}}
+    <h1>your order from the restaurant
+      {{this.restaurantId.name}}
+      is on the way!</h1>
+    <a href="/cart/finished/{{this._id}}">recived order!</a>
+  {{/each}}
+{{/if}}
+
+<script src="/scripts/status.js"></script>

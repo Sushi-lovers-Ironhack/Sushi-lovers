@@ -4,6 +4,38 @@ const Product = require("../models/Product");
 const Restaurant = require("../models/Restaurant");
 const { isUser, isRestaurant, isLoggedIn } = require("../middlewares");
 
+// @desc    Shows view of order status
+// @route   GET /cart/status
+// @access  User
+router.get("/status", isLoggedIn, isUser, async (req, res, next) => {
+  const username = req.session.currentUser;
+  try {
+    const actualCarts = await Cart.find({
+      isOrdered: true,
+      userId: username._id,
+    }).populate("restaurantId");
+    const acceptedCarts = actualCarts.filter(
+      (cart) => !cart.isPending && !cart.isFinished && !cart.isSent
+    );
+    const rejectedCarts = actualCarts.filter(
+      (cart) => !cart.isPending && cart.isFinished && !cart.isSent
+    );
+    const sentCarts = actualCarts.filter(
+      (cart) => !cart.isPending && !cart.isFinished && cart.isSent
+    );
+    console.log(sentCarts);
+
+    res.render("cart/orderStatus", {
+      username,
+      actualCarts,
+      acceptedCarts,
+      rejectedCarts,
+      sentCarts,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 // @desc    Internal route. Change cart status to "is ordered: true"
 // @route   GET /cart/setcartordered/:cartId
@@ -18,19 +50,14 @@ router.get("/setcartordered/:cartId", async (req, res, next) => {
   }
 });
 
-// @desc    Shows view of order status
-// @route   GET /cart/status
+// @desc    User confirm that recives the order
+// @route   GET /cart/finished/:cartId
 // @access  User
-router.get("/status", async (req, res, next) => {
-  const username = req.session.currentUser;
+router.get("/finished/:cartId", async (req, res, next) => {
+  const { cartId } = req.params;
   try {
-    const actualCarts = await Cart.find({
-      isOrdered: true,
-      isFinished: false,
-      userId: username._id,
-    });
-
-    res.render("cart/orderStatus", { username, actualCarts });
+    await Cart.findByIdAndUpdate(cartId, { isFinished: true });
+    res.redirect("/");
   } catch (error) {
     next(error);
   }
@@ -50,7 +77,7 @@ router.get(
       const foundCart = await Cart.findOne({
         userId: username,
         restaurantId: restaurantId,
-        isFinished: false,
+        isOrdered: false,
       }).populate("productsId");
       if (!foundCart) {
         res.render("cart/userCart", username);
@@ -58,14 +85,16 @@ router.get(
         let filterOfProducts = [];
         let filteredArray = [];
         let total = 0;
-        for ( let product of foundCart.productsId) {
+        for (let product of foundCart.productsId) {
           if (!filterOfProducts.includes(String(product._id))) {
-            product["quantity"] = foundCart.productsId.filter(idInCart => idInCart.equals(product._id)).length;
+            product["quantity"] = foundCart.productsId.filter((idInCart) =>
+              idInCart.equals(product._id)
+            ).length;
             filteredArray.push(product);
             filterOfProducts.push(String(product._id));
-          };
+          }
           total += product.price;
-        };
+        }
         res.render("cart/userCart", { filteredArray, username, total });
       }
     } catch (error) {
@@ -79,19 +108,19 @@ router.get(
 // @access  Public
 router.get("/:restaurantId", async (req, res, next) => {
   const { restaurantId } = req.params;
-  let username = false
-  let foundCart
+  let username = false;
+  let foundCart;
   try {
     const restaurant = await Restaurant.findById(restaurantId);
     const products = await Product.find({ restaurantId });
     if (req.session.currentUser) {
       const { _id } = req.session.currentUser;
-      username = true
+      username = true;
       foundCart = await Cart.findOne({
         userId: _id,
         restaurantId: restaurantId,
         isFinished: false,
-      })
+      });
     }
     let drinks = [],
       starters = [],
@@ -99,10 +128,16 @@ router.get("/:restaurantId", async (req, res, next) => {
       desserts = [],
       totalQuantity = 0;
     for (let product of products) {
-      if (foundCart && foundCart.productsId.filter(idInCart => idInCart.equals(product._id)).length > 0) {
-          product["quantity"] = foundCart.productsId.filter(idInCart => idInCart.equals(product._id)).length;
-          totalQuantity += product.quantity;
-        };
+      if (
+        foundCart &&
+        foundCart.productsId.filter((idInCart) => idInCart.equals(product._id))
+          .length > 0
+      ) {
+        product["quantity"] = foundCart.productsId.filter((idInCart) =>
+          idInCart.equals(product._id)
+        ).length;
+        totalQuantity += product.quantity;
+      }
       if (product.category == "Drinks") {
         drinks.push(product);
       }
@@ -123,7 +158,7 @@ router.get("/:restaurantId", async (req, res, next) => {
       dishes,
       desserts,
       username,
-      totalQuantity
+      totalQuantity,
     });
   } catch (error) {
     next(error);
@@ -204,7 +239,9 @@ router.get("/remove/:productId/checkout", async (req, res, next) => {
       isFinished: false,
     });
     foundCart.productsId.splice(foundCart.productsId.indexOf(productId), 1);
-    await Cart.findByIdAndUpdate(foundCart._id, { productsId: foundCart.productsId });
+    await Cart.findByIdAndUpdate(foundCart._id, {
+      productsId: foundCart.productsId,
+    });
     res.redirect(`/cart/view/${product.restaurantId}`);
   } catch (error) {
     next(error);
@@ -225,7 +262,9 @@ router.get("/remove/:productId", async (req, res, next) => {
       isFinished: false,
     });
     foundCart.productsId.splice(foundCart.productsId.indexOf(productId), 1);
-    await Cart.findByIdAndUpdate(foundCart._id, { productsId: foundCart.productsId });
+    await Cart.findByIdAndUpdate(foundCart._id, {
+      productsId: foundCart.productsId,
+    });
     res.redirect(`/cart/${product.restaurantId}`);
   } catch (error) {
     next(error);
@@ -301,15 +340,23 @@ router.get(
 // @desc    Confirms order has been sent by the restaurant
 // @route   GET /cart/order/:orderId/sent
 // @access  User
-router.get("/order/:orderId/sent", isLoggedIn, isRestaurant, async (req, res, next) => {
-  const { orderId } = req.params;
-  try {
-    await Cart.findByIdAndUpdate({ _id: orderId }, { isPending: false, isSent: true });
-    res.redirect("/restaurant");
-  } catch (error) {
-    next(error);
-  };
-});
+router.get(
+  "/order/:orderId/sent",
+  isLoggedIn,
+  isRestaurant,
+  async (req, res, next) => {
+    const { orderId } = req.params;
+    try {
+      await Cart.findByIdAndUpdate(
+        { _id: orderId },
+        { isPending: false, isSent: true }
+      );
+      res.redirect("/restaurant");
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 // @desc    Shows details of an order to accept or deny it
 // @route   GET /cart/order/:orderId
