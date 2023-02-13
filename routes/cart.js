@@ -42,15 +42,20 @@ router.get(
 // @access  User
 router.get("/:restaurantId", async (req, res, next) => {
   const { restaurantId } = req.params;
-  const { username , _id } = req.session.currentUser;
+  let username = false
+  let foundCart
   try {
     const restaurant = await Restaurant.findById(restaurantId);
     const products = await Product.find({ restaurantId });
-    const foundCart = await Cart.findOne({
-      userId: _id,
-      restaurantId: restaurantId,
-      isFinished: false,
-    })
+    if (req.session.currentUser) {
+      const { _id } = req.session.currentUser;
+      username = true
+      foundCart = await Cart.findOne({
+        userId: _id,
+        restaurantId: restaurantId,
+        isFinished: false,
+      })
+    }
     let drinks = [],
       starters = [],
       dishes = [],
@@ -185,7 +190,7 @@ router.get("/order/:orderId/deny", isLoggedIn, isRestaurant, async (req, res, ne
 router.get("/order/:orderId/sent", isLoggedIn, isRestaurant, async (req, res, next) => {
   const { orderId } = req.params;
   try {
-    await Cart.findByIdAndUpdate({ _id: orderId }, { isPending: false, isFinished: true, isSent: true });
+    await Cart.findByIdAndUpdate({ _id: orderId }, { isPending: false, isSent: true });
     res.redirect("/restaurant");
   } catch (error) {
     next(error);

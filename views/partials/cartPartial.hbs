@@ -11,10 +11,10 @@
     </div>
     <div class="cart-partial-add">
       {{#if this.quantity}}
-      <a href="/cart/remove/{{this._id}}">-</a>
-      <p>{{this.quantity}}</p>
+      <a href="/cart/remove/{{this._id}}" class="cartIcon">-</a>
+      <p class="cartQuantity">{{this.quantity}}</p>
       {{/if}}
-      <a href="/cart/add/{{this._id}}">
+      <a href="/cart/add/{{this._id}}" class="cartIcon">
         +
       </a>
     </div>
