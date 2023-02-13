@@ -2,24 +2,9 @@
   <div class="user-cart-title">
     <h1>Your Cart</h1>
   </div>
-  {{#if foundCart}}
-    {{#each foundCart.productsId}}
-      <div class="product-details">
-        <div class="img-details">
-          <img src="{{this.imageUrl}}" alt="product img" />
-        </div>
-        <div class="name-and-price">
-          <p>{{this.name}}</p>
-          <p>{{this.price}} €</p>
-        </div>
-        <a href="" class="trash-can-container">
-          <img
-            src="/images/trash-can.png"
-            alt="trash can img"
-            class="trash-can-logo"
-          />
-        </a>
-      </div>
+  {{#if filteredArray}}
+    {{#each filteredArray}}
+      {{> cartCheckoutPartial}}
     {{/each}}
     <div class="total-price-and-checkout">
       <h2 class="total-price"> Total: {{total}} €</h2>

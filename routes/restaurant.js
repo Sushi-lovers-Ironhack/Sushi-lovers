@@ -153,7 +153,7 @@ router.get("/", isLoggedIn, isRestaurant, async (req, res, next) => {
   const restaurant = req.session.currentUser;
   const opened = restaurant.status
   try {
-    const currentOrdersDB = await Cart.find({ $and: [{ restaurantId: restaurant._id }, { isFinished: false }, { isOrdered: true }] }).populate("userId");
+    const currentOrdersDB = await Cart.find({ $and: [{ restaurantId: restaurant._id }, { isFinished: false }, { isOrdered: true }, {isSent: false}] }).populate("userId");
     let incomingOrders = [], pendingOrders = [];
     for (let order of currentOrdersDB) {
       order["numberProducts"] = order.productsId.length;

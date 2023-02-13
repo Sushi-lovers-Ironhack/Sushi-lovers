@@ -4,6 +4,7 @@ const Product = require("../models/Product");
 const Restaurant = require("../models/Restaurant");
 const { isUser, isRestaurant, isLoggedIn } = require("../middlewares");
 
+
 // @desc    Internal route. Change cart status to "is ordered: true"
 // @route   GET /cart/setcartordered/:cartId
 // @access  internal
@@ -51,15 +52,21 @@ router.get(
         restaurantId: restaurantId,
         isFinished: false,
       }).populate("productsId");
-
       if (!foundCart) {
         res.render("cart/userCart", username);
       } else {
+        let filterOfProducts = [];
+        let filteredArray = [];
         let total = 0;
-        foundCart.productsId.forEach((product) => {
+        for ( let product of foundCart.productsId) {
+          if (!filterOfProducts.includes(String(product._id))) {
+            product["quantity"] = foundCart.productsId.filter(idInCart => idInCart.equals(product._id)).length;
+            filteredArray.push(product);
+            filterOfProducts.push(String(product._id));
+          };
           total += product.price;
-        });
-        res.render("cart/userCart", { foundCart, username, total });
+        };
+        res.render("cart/userCart", { filteredArray, username, total });
       }
     } catch (error) {
       next(error);
@@ -72,15 +79,30 @@ router.get(
 // @access  Public
 router.get("/:restaurantId", async (req, res, next) => {
   const { restaurantId } = req.params;
-  const username = req.session.currentUser;
+  let username = false
+  let foundCart
   try {
     const restaurant = await Restaurant.findById(restaurantId);
     const products = await Product.find({ restaurantId });
+    if (req.session.currentUser) {
+      const { _id } = req.session.currentUser;
+      username = true
+      foundCart = await Cart.findOne({
+        userId: _id,
+        restaurantId: restaurantId,
+        isFinished: false,
+      })
+    }
     let drinks = [],
       starters = [],
       dishes = [],
-      desserts = [];
+      desserts = [],
+      totalQuantity = 0;
     for (let product of products) {
+      if (foundCart && foundCart.productsId.filter(idInCart => idInCart.equals(product._id)).length > 0) {
+          product["quantity"] = foundCart.productsId.filter(idInCart => idInCart.equals(product._id)).length;
+          totalQuantity += product.quantity;
+        };
       if (product.category == "Drinks") {
         drinks.push(product);
       }
@@ -101,7 +123,38 @@ router.get("/:restaurantId", async (req, res, next) => {
       dishes,
       desserts,
       username,
+      totalQuantity
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// @desc    Adds a product to the cart for that user and restaurant from the checkout view
+// @route   GET /cart/add/:productId/checkout
+// @access  User
+router.get("/add/:productId/checkout", async (req, res, next) => {
+  const { productId } = req.params;
+  const userId = req.session.currentUser._id;
+  try {
+    const product = await Product.findById(productId);
+    const foundCart = await Cart.findOne({
+      userId: userId,
+      restaurantId: product.restaurantId,
+      isFinished: false,
+    });
+    if (!foundCart) {
+      await Cart.create({
+        userId: userId,
+        restaurantId: product.restaurantId,
+        productsId: [productId],
+      });
+    } else {
+      await Cart.findByIdAndUpdate(foundCart._id, {
+        $push: { productsId: productId },
+      });
+    }
+    res.redirect(`/cart/view/${product.restaurantId}`);
   } catch (error) {
     next(error);
   }
@@ -121,7 +174,7 @@ router.get("/add/:productId", isLoggedIn, isUser, async (req, res, next) => {
       isFinished: false,
     });
     if (!foundCart) {
-      const newCart = await Cart.create({
+      await Cart.create({
         userId: userId,
         restaurantId: product.restaurantId,
         productsId: [productId],
@@ -131,6 +184,48 @@ router.get("/add/:productId", isLoggedIn, isUser, async (req, res, next) => {
         $push: { productsId: productId },
       });
     }
+    res.redirect(`/cart/${product.restaurantId}`);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// @desc    Removes a product from the cart for that user and restaurant  from the checkout view
+// @route   GET /cart/remove/:productId/checkout
+// @access  User
+router.get("/remove/:productId/checkout", async (req, res, next) => {
+  const { productId } = req.params;
+  const userId = req.session.currentUser._id;
+  try {
+    const product = await Product.findById(productId);
+    const foundCart = await Cart.findOne({
+      userId: userId,
+      restaurantId: product.restaurantId,
+      isFinished: false,
+    });
+    foundCart.productsId.splice(foundCart.productsId.indexOf(productId), 1);
+    await Cart.findByIdAndUpdate(foundCart._id, { productsId: foundCart.productsId });
+    res.redirect(`/cart/view/${product.restaurantId}`);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// @desc    Removes a product from the cart for that user and restaurant
+// @route   GET /cart/remove/:productId
+// @access  User
+router.get("/remove/:productId", async (req, res, next) => {
+  const { productId } = req.params;
+  const userId = req.session.currentUser._id;
+  try {
+    const product = await Product.findById(productId);
+    const foundCart = await Cart.findOne({
+      userId: userId,
+      restaurantId: product.restaurantId,
+      isFinished: false,
+    });
+    foundCart.productsId.splice(foundCart.productsId.indexOf(productId), 1);
+    await Cart.findByIdAndUpdate(foundCart._id, { productsId: foundCart.productsId });
     res.redirect(`/cart/${product.restaurantId}`);
   } catch (error) {
     next(error);
@@ -205,24 +300,16 @@ router.get(
 
 // @desc    Confirms order has been sent by the restaurant
 // @route   GET /cart/order/:orderId/sent
-// @access  Restaurant
-router.get(
-  "/order/:orderId/sent",
-  isLoggedIn,
-  isRestaurant,
-  async (req, res, next) => {
-    const { orderId } = req.params;
-    try {
-      await Cart.findByIdAndUpdate(
-        { _id: orderId },
-        { isPending: false, isFinished: true, isSent: true }
-      );
-      res.redirect("/restaurant");
-    } catch (error) {
-      next(error);
-    }
-  }
-);
+// @access  User
+router.get("/order/:orderId/sent", isLoggedIn, isRestaurant, async (req, res, next) => {
+  const { orderId } = req.params;
+  try {
+    await Cart.findByIdAndUpdate({ _id: orderId }, { isPending: false, isSent: true });
+    res.redirect("/restaurant");
+  } catch (error) {
+    next(error);
+  };
+});
 
 // @desc    Shows details of an order to accept or deny it
 // @route   GET /cart/order/:orderId
