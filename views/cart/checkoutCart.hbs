@@ -1,18 +1,24 @@
-<h1>checkout</h1>
-
 <div id="user-cart-container">
   <div class="user-cart-title">
     <h1>Checkout</h1>
   </div>
   <div class="checkout-info">
-    <p>Direction:</p>
-    <p>{{direction}}</p>
-  </div class="checkout-info">
-    <div class="checkout-info">
-    <p>Payment Card:</p>
-    <p>{{paymentCard}}</p>
+    <div class="block">
+      <p class="direction-checkout">Direction:</p>
+      <p>{{direction}}</p>
+    </div>
+    <div class="block">
+      <p class="direction-checkout">Payment Card:</p>
+      <p>{{paymentCard}}</p>
+    </div>
   </div>
   <button id="checkout-button">Accept!</button>
-    <img id="payment-gif" src="/images/payment.gif" alt="payment-gif" style="display: none">
+  <img
+    id="payment-gif"
+    src="/images/payment.gif"
+    alt="payment-gif"
+    style="display: none"
+    width="80%"
+  />
 </div>
-  <script src="/scripts/checkout.js"></script>
+<script src="/scripts/checkout.js"></script>

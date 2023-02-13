@@ -1,6 +1,6 @@
 function refreshStatus() {
   setTimeout(() => {
     location.reload();
-  }, 2000);
+  }, 5000);
 }
 window.onload = refreshStatus();

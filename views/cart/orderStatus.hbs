@@ -1,28 +1,39 @@
-<h1>hello, command status</h1>
+<div id="user-cart-container">
+  <div class="user-cart-title">
+    <h1>Order Status</h1>
+  </div>
 
-{{#if acceptedCarts}}
-  {{#each acceptedCarts}}
-    <h1>the restaurant
-      {{this.restaurantId.name}}
-      has accepted your order and its preparing it</h1>
-  {{/each}}
-{{/if}}
+  {{#if acceptedCarts}}
+    {{#each acceptedCarts}}
+      <div class="status-info">
+        <h1>The restaurant
+          {{this.restaurantId.name}}
+          has accepted your order and its preparing it</h1>
+      </div>
+    {{/each}}
+  {{/if}}
 
-{{#if rejectedCarts}}
-  {{#each rejectedCarts}}
-    <h1>Sorry but the restaurant
-      {{this.restaurantId.name}}
-      has rejected your order</h1>
-  {{/each}}
-{{/if}}
+  {{#if rejectedCarts}}
+    {{#each rejectedCarts}}
+      <div class="status-info">
+        <h1>Sorry but the restaurant
+          {{this.restaurantId.name}}
+          has rejected your order</h1>
+      </div>
+    {{/each}}
+  {{/if}}
 
-{{#if sentCarts}}
-  {{#each sentCarts}}
-    <h1>your order from the restaurant
-      {{this.restaurantId.name}}
-      is on the way!</h1>
-    <a href="/cart/finished/{{this._id}}">recived order!</a>
-  {{/each}}
-{{/if}}
+  {{#if sentCarts}}
+    {{#each sentCarts}}
+      <div class="status-finish">
+        <h1>Your order from the restaurant
+          {{this.restaurantId.name}}
+          is on the way!</h1>
+        <a href="/cart/finished/{{this._id}}" id="recived-button">recived order!</a>
+      </div>
+    {{/each}}
+  {{/if}}
+
+</div>
 
 <script src="/scripts/status.js"></script>
