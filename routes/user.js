@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Cart = require("../models/Cart");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -10,6 +11,66 @@ const { isUser, isLoggedIn } = require("../middlewares");
 router.get("/profile", isLoggedIn, isUser, (req, res, next) => {
   const user = req.session.currentUser;
   res.render("user/profile", user);
+});
+
+// @desc    Shows user past orders
+// @route   GET /user/pastOrders
+// @access  User
+router.get("/pastOrders", isLoggedIn, isUser, async (req, res, next) => {
+  const username = req.session.currentUser;
+  try {
+    const pastOrders = await Cart.find({ $and: [{ userId: username._id }, { isFinished: true }] }).populate('restaurantId').populate('productsId');
+    for (order of pastOrders) {
+      order["amount"] = order.productsId.length;
+      order["price"] = order.productsId.reduce((accumulator, product) => accumulator + product.price, 0);
+    };
+    res.render("user/pastOrders", { username, pastOrders });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// @desc    Reorders past order
+// @route   GET /user/pastOrder/:orderId/reorder
+// @access  User
+router.get("/pastOrder/:orderId/reorder", isLoggedIn, isUser, async (req, res, next) => {
+  const { orderId } = req.params;
+  try {
+    const oldOrder = await Cart.findById({ _id: orderId });
+    const { userId, restaurantId, productsId } = oldOrder;
+    const newOrder = await Cart.create({ userId: userId , restaurantId: restaurantId, productsId: productsId });
+    console.log(newOrder)
+    res.redirect(`/cart/checkout/${newOrder._id}`);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// @desc    Shows user detail of a past order, and allows to reorder it
+// @route   GET /user/pastOrder/:orderId
+// @access  User
+router.get("/pastOrder/:orderId", isLoggedIn, isUser, async (req, res, next) => {
+  const username = req.session.currentUser;
+  const { orderId } = req.params;
+    try {
+      const orderDB = await Cart.findById({ _id: orderId })
+        .populate("restaurantId")
+        .populate("productsId");
+      let filterOfProducts = [];
+      let filteredArray = [];
+      for (let product of orderDB.productsId) {
+        if (!filterOfProducts.includes(String(product._id))) {
+          product["quantity"] = orderDB.productsId.filter((productDB) =>
+            productDB["_id"].equals(product._id)
+          ).length;
+          filteredArray.push(product);
+          filterOfProducts.push(String(product._id));
+        }
+      }
+      res.render("user/pastOrderDetail", { username, orderDB, filteredArray });
+    } catch (error) {
+      next(error);
+    }
 });
 
 // @desc    Deletes user and items from it from the database

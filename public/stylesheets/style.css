@@ -847,3 +847,30 @@ a {
   color: whitesmoke;
   margin: auto;
 }
+
+/* ----- Past orders ------ */
+
+#pastOrders {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#pastOrders h3 {
+  display: inline;
+  text-align: center;
+  font-size: 18px;
+}
+
+#pastOrders span {
+  font-weight: bold;
+}
+
+#pastOrders .pastOrder{
+  width: 90%;
+  margin: auto;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: bisque;
+  padding: 5px;
+}

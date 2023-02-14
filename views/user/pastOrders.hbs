@@ -1,0 +1,12 @@
+<section id="pastOrders">
+    <h3>Past orders</h3>
+    {{#each pastOrders}}
+    <div class="pastOrder">
+        <a href="/user/pastOrder/{{this._id}}">
+            <p><span>Restaurant:</span> {{this.restaurantId.name}}</p>
+            <p><span>Nº Items:</span> {{this.amount}}</p>
+            <p><span>Price:</span> {{this.price}}</p>
+        </a>
+    </div>
+    {{/each}}
+</section>
