@@ -37,6 +37,7 @@ a {
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
+  height: auto;
 }
 
 #nav-bar,
@@ -180,7 +181,7 @@ a {
   border: var(--border-event);
   border-radius: var(--border-radius-event);
   background-color: var(--backgroud-color-event);
-  margin-top: 10px;
+  /* margin-top: 10px; */
   margin-bottom: 10px;
 }
 #view-all-btn a,
