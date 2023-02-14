@@ -14,6 +14,9 @@ router.get("/status", isLoggedIn, isUser, async (req, res, next) => {
       isOrdered: true,
       userId: username._id,
     }).populate("restaurantId");
+    const orderedCarts = actualCarts.filter(
+      (cart) => cart.isPending && !cart.isFinished && !cart.isSent
+    );
     const acceptedCarts = actualCarts.filter(
       (cart) => !cart.isPending && !cart.isFinished && !cart.isSent
     );
@@ -31,7 +34,7 @@ router.get("/status", isLoggedIn, isUser, async (req, res, next) => {
 
     res.render("cart/orderStatus", {
       username,
-      actualCarts,
+      orderedCarts,
       acceptedCarts,
       rejectedCarts,
       sentCarts,
@@ -119,13 +122,14 @@ router.get(
   }
 );
 
-// @desc    Shows the user the menu of a restaurant and allow to add items to a cart
+// @desc    Shows the user the menu of a restaurant
 // @route   GET /cart/:restaurantId
 // @access  Public
 router.get("/:restaurantId", async (req, res, next) => {
   const { restaurantId } = req.params;
   let username = false;
   let foundCart;
+  let orderActive;
   try {
     const restaurant = await Restaurant.findById(restaurantId);
     const products = await Product.find({ restaurantId });
@@ -139,6 +143,11 @@ router.get("/:restaurantId", async (req, res, next) => {
         isSent: false,
         isOrdered: false,
         isPending: true,
+      });
+      orderActive = await Cart.findOne({
+        userId: _id,
+        isOrdered: true,
+        isFinished: false,
       });
     }
     let drinks = [],
@@ -170,11 +179,7 @@ router.get("/:restaurantId", async (req, res, next) => {
         desserts.push(product);
       }
     }
-    const orderActive = await Cart.findOne({
-      userId: username._id,
-      isOrdered: true,
-      isFinished: false,
-    });
+
     res.render("cart/restaurantMenu", {
       restaurant,
       drinks,
@@ -344,10 +349,10 @@ router.get("/detail/:productId", isLoggedIn, isUser, async (req, res, next) => {
 // @access  User
 router.get("/checkout/:cartId", isLoggedIn, isUser, async (req, res, next) => {
   const { cartId } = req.params; // falta añadir el coste del carro?
-  const { username, direction, paymentCard } = req.session.currentUser;
+  const { username, direction, paymentCard, _id } = req.session.currentUser;
   try {
     const orderActive = await Cart.findOne({
-      userId: username._id,
+      userId: _id,
       isOrdered: true,
       isFinished: false,
     });

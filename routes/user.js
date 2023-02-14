@@ -10,14 +10,14 @@ const { isUser, isLoggedIn } = require("../middlewares");
 // @access  User
 router.get("/profile", isLoggedIn, isUser, async (req, res, next) => {
   const user = req.session.currentUser;
-  console.log(user);
   try {
     const orderActive = await Cart.findOne({
       userId: user._id,
       isOrdered: true,
       isFinished: false,
     });
-    res.render("user/profile", user);
+    console.log(orderActive);
+    res.render("user/profile", { user, orderActive });
   } catch (error) {
     next(error);
   }
@@ -43,12 +43,14 @@ router.get("/profile/edit", isLoggedIn, isUser, async (req, res, next) => {
   const user = req.session.currentUser;
   try {
     const orderActive = await Cart.findOne({
-      userId: username._id,
+      userId: user._id,
       isOrdered: true,
       isFinished: false,
     });
     res.render("user/profileEdit", { user, username: user, orderActive });
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 });
 
 // @desc    Sends User form with previous values for editing
@@ -145,13 +147,8 @@ router.post("/profile/edit", isLoggedIn, isUser, async (req, res, next) => {
       },
       { new: true }
     );
-    req.session.currentUser = user;
-    const orderActive = await Cart.findOne({
-      userId: username._id,
-      isOrdered: true,
-      isFinished: false,
-    });
-    res.redirect("/user/profile", orderActive);
+
+    res.redirect("/user/profile");
   } catch (error) {
     next(error);
   }

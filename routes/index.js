@@ -8,13 +8,16 @@ const Cart = require("../models/Cart");
 // @access  Public
 router.get("/", async (req, res, next) => {
   const username = req.session.currentUser;
+  let orderActive;
   try {
     const restaurantsDB = await Restaurant.find({ status: true }).limit(4);
-    const orderActive = await Cart.findOne({
-      userId: username._id,
-      isOrdered: true,
-      isFinished: false,
-    });
+    if (username) {
+      orderActive = await Cart.findOne({
+        userId: username._id,
+        isOrdered: true,
+        isFinished: false,
+      });
+    }
     res.render("home/home", { username, restaurantsDB, orderActive });
   } catch (error) {
     next(error);
@@ -26,16 +29,19 @@ router.get("/", async (req, res, next) => {
 // @access  Public
 router.get("/search", async (req, res, next) => {
   const username = req.session.currentUser;
+  let orderActive;
   try {
     const restaurantsOpenDB = await Restaurant.find({ status: true }).limit(10);
     const restaurantsClosedDB = await Restaurant.find({ status: false }).limit(
       10
     );
-    const orderActive = await Cart.findOne({
-      userId: username._id,
-      isOrdered: true,
-      isFinished: false,
-    });
+    if (username) {
+      orderActive = await Cart.findOne({
+        userId: username._id,
+        isOrdered: true,
+        isFinished: false,
+      });
+    }
     res.render("home/search", {
       username,
       restaurantsOpenDB,
@@ -53,6 +59,7 @@ router.get("/search", async (req, res, next) => {
 router.post("/search", async (req, res, next) => {
   const username = req.session.currentUser;
   const { search } = req.body;
+  let orderActive;
   try {
     const matchingProductsDB = await Product.find({
       name: { $regex: search, $options: "i" },
@@ -63,11 +70,13 @@ router.post("/search", async (req, res, next) => {
     restaurantsDB = Array.from(restaurantsDB);
     const openRestaurants = restaurantsDB.filter((res) => res.status);
     const closedRestaurants = restaurantsDB.filter((res) => !res.status);
-    const orderActive = await Cart.findOne({
-      userId: username._id,
-      isOrdered: true,
-      isFinished: false,
-    });
+    if (username) {
+      orderActive = await Cart.findOne({
+        userId: username._id,
+        isOrdered: true,
+        isFinished: false,
+      });
+    }
     res.render("home/search", {
       username,
       openRestaurants,
