@@ -181,7 +181,7 @@ a {
   border: var(--border-event);
   border-radius: var(--border-radius-event);
   background-color: var(--backgroud-color-event);
-  /* margin-top: 10px; */
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 #view-all-btn a,
@@ -449,14 +449,14 @@ a {
 }
 #search-bar {
   width: 90%;
-  margin: 10px 0px;
+  margin: 5px 0px;
 }
 #search-bar form {
   display: flex;
   border: 1px solid black;
   border-radius: 5px;
   padding: 5px;
-  margin: 30px 10px;
+  margin: 22px 10px;
 }
 #search-bar input,
 #search-bar button {
@@ -465,6 +465,7 @@ a {
 }
 #search-bar input {
   width: 90%;
+  font-size: 17px;
 }
 #search-bar img {
   width: 30px;
@@ -477,6 +478,7 @@ a {
   flex-wrap: wrap;
   justify-content: space-evenly;
   height: auto;
+  width: 100%;
 }
 .restaurant-card {
   width: 40vw;
