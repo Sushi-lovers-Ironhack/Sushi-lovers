@@ -23,7 +23,11 @@ router.get("/status", isLoggedIn, isUser, async (req, res, next) => {
     const sentCarts = actualCarts.filter(
       (cart) => !cart.isPending && !cart.isFinished && cart.isSent
     );
-    console.log(sentCarts);
+    const orderActive = await Cart.findOne({
+      userId: username._id,
+      isOrdered: true,
+      isFinished: false,
+    });
 
     res.render("cart/orderStatus", {
       username,
@@ -31,6 +35,7 @@ router.get("/status", isLoggedIn, isUser, async (req, res, next) => {
       acceptedCarts,
       rejectedCarts,
       sentCarts,
+      orderActive,
     });
   } catch (error) {
     next(error);
@@ -95,11 +100,17 @@ router.get(
           }
           total += product.price;
         }
+        const orderActive = await Cart.findOne({
+          userId: username._id,
+          isOrdered: true,
+          isFinished: false,
+        });
         res.render("cart/userCart", {
           filteredArray,
           username,
           total,
           cartId: foundCart._id,
+          orderActive,
         });
       }
     } catch (error) {
@@ -159,6 +170,11 @@ router.get("/:restaurantId", async (req, res, next) => {
         desserts.push(product);
       }
     }
+    const orderActive = await Cart.findOne({
+      userId: username._id,
+      isOrdered: true,
+      isFinished: false,
+    });
     res.render("cart/restaurantMenu", {
       restaurant,
       drinks,
@@ -167,6 +183,7 @@ router.get("/:restaurantId", async (req, res, next) => {
       desserts,
       username,
       totalQuantity,
+      orderActive,
     });
   } catch (error) {
     next(error);
@@ -193,7 +210,6 @@ router.get(
         isOrdered: false,
         isPending: true,
       });
-      console.log(foundCart);
       if (!foundCart) {
         await Cart.create({
           userId: userId,
@@ -248,34 +264,39 @@ router.get("/add/:productId", isLoggedIn, isUser, async (req, res, next) => {
 // @desc    Removes a product from the cart for that user and restaurant  from the checkout view
 // @route   GET /cart/remove/:productId/checkout
 // @access  User
-router.get("/remove/:productId/checkout", async (req, res, next) => {
-  const { productId } = req.params;
-  const userId = req.session.currentUser._id;
-  try {
-    const product = await Product.findById(productId);
-    const foundCart = await Cart.findOne({
-      userId: userId,
-      restaurantId: product.restaurantId,
-      isFinished: false,
-      isSent: false,
-      isOrdered: false,
-      isPending: true,
-    });
-    //check that foundCart exist before removing product
-    foundCart.productsId.splice(foundCart.productsId.indexOf(productId), 1);
-    await Cart.findByIdAndUpdate(foundCart._id, {
-      productsId: foundCart.productsId,
-    });
-    res.redirect(`/cart/view/${product.restaurantId}`);
-  } catch (error) {
-    next(error);
+router.get(
+  "/remove/:productId/checkout",
+  isLoggedIn,
+  isUser,
+  async (req, res, next) => {
+    const { productId } = req.params;
+    const userId = req.session.currentUser._id;
+    try {
+      const product = await Product.findById(productId);
+      const foundCart = await Cart.findOne({
+        userId: userId,
+        restaurantId: product.restaurantId,
+        isFinished: false,
+        isSent: false,
+        isOrdered: false,
+        isPending: true,
+      });
+      //check that foundCart exist before removing product
+      foundCart.productsId.splice(foundCart.productsId.indexOf(productId), 1);
+      await Cart.findByIdAndUpdate(foundCart._id, {
+        productsId: foundCart.productsId,
+      });
+      res.redirect(`/cart/view/${product.restaurantId}`);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // @desc    Removes a product from the cart for that user and restaurant
 // @route   GET /cart/remove/:productId
 // @access  User
-router.get("/remove/:productId", async (req, res, next) => {
+router.get("/remove/:productId", isLoggedIn, isUser, async (req, res, next) => {
   const { productId } = req.params;
   const userId = req.session.currentUser._id;
   try {
@@ -307,7 +328,12 @@ router.get("/detail/:productId", isLoggedIn, isUser, async (req, res, next) => {
   const username = req.session.currentUser;
   try {
     const productDB = await Product.findById({ _id: productId });
-    res.render("cart/productDetail", { username, productDB });
+    const orderActive = await Cart.findOne({
+      userId: username._id,
+      isOrdered: true,
+      isFinished: false,
+    });
+    res.render("cart/productDetail", { username, productDB, orderActive });
   } catch (error) {
     next(error);
   }
@@ -317,10 +343,20 @@ router.get("/detail/:productId", isLoggedIn, isUser, async (req, res, next) => {
 // @route   GET /cart/checkout/:cartId
 // @access  User
 router.get("/checkout/:cartId", isLoggedIn, isUser, async (req, res, next) => {
-  const { cartId } = req.params; // falta añadir el coste del carro
+  const { cartId } = req.params; // falta añadir el coste del carro?
   const { username, direction, paymentCard } = req.session.currentUser;
   try {
-    res.render("cart/checkoutCart", { username, direction, paymentCard });
+    const orderActive = await Cart.findOne({
+      userId: username._id,
+      isOrdered: true,
+      isFinished: false,
+    });
+    res.render("cart/checkoutCart", {
+      username,
+      direction,
+      paymentCard,
+      orderActive,
+    });
   } catch (error) {
     next(error);
   }
