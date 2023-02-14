@@ -39,7 +39,7 @@ router.post("/search", async (req, res, next) => {
   const username = req.session.currentUser;
   const { search } = req.body;
   try {
-    const matchingProductsDB = await Product.find({ name: search }).populate(
+    const matchingProductsDB = await Product.find({ name: { $regex: search, $options: 'i'} }).populate(
       "restaurantId"
     );
     let restaurantsDB = new Set(
