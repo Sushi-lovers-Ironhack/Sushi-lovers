@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Restaurant = require("../models/Restaurant");
 const Product = require("../models/Product");
+const { mapReduce } = require("../models/Restaurant");
 
 // @desc    App home page
 // @route   GET /
@@ -8,7 +9,7 @@ const Product = require("../models/Product");
 router.get("/", async (req, res, next) => {
   const username = req.session.currentUser;
   const restaurantsDB = await Restaurant.find({ status: true }).limit(4);
-  res.render("home/home", {username, restaurantsDB});
+  res.render("home/home", { username, restaurantsDB });
 });
 
 // @desc    Shows all restaurants
@@ -17,8 +18,15 @@ router.get("/", async (req, res, next) => {
 router.get("/search", async (req, res, next) => {
   const username = req.session.currentUser;
   try {
-    const restaurantsDB = await Restaurant.find({ status: true }).limit(10);
-    res.render("home/search", {username, restaurantsDB});
+    const restaurantsOpenDB = await Restaurant.find({ status: true }).limit(10);
+    const restaurantsClosedDB = await Restaurant.find({ status: false }).limit(
+      10
+    );
+    res.render("home/search", {
+      username,
+      restaurantsOpenDB,
+      restaurantsClosedDB,
+    });
   } catch (error) {
     next(error);
   }
@@ -30,11 +38,17 @@ router.get("/search", async (req, res, next) => {
 router.post("/search", async (req, res, next) => {
   const username = req.session.currentUser;
   const { search } = req.body;
-  console.log(search);
   try {
-    const matchingProductsDB = await Product.find({ name: search }).populate("restaurantId");
-    const restaurantsDB = new Set(matchingProductsDB.map((product) => product.restaurantId));
-    res.render("home/search", {username, restaurantsDB});
+    const matchingProductsDB = await Product.find({ name: search }).populate(
+      "restaurantId"
+    );
+    let restaurantsDB = new Set(
+      matchingProductsDB.map((product) => product.restaurantId)
+    );
+    restaurantsDB = Array.from(restaurantsDB);
+    const openRestaurants = restaurantsDB.filter((res) => res.status);
+    const closedRestaurants = restaurantsDB.filter((res) => !res.status);
+    res.render("home/search", { username, openRestaurants, closedRestaurants });
   } catch (error) {
     next(error);
   }

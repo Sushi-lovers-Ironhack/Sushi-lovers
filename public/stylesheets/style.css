@@ -493,6 +493,23 @@ a {
   width: 130px;
   border-radius: 10px 0px 10px 0px;
 }
+.restaurant-closed-card {
+  width: 40vw;
+  height: 185px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  box-shadow: var(--shadow-style);
+  border: rgb(214, 212, 212);
+  border-radius: var(--border-radius-event);
+  margin-bottom: 10px;
+}
+.restaurant-closed-card img {
+  width: 130px;
+  border-radius: 10px 0px 10px 0px;
+  filter: grayscale(100%);
+}
 
 /*--------------- User Profile ------*/
 
