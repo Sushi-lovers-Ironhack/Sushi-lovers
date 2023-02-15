@@ -8,9 +8,19 @@ const { isUser, isLoggedIn } = require("../middlewares");
 // @desc    Sends User profile info
 // @route   GET /user/profile
 // @access  User
-router.get("/profile", isLoggedIn, isUser, (req, res, next) => {
+router.get("/profile", isLoggedIn, isUser, async (req, res, next) => {
   const user = req.session.currentUser;
-  res.render("user/profile", user);
+  try {
+    const orderActive = await Cart.findOne({
+      userId: user._id,
+      isOrdered: true,
+      isFinished: false,
+    });
+    console.log(orderActive);
+    res.render("user/profile", { user, orderActive });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // @desc    Shows user past orders
@@ -78,9 +88,8 @@ router.get("/pastOrder/:orderId", isLoggedIn, isUser, async (req, res, next) => 
 // @access  User
 router.get("/profile/delete", isLoggedIn, isUser, async (req, res, next) => {
   const userId = req.session.currentUser._id;
-  // Backlog to do: search in all user the objectIds (Orders f.e.) and delete them
   try {
-    await User.findByIdAndDelete(userId); //implement on Restaurant Delete
+    await User.findByIdAndDelete(userId);
     res.redirect("/auth/logout");
   } catch (error) {
     next(error);
@@ -90,9 +99,18 @@ router.get("/profile/delete", isLoggedIn, isUser, async (req, res, next) => {
 // @desc    Sends user form with previous values for editing
 // @route   GET /user/profile/edit
 // @access  User
-router.get("/profile/edit", isLoggedIn, isUser, (req, res, next) => {
+router.get("/profile/edit", isLoggedIn, isUser, async (req, res, next) => {
   const user = req.session.currentUser;
-  res.render("user/profileEdit", {user, username: user});
+  try {
+    const orderActive = await Cart.findOne({
+      userId: user._id,
+      isOrdered: true,
+      isFinished: false,
+    });
+    res.render("user/profileEdit", { user, username: user, orderActive });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // @desc    Sends User form with previous values for editing
@@ -120,13 +138,19 @@ router.post("/profile/edit", isLoggedIn, isUser, async (req, res, next) => {
     !phoneNumber ||
     !paymentCard
   ) {
-    res.render("user/profileEdit", { error: "Must fill all fields", user, username: user });
+    res.render("user/profileEdit", {
+      error: "Must fill all fields",
+      user,
+      username: user,
+    });
     return;
   }
   const regexEmail = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   if (!regexEmail.test(email)) {
     res.render("user/profileEdit", {
-      error: "Must provide a valid email",  user, username: user 
+      error: "Must provide a valid email",
+      user,
+      username: user,
     });
     return;
   }
@@ -135,26 +159,34 @@ router.post("/profile/edit", isLoggedIn, isUser, async (req, res, next) => {
   if (!regexPassword.test(password1)) {
     res.render("./user/profileEdit", {
       error:
-        "Password must have at least 8 characters and contain one uppercase and lowercase letter, a special character and a number",  user, username: user 
+        "Password must have at least 8 characters and contain one uppercase and lowercase letter, a special character and a number",
+      user,
+      username: user,
     });
     return;
   }
   if (!regexPassword.test(password2)) {
     res.render("user/profileEdit", {
-      error: "Doublecheck the password on both fields",  user, username: user 
+      error: "Doublecheck the password on both fields",
+      user,
+      username: user,
     });
     return;
   }
   const regexPhone = /^\+?(6\d{2}|7[1-9]\d{1})\d{6}$/;
   if (!regexPhone.test(phoneNumber)) {
     res.render("user/profileEdit", {
-      error: "Correct phone number is required",  user, username: user 
+      error: "Correct phone number is required",
+      user,
+      username: user,
     });
     return;
   }
   if (!password1 === password2) {
     res.render("user/profileEdit", {
-      error: "Doublecheck the password on both fields",  user, username: user 
+      error: "Doublecheck the password on both fields",
+      user,
+      username: user,
     });
     return;
   }
@@ -175,7 +207,7 @@ router.post("/profile/edit", isLoggedIn, isUser, async (req, res, next) => {
       },
       { new: true }
     );
-    req.session.currentUser = user;
+
     res.redirect("/user/profile");
   } catch (error) {
     next(error);
