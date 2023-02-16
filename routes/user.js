@@ -16,7 +16,6 @@ router.get("/profile", isLoggedIn, isUser, async (req, res, next) => {
       isOrdered: true,
       isFinished: false,
     });
-    console.log(orderActive);
     res.render("user/profile", { user, orderActive });
   } catch (error) {
     next(error);
@@ -29,11 +28,18 @@ router.get("/profile", isLoggedIn, isUser, async (req, res, next) => {
 router.get("/pastOrders", isLoggedIn, isUser, async (req, res, next) => {
   const username = req.session.currentUser;
   try {
-    const pastOrders = await Cart.find({ $and: [{ userId: username._id }, { isFinished: true }] }).populate('restaurantId').populate('productsId');
+    const pastOrders = await Cart.find({
+      $and: [{ userId: username._id }, { isFinished: true }],
+    })
+      .populate("restaurantId")
+      .populate("productsId");
     for (order of pastOrders) {
       order["amount"] = order.productsId.length;
-      order["price"] = order.productsId.reduce((accumulator, product) => accumulator + product.price, 0);
-    };
+      order["price"] = order.productsId.reduce(
+        (accumulator, product) => accumulator + product.price,
+        0
+      );
+    }
     res.render("user/pastOrders", { username, pastOrders });
   } catch (error) {
     next(error);
@@ -43,25 +49,37 @@ router.get("/pastOrders", isLoggedIn, isUser, async (req, res, next) => {
 // @desc    Reorders past order
 // @route   GET /user/pastOrder/:orderId/reorder
 // @access  User
-router.get("/pastOrder/:orderId/reorder", isLoggedIn, isUser, async (req, res, next) => {
-  const { orderId } = req.params;
-  try {
-    const oldOrder = await Cart.findById({ _id: orderId });
-    const { userId, restaurantId, productsId } = oldOrder;
-    const newOrder = await Cart.create({ userId: userId , restaurantId: restaurantId, productsId: productsId });
-    console.log(newOrder)
-    res.redirect(`/cart/checkout/${newOrder._id}`);
-  } catch (error) {
-    next(error);
+router.get(
+  "/pastOrder/:orderId/reorder",
+  isLoggedIn,
+  isUser,
+  async (req, res, next) => {
+    const { orderId } = req.params;
+    try {
+      const oldOrder = await Cart.findById({ _id: orderId });
+      const { userId, restaurantId, productsId } = oldOrder;
+      const newOrder = await Cart.create({
+        userId: userId,
+        restaurantId: restaurantId,
+        productsId: productsId,
+      });
+      res.redirect(`/cart/checkout/${newOrder._id}`);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // @desc    Shows user detail of a past order, and allows to reorder it
 // @route   GET /user/pastOrder/:orderId
 // @access  User
-router.get("/pastOrder/:orderId", isLoggedIn, isUser, async (req, res, next) => {
-  const username = req.session.currentUser;
-  const { orderId } = req.params;
+router.get(
+  "/pastOrder/:orderId",
+  isLoggedIn,
+  isUser,
+  async (req, res, next) => {
+    const username = req.session.currentUser;
+    const { orderId } = req.params;
     try {
       const orderDB = await Cart.findById({ _id: orderId })
         .populate("restaurantId")
@@ -81,7 +99,8 @@ router.get("/pastOrder/:orderId", isLoggedIn, isUser, async (req, res, next) => 
     } catch (error) {
       next(error);
     }
-});
+  }
+);
 
 // @desc    Deletes user and items from it from the database
 // @route   GET /user/profile/delete

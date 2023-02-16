@@ -1,10 +1,24 @@
 /* Hello there! use this keywords to find the styles!
 
+0. Basics.
 1. Restaurant presentation Card.
 2. Cards Products.
-3. Main View - HOME VIEW & search view
+3. User Cart Details.
+4. User Cart Checkout.
+5. User order Status.
+6. Product Details.
+7. Main View - HOME VIEW & search view.
+8. User Profile.
+9. User Edit profile.
+10. Log in.
+11. Restaurant profile.
+12. Restaurant home.
+13. Order detail view.
+14. Past orders.
 
 */
+
+/*----------Basics-----*/
 * {
   box-sizing: border-box;
 }
@@ -671,6 +685,7 @@ a {
   text-align: center;
   padding: 50px;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 #restaurant-profile .rest-info {

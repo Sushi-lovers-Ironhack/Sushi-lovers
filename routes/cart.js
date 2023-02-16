@@ -286,7 +286,6 @@ router.get(
         isOrdered: false,
         isPending: true,
       });
-      //check that foundCart exist before removing product
       foundCart.productsId.splice(foundCart.productsId.indexOf(productId), 1);
       await Cart.findByIdAndUpdate(foundCart._id, {
         productsId: foundCart.productsId,
@@ -314,7 +313,6 @@ router.get("/remove/:productId", isLoggedIn, isUser, async (req, res, next) => {
       isOrdered: false,
       isPending: true,
     });
-    //check that foundCart exist before removing product
     foundCart.productsId.splice(foundCart.productsId.indexOf(productId), 1);
     await Cart.findByIdAndUpdate(foundCart._id, {
       productsId: foundCart.productsId,
