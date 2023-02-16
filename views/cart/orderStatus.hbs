@@ -2,13 +2,20 @@
   <div class="user-cart-title">
     <h1>Order Status</h1>
   </div>
+  {{#if orderedCarts}}
+    {{#each orderedCarts}}
+      <div class="status-info">
+        <h1>Your order to {{this.restaurantId.name}} soon will be accepted.</h1>
+      </div>
+    {{/each}}
+  {{/if}}
 
   {{#if acceptedCarts}}
     {{#each acceptedCarts}}
       <div class="status-info">
         <h1>The restaurant
           {{this.restaurantId.name}}
-          has accepted your order and its preparing it</h1>
+          has accepted your order and its preparing it.</h1>
       </div>
     {{/each}}
   {{/if}}
@@ -18,7 +25,7 @@
       <div class="status-info">
         <h1>Sorry but the restaurant
           {{this.restaurantId.name}}
-          has rejected your order</h1>
+          has rejected your order.</h1>
       </div>
     {{/each}}
   {{/if}}

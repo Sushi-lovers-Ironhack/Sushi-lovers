@@ -1,10 +1,24 @@
 /* Hello there! use this keywords to find the styles!
 
+0. Basics.
 1. Restaurant presentation Card.
 2. Cards Products.
-3. Main View - HOME VIEW & search view
+3. User Cart Details.
+4. User Cart Checkout.
+5. User order Status.
+6. Product Details.
+7. Main View - HOME VIEW & search view.
+8. User Profile.
+9. User Edit profile.
+10. Log in.
+11. Restaurant profile.
+12. Restaurant home.
+13. Order detail view.
+14. Past orders.
 
 */
+
+/*----------Basics-----*/
 * {
   box-sizing: border-box;
 }
@@ -45,7 +59,9 @@ a {
 #cart {
   width: 90%;
 }
-
+#form {
+  width: 90%;
+}
 /* ----------------------- Restaurant presentation Card -------*/
 #restaurant-title {
   border: 5px solid rgb(214, 212, 212);
@@ -669,6 +685,7 @@ a {
   text-align: center;
   padding: 50px;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 #restaurant-profile .rest-info {
@@ -846,4 +863,31 @@ a {
   background-color: rgb(31, 31, 31);
   color: whitesmoke;
   margin: auto;
+}
+
+/* ----- Past orders ------ */
+
+#pastOrders {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#pastOrders h3 {
+  display: inline;
+  text-align: center;
+  font-size: 18px;
+}
+
+#pastOrders span {
+  font-weight: bold;
+}
+
+#pastOrders .pastOrder {
+  width: 90%;
+  margin: auto;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: bisque;
+  padding: 5px;
 }

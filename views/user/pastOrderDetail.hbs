@@ -1,0 +1,20 @@
+<section id="orderDetail">
+    <div class="clientInfo">
+        <p><span>Restaurant:</span>  {{orderDB.restaurantId.name}}</p>
+        <p><span>Direction:</span>  {{orderDB.restaurantId.direction}}</p>
+        <p><span>Contact phone:</span>  {{orderDB.restaurantId.phoneNumber}}</p>    
+    </div>
+    
+    <div class="products">
+        <h3>Products:</h3>
+        <ul>
+            {{#each filteredArray}}
+            <li>{{this.quantity}}x {{this.name}}</li>
+            {{/each}}    
+        </ul>    
+    </div>
+
+    <div class="orderManagement">
+        <a href="/user/pastOrder/{{orderDB._id}}/reorder" class="linkToButton">Order again</a>
+    </div>
+</section>

@@ -42,7 +42,7 @@ nav {
   transform: translate(-50%, -50%);
   z-index: 999;
   display: none;
-  background-color: wheat;
+  background-color: #e5e2e2;
   box-shadow: var(--shadow-style);
   border-radius: var(--border-radius-event);
   flex-direction: column;

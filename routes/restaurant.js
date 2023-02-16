@@ -22,7 +22,6 @@ router.get(
   isRestaurant,
   async (req, res, next) => {
     const restaurantId = req.session.currentUser._id;
-    // To do: search all menu items from this restaurant and delete them
     try {
       await Restaurant.findByIdAndDelete(restaurantId);
       res.redirect("/auth/logout");
@@ -151,19 +150,33 @@ router.post(
 // @access  Restaurants
 router.get("/", isLoggedIn, isRestaurant, async (req, res, next) => {
   const restaurant = req.session.currentUser;
-  const opened = restaurant.status
+  const opened = restaurant.status;
   try {
-    const currentOrdersDB = await Cart.find({ $and: [{ restaurantId: restaurant._id }, { isFinished: false }, { isOrdered: true }, {isSent: false}] }).populate("userId");
-    let incomingOrders = [], pendingOrders = [];
+    const currentOrdersDB = await Cart.find({
+      $and: [
+        { restaurantId: restaurant._id },
+        { isFinished: false },
+        { isOrdered: true },
+        { isSent: false },
+      ],
+    }).populate("userId");
+    let incomingOrders = [],
+      pendingOrders = [];
     for (let order of currentOrdersDB) {
       order["numberProducts"] = order.productsId.length;
       if (order.isPending == true) {
         incomingOrders.push(order);
       } else {
         pendingOrders.push(order);
-      };
+      }
     }
-    res.render("restaurant/home", { restaurant, name: restaurant, incomingOrders, pendingOrders, opened });
+    res.render("restaurant/home", {
+      restaurant,
+      name: restaurant,
+      incomingOrders,
+      pendingOrders,
+      opened,
+    });
   } catch (error) {
     next(error);
   }
@@ -177,10 +190,18 @@ router.get("/status", isLoggedIn, isRestaurant, async (req, res, next) => {
   let opened;
   try {
     if (restaurant.status == true) {
-      opened = await Restaurant.findByIdAndUpdate({ _id: restaurant._id }, { status: false }, { new: true });
+      opened = await Restaurant.findByIdAndUpdate(
+        { _id: restaurant._id },
+        { status: false },
+        { new: true }
+      );
     } else {
-      opened = await Restaurant.findByIdAndUpdate({ _id: restaurant._id }, { status: true }, { new: true });
-    };
+      opened = await Restaurant.findByIdAndUpdate(
+        { _id: restaurant._id },
+        { status: true },
+        { new: true }
+      );
+    }
     req.session.currentUser = opened;
     res.redirect("/restaurant");
   } catch (error) {
