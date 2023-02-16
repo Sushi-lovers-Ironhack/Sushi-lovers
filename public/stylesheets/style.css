@@ -45,7 +45,9 @@ a {
 #cart {
   width: 90%;
 }
-
+#form {
+  width: 90%;
+}
 /* ----------------------- Restaurant presentation Card -------*/
 #restaurant-title {
   border: 5px solid rgb(214, 212, 212);
@@ -866,7 +868,7 @@ a {
   font-weight: bold;
 }
 
-#pastOrders .pastOrder{
+#pastOrders .pastOrder {
   width: 90%;
   margin: auto;
   border: 1px solid black;
