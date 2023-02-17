@@ -9,14 +9,14 @@ const { isUser, isLoggedIn } = require("../middlewares");
 // @route   GET /user/profile
 // @access  User
 router.get("/profile", isLoggedIn, isUser, async (req, res, next) => {
-  const user = req.session.currentUser;
+  const username = req.session.currentUser;
   try {
     const orderActive = await Cart.findOne({
-      userId: user._id,
+      userId: username._id,
       isOrdered: true,
       isFinished: false,
     });
-    res.render("user/profile", { user, orderActive });
+    res.render("user/profile", { username, orderActive });
   } catch (error) {
     next(error);
   }

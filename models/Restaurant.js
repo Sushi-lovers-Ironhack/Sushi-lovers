@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 
 const restaurantSchema = new Schema(
-  // Add whichever fields you need for your app
   {
     name: {
       type: String,

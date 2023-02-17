@@ -39,9 +39,7 @@ npm run dev
 
 ## Wireframes
 
-Substitute this image with an image of your own app wireframes or designs
-
-![](docs/wireframes.png)
+[Excalidraw](https://excalidraw.com/#room=f36146d37f1d807dd5e6,OdZmpUCeS2YXfeGzAnWxlQ)
 
 ---
 
@@ -58,6 +56,13 @@ What can the user do with the app?
 - User has access to a search field
 - User can see all products in a restaurant
 - User can add products to a cart
+- User can confirm the contents of the order (add/remove products)
+- User can order the products on the cart
+- User can see the update the status of the order
+- User recive and accept/deny msg about own order
+- User can confirm the product has been received
+- User can see previous orders
+- User can reorder from past orders
 
 What can the restaurant do with the app?
 
@@ -69,23 +74,18 @@ What can the restaurant do with the app?
 - Restaurant can create products
 - Restaurant can edit products
 - Restaurant can delete products
-
-## User stories (Backlog)
-
-- User can confirm the contents of the order (add/remove products)
-- User can order the products on the cart
-- User can see the update the status of the order
-- User recive and accept/deny msg about own order
-- User can confirm the product has been received
-- User can see previous orders
-- User can reorder from past orders
-
 - Restaurant can open/close of the users to be seen
 - Restaurant can receive orders from the users
 - Restaurant can see the details of the order
 - Restaurant can accept/deny the order
 - Resturant send and accept/deny msg to the User
 - Restaurant can set an accepted order as sent
+
+## User stories (Backlog)
+
+- All completed
+
+
 
 ---
 
@@ -120,13 +120,141 @@ const userSchema = new Schema(
 );
 ```
 
+Cart:
+
+```js
+const cartSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+  restaurantId: {
+    type: Schema.Types.ObjectId,
+    ref: "Restaurant",
+  },
+  productsId: {
+    type: [Schema.Types.ObjectId],
+    ref: "Product",
+  },
+  isOrdered: {
+    type: Boolean,
+    default: false
+  },
+  isFinished: {
+    type: Boolean,
+    default: false,
+  },
+  isPending: {
+    type: Boolean,
+    default: true,
+  },
+  isSent: {
+    type: Boolean,
+    default: false,
+  }
+},  
+  {
+    timestamps: true
+});
+```
+
+Restaurant:
+
+```js
+const restaurantSchema = new Schema(
+  {
+    name: {
+      type: String,
+      trim: true,
+      required: [true, "Name is required."],
+      unique: true,
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required."],
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    hashedPassword: {
+      type: String,
+      required: [true, "Password is required."],
+    },
+    direction: {
+      type: String,
+      required: [true, "Direction is required"],
+    },
+    phoneNumber: {
+      type: String,
+      required: [true, "Phone number is required"],
+    },
+    description: {
+      type: String,
+      required: [true, "Description is required"],
+    },
+    imageUrl: {
+      type: String,
+      default:
+        "https://scontent.fbcn3-1.fna.fbcdn.net/v/t39.30808-6/243200278_260965582698292_6813909715328889748_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=LPQr9b8_V9gAX8-sLtB&_nc_ht=scontent.fbcn3-1.fna&oh=00_AfCb2oIdnDxe5YX8vG6MdTC8dmuuBJ0GkvXGRr7SE9q98Q&oe=63F3D21D",
+    },
+    logoUrl: {
+      type: String,
+      default:
+        "https://img.freepik.com/vector-gratis/ejemplo-lindo-icono-vector-historieta-salmon-sushi-concepto-icono-caracter-comida-estilo-dibujos-animados-plana_138676-2590.jpg",
+    },
+    status: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+```
+
+Product:
+
+```js
+const productSchema = new Schema(
+  {
+    name: {
+      type: String,
+      trim: true,
+      required: [true, 'Name is required.'],
+    },
+    category: {
+      type: String,
+      enum: ["Drinks", "Starters", "Dishes", "Desserts"],
+      required: [true, "Category is required"]
+    },
+    description: {
+      type: String,
+    },
+    imageUrl: {
+      type: String,
+    },
+    price: {
+      type: Number,
+      required: [true, "Price is required"]
+    },
+    restaurantId: {
+      type: Schema.Types.ObjectId, ref: 'Restaurant'
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+```
+
 ---
 
 ## Routes
 
 | Name      | Method | Endpoint     | Protected | Req.body                      | Redirects        |
 | --------- | ------ | ------------ | --------- | ----------------------------- | ---------------- |
-| Home      | GET    | /home        | No        |                               |                  |
+| Home      | GET    | /       | No        |                               |                  |
 | Login     | GET    | /auth/login  | No        |                               |                  |
 | Login     | POST   | /auth/login  | No        | { email, password }           | /home & /restaurant|
 | Logout     | GET    | /auth/logout  | Yes, user or restaurant        |                               | /auth/login                |
@@ -142,13 +270,42 @@ const userSchema = new Schema(
 | Edit Restaurant profile     | GET    | /restaurant/profile/edit  | Yes, restaurant       |               |                  |
 | Edit Restaurant profile     | POST    | /restaurant/profile/edit  |       |  { name, direction, phoneNumber, email, password1, password2, description, imgUrl }             | /restaurant/profile       |
 | Delete Restaurant profile     | GET    | /restaurant/profile/delete  | Yes, restaurant       |               | /auth/login              |
+| Cart Status      | GET    | /cart/status        | Yes, user        |                               |                  |
+| Cart ordered     | GET    | /cart/setcartordered/:cartId        | Yes, user        |                               |  /cart/status     |
+| Cart finished      | GET    | /cart/finished/:cartId        | Yes, user        |                               |   /               |
+| Cart view      | GET    | /cart/view/:restaurantId       | No        |                               |                  |
+| Cart menu      | GET    | /cart/:restaurantId        | No        |                               |                  |
+| Cart add checkout     | GET    | /cart/add/:productId/checkout        | Yes, user       |                               |  /cart/view/${product.restaurantId}                |
+| Cart add      | GET    | /cart/add/:productId        | Yes, user        |                               | /cart/${product.restaurantId}                 |
+| Cart remove checkout      | GET    | /cart/remove/:productId/checkout        | Yes, user        |                               |  /cart/view/${product.restaurantId}                |
+| Cart remove     | GET    | /cart/remove/:productId        | Yes, user        |                               |  /cart/view/${product.restaurantId}                |
+| Cart prod detail      | GET    | /cart/detail/:productId        | No        |                               |                  |
+| Cart checkout view      | GET    | /cart/checkout/:cartId        |  Yes, user        |                               |                  |
+| Cart accept order     | GET    | /cart/order/:orderId/accept        | Yes, restaurant        |                              |  /restaurant                |
+| Cart deny order     | GET    | /cart/order/:orderId/deny       | Yes, restaurant        |                               |  /restaurant                |
+| Cart order sent      | GET    | /cart/order/:orderId/sent        | Yes, restaurant        |                               |  /restaurant                |
+| Cart order detail      | GET    | /cart/order/:orderId        | Yes, restaurant        |                               |                  |
+| User search      | GET    | /search        | No        |                               |                  |
+| User search      | POST    | /search        | No        |    { search }                        |                  |
+| Rest menu      | GET    | /menu        | Yes, restaurant       |                               |                  |
+| Rest menu add prod      | GET    | /menu/add        | Yes, restaurant       |                               |                  |
+| Rest menu add prod      | POST    | /menu/add        | Yes, restaurant        |  { name, category, description, imageUrl, price }                             |  /menu                |
+| Rest menu remove prod      | GET    | /menu/:productId/delete        | Yes, restaurant        |                               |  /menu                |
+| Rest menu edit view      | GET    | /menu/:productId        | Yes, restaurant        |                               |                  |
+| Rest menu create view     | GET    | /menu/productId        | Yes, restaurant        |                               |                  |
+| Rest orders view      | GET    | /restaurant        | Yes, restaurant      |                               |                  |
+| Rest open/close     | GET    | /restaurant/status       | Yes, restaurant        |                               |                  |
+| User see past orders      | GET    | /user/pastOrders        | Yes, user        |                               |                  |
+| User reorder      | GET    | /user/pastOrder/:orderId/reorder       | Yes, user        |                               |                  |
+| User past order detail      | GET    | /user/pastOrder/:orderId        | Yes, user        |                               |                  |
+
 
 
 ---
 
 ## Useful links
 
-- [Github Repo]()
-- [Trello kanban]()
-- [Deployed version]()
-- [Presentation slides](https://www.slides.com)
+- [Github Repo](https://github.com/Sushi-lovers-Ironhack/Sushi-lovers)
+- [Trello kanban](https://trello.com/b/hgDJiNI1/shushilovers)
+- [Deployed version](https://sushilovers-app.fly.dev/)
+- [Presentation slides](https://slides.com/albertovalenzuelamunoz/deck)
