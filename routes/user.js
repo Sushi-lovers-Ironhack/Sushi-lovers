@@ -213,7 +213,7 @@ router.post("/profile/edit", isLoggedIn, isUser, async (req, res, next) => {
   try {
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password1, salt);
-    const user = await User.findByIdAndUpdate(
+    const editUser = await User.findByIdAndUpdate(
       { _id: userId },
       {
         username,
@@ -226,7 +226,7 @@ router.post("/profile/edit", isLoggedIn, isUser, async (req, res, next) => {
       },
       { new: true }
     );
-
+    req.session.currentUser = editUser;
     res.redirect("/user/profile");
   } catch (error) {
     next(error);
