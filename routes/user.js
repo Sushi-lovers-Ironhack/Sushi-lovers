@@ -4,6 +4,7 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const { isUser, isLoggedIn } = require("../middlewares");
+const { trusted } = require("mongoose");
 
 // @desc    Sends User profile info
 // @route   GET /user/profile
@@ -16,7 +17,7 @@ router.get("/profile", isLoggedIn, isUser, async (req, res, next) => {
       isOrdered: true,
       isFinished: false,
     });
-    res.render("user/profile", { user, orderActive, username: user });
+    res.render("user/profile", { user, orderActive, username: true });
   } catch (error) {
     next(error);
   }
