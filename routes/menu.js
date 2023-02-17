@@ -3,7 +3,7 @@ const Product = require("../models/Product");
 const { isRestaurant, isLoggedIn } = require("../middlewares");
 
 // @desc    Menu view for the restaurant
-// @route   GET /menu/
+// @route   GET /menu
 // @access  Restaurant
 router.get("/", isLoggedIn, isRestaurant, async (req, res, next) => {
   const { name, _id } = req.session.currentUser;
